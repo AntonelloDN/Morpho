@@ -7,8 +7,6 @@ It contains a library of classes you can use with Grasshopper, Dynamo and other 
 1. Download Morpho.
 2. Check if downloaded .zip file has been blocked: right click on it, and choose Properties. If there is an Unblock button click on it, otherwise it is OK. Unzip it.
 3. Follow 'README.txt' instructions.
-## Requirements:
-* Rhino 6
 ## Dependencies:
 * Morpho25.dll (for Rhino and Dynamo)
 * MorphoRhino.dll (for Rhino only)
