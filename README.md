@@ -20,7 +20,7 @@ It contains a library of classes you can use with Grasshopper, Dynamo and other 
 * Settings of simulation file (SIMX) with more than 15 advanced settings
 * Running envimet simulation
 ## Improvements
-* it is possible to use class library with other software: only requirement is translate input geometries in DMesh3 and Vector3d of geometry3sharp
+* it is possible to use class library with other softwares: only requirement is translate input geometries in DMesh3 and Vector3d of geometry3sharp
 * integration with ShrimpGIS and Gismo
 * Grid settings is based on a single point, user specify how many grid cells to use in x, y and z.
 * User experiece of modeling of 3D trees. Geometries are points
