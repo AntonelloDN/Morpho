@@ -11,7 +11,7 @@ It contains a library of classes you can use with Grasshopper, Dynamo and other 
 * Morpho25.dll (for Rhino and Dynamo)
 * MorphoRhino.dll (for Rhino only)
 * geometry3sharp
-## Sofware tested
+## Software tested
 * Rhino 6
 * Dynamo for Revit 2021
 ## Features:
