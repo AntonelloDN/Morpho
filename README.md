@@ -29,3 +29,6 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 * FOX file not supported yet (waiting important news from envimet)
 * Reading part not added (I was planning to release it in another plugin)
 * It is like Monde of ENVI-met: it does not use detail 3D mode
+## To do:
+* Add documentation string of C# library
+* Release scripts for Dynamo to simplify DMesh3 creation
