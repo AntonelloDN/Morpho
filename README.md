@@ -2,7 +2,7 @@
 # Morpho
 A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation. <br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
-It contains a library of classes you can use with Grasshopper, Dynamo and other softwares.
+It contains a library of classes you can use with **Grasshopper**, **Dynamo** and other softwares.
 ## Installation:
 1. Download Morpho.
 2. Check if downloaded .zip file has been blocked: right click on it, and choose Properties. If there is an Unblock button click on it, otherwise it is OK. Unzip it.
