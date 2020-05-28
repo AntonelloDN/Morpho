@@ -1,4 +1,6 @@
 ﻿using Morpho25.Geometry;
+using Morpho25.IO;
+using Morpho25.Management;
 using Morpho25.Utility;
 using System;
 using System.Collections.Generic;
@@ -858,6 +860,39 @@ namespace Morpho25.Settings
         }
 
         public override string ToString() => "Config::LBC";
+    }
+
+    public class FullForcing
+    {
+        public string FileName { get; }
+
+        public const string INTERPOLATION_METHOD = "linear";
+        public const string NUDGING = "1";
+        public const string NUNDGING_FACTOR = "1.00000";
+        public const string Z_0 = "0.10000";
+
+        public double LimitWind2500 { get; set; }
+        public double MaxWind2500 { get; set; }
+        public int MinFlowsteps { get; set; }
+
+        public int ForceTemperature { get; set; }
+        public int ForceWind { get; set; }
+        public int ForceRelativeHumidity { get; set; }
+        public int ForcePrecipitation { get; set; }
+        public int ForceRadClouds { get; set; }
+
+        public FullForcing(string epw, Workspace workspace)
+        {
+            FileName = FoxBatch.GetFoxFile(epw, workspace);
+            LimitWind2500 = 0;
+            MaxWind2500 = 20.0;
+            MinFlowsteps = 50;
+            ForceTemperature = (int)Active.YES;
+            ForceWind = (int)Active.YES;
+            ForceRelativeHumidity = (int)Active.YES;
+            ForcePrecipitation = (int)Active.NO;
+            ForceRadClouds = (int)Active.YES;
+        }
     }
 
 }

@@ -10,11 +10,12 @@
 """
 This component write simx object to run simulation. Connect it to 'Morpho Run Simulation'.
 -
-Full forcing not supported yet.
+You cannot use SimpleForcing and FullForcing at same time.
     Args:
         _main_settings: Inx Model.
         other_settings_: Connect other simulation output among:
         . "Morpho Simple Forcing"
+        . "Morpho Full Forcing"
         . "Morpho Thread"
         . "Morpho Timestep"
         . "Morpho Timing"
@@ -32,6 +33,8 @@ Full forcing not supported yet.
         . "Morpho Averaged Inflow"
         . "Morpho Wind Resistance"
         . "Morpho Tree Settings"
+        -
+        Please note, you cannot use SimpleForcing and FullForcing at same time.
         _run_it: Set it to 'True' to create SIMX Model.
         
         
@@ -40,8 +43,8 @@ Full forcing not supported yet.
         simx: SIMX object to use for simulation.
 """
 
-ghenv.Component.Name = "Morpho Simx SimpleForcing"
-ghenv.Component.NickName = "morpho_simx_simpleforcing"
+ghenv.Component.Name = "Morpho Simx"
+ghenv.Component.NickName = "morpho_simx"
 ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "3 || IO"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
@@ -74,6 +77,8 @@ def main():
             for obj in other_settings_:
                 if (type(obj) == SimpleForcing):
                     simx.SimpleForcing = obj
+                if (type(obj) == FullForcing):
+                    simx.FullForcing = obj
                 if (type(obj) == TThread):
                     simx.TThread = obj
                 if (type(obj) == TimeSteps):

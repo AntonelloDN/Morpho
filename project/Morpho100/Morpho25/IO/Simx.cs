@@ -32,6 +32,7 @@ namespace Morpho25.IO
         public Facades Facades { get; set; }
         public PlantSetting PlantSetting { get; set; }
         public LBC LBC { get; set; }
+        public FullForcing FullForcing { get; set; }
 
         public Simx(MainSettings mainSettings)
         {
@@ -54,6 +55,7 @@ namespace Morpho25.IO
             Facades = null;
             PlantSetting = null;
             LBC = null;
+            FullForcing = null;
         }
 
         public void WriteSimx()
@@ -95,7 +97,7 @@ namespace Morpho25.IO
 
             Util.CreateXmlSection(xWriter, mainTitle, mainTag, mainValue, 0, empty);
 
-            if (SimpleForcing != null)
+            if (SimpleForcing != null && FullForcing == null)
             {
                 string sfTitle = "SimpleForcing";
                 string[] sfTag = new string[] { "TAir", "Qrel" };
@@ -167,7 +169,7 @@ namespace Morpho25.IO
                 Util.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
             }
 
-            if (Cloud != null)
+            if (Cloud != null && FullForcing == null)
             {
                 string parallelTitle = "Clouds";
                 string[] parallelTag = new string[] { "lowClouds", "middleClouds", "highClouds" };
@@ -185,7 +187,7 @@ namespace Morpho25.IO
                 Util.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
             }
 
-            if (SolarAdjust != null)
+            if (SolarAdjust != null && FullForcing == null)
             {
                 string parallelTitle = "SolarAdjust";
                 string[] parallelTag = new string[] { "SWFactor" };
@@ -257,7 +259,7 @@ namespace Morpho25.IO
                 Util.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
             }
 
-            if (LBC != null && SimpleForcing == null)
+            if (LBC != null && (SimpleForcing == null || FullForcing == null))
             {
                 string parallelTitle = "LBC";
                 string[] parallelTag = new string[] { "LBC_TQ", "LBC_TKE" };
@@ -265,6 +267,16 @@ namespace Morpho25.IO
 
                 Util.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
             }
+
+            if (FullForcing != null)
+            {
+                string parallelTitle = "FullForcing";
+                string[] parallelTag = new string[] { "fileName", "forceT", "forceQ", "forceWind", "forcePrecip", "forceRadClouds", "interpolationMethod", "nudging", "nudgingFactor", "minFlowsteps", "limitWind2500", "maxWind2500", "z_0" };
+                string[] parallelValue = new string[] { FullForcing.FileName, FullForcing.ForceTemperature.ToString(), FullForcing.ForceRelativeHumidity.ToString(), FullForcing.ForceWind.ToString(), FullForcing.ForcePrecipitation.ToString(), FullForcing.ForceRadClouds.ToString(), FullForcing.INTERPOLATION_METHOD, FullForcing.NUDGING, FullForcing.NUNDGING_FACTOR, FullForcing.MinFlowsteps.ToString(), FullForcing.LimitWind2500.ToString(), FullForcing.MaxWind2500.ToString(), FullForcing.Z_0 };
+
+                Util.CreateXmlSection(xWriter, parallelTitle, parallelTag, parallelValue, 0, empty);
+            }
+
 
             xWriter.WriteEndElement();
             xWriter.Close();

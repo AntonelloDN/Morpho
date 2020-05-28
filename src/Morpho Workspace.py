@@ -24,7 +24,7 @@ Model structure of ENVI-Met.
         3. User database is shared among all projects that do not use project database.
         -
         If you use project database you cannot use user database and vice-versa.
-        envimetFolder_: Envimet folder on your machine. If it does not recognize Envimet connect it (e.g. C:\Envimet444).
+        envimetFolder_: Envimet folder on your machine. If it does not recognize Envimet connect it (e.g. C:\ENVImet445).
     
     Returns:
         read_me: Message for users.
