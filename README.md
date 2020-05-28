@@ -1,6 +1,6 @@
 ![Logo](https://github.com/AntonelloDN/Morpho/blob/master/logo/logo_morpho_32.png)
 # Morpho
-A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation. <br>
+A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation. Currente ENVI-met version: 4.4.5.<br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
 It contains a library of classes you can use with **Grasshopper**, **Dynamo** and other softwares.
 ## Installation:
@@ -26,7 +26,6 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 * Grid settings is based on a single point, user specify how many grid cells to use in x, y and z.
 * User experiece of modeling of 3D trees. Geometries are points
 ## Limits v.1.0.0:
-* FOX file not supported yet (waiting important news from envimet)
 * Reading part not added (I was planning to release it in another plugin)
 * It is like Monde of ENVI-met: it does not use detail 3D mode
 ## To do:
