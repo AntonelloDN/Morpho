@@ -1,8 +1,10 @@
 ![Logo](https://github.com/AntonelloDN/Morpho/blob/master/logo/logo_morpho_32.png)
 # Morpho
-A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation. Currente ENVI-met version: 4.4.5.<br>
+A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation.<br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
 It contains a library of classes you can use with **Grasshopper**, **Dynamo** and other softwares.
+## Requirements
+* ENVI-met 4.4.5
 ## Installation:
 1. Download Morpho.
 2. Check if downloaded .zip file has been blocked: right click on it, and choose Properties. If there is an Unblock button click on it, otherwise it is OK. Unzip it.
