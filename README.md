@@ -18,7 +18,7 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 * Settings of Workspace, project and model
 * Modeling of envimet entities for 2.5D INX. Such as Buildings, Plant2D and Soils
 * Reading materials from system DB, project DB and user DB
-* Settings of simulation file (SIMX) with more than 15 advanced settings
+* Settings of simulation file (SIMX) with more than 15 advanced settings. Both Simpleforcing and Fullforcing supported.
 * Running envimet simulation
 ## Improvements
 * it is possible to use class library with other softwares: only requirement is translate input geometries in DMesh3 and Vector3d of geometry3sharp
