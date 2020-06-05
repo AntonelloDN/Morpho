@@ -13,7 +13,9 @@ Read XML material and get values to check them.
 This component parses XML from strings and show text by keywords.
     Args:
         _XML: XML content from Library component.
-        _write_it: A list of tag of the XML file you are reading.\nKeyword is a word of the XML file between <>.
+        _keyword: A list of tag of the XML file you are reading.\nKeyword is a word of the XML file between <>.
+        -
+        Please, note some chars in envimet file corrispond to garbage char in xml. These chars will be replaced with ''.
     
     Returns:
         read_me: Message for users.
@@ -31,14 +33,24 @@ import System
 import xml.etree.ElementTree as ET
 from Grasshopper.Kernel.Data import GH_Path
 from Grasshopper import DataTree
+import re
 
 ghenv.Component.Message = "1.0.0 2.5D"
+
+
+
+def get_clean_xml(text):
+    
+    characters = '[^\s()_<>/,\.A-Za-z0-9=""]+'
+    text = re.sub(characters, '', text)
+    return text
+
 
 def main():
     
     if _XML and _keyword:
         
-        roots = [ET.fromstring(el) for el in _XML]
+        roots = [ET.fromstring(get_clean_xml(el)) for el in _XML]
         results = DataTree[System.Object]()
         
         for i, key in enumerate(_keyword):
