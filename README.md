@@ -35,3 +35,7 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 ## To do:
 * Add documentation string of C# library
 * Release scripts for Dynamo to simplify DMesh3 creation
+## Roadmap:
+- [ ] Solve geometry3sharp intersection performance issue with big meshes. Suggestions are welcome :)
+- [ ] Add documentation string of C# library
+- [ ] Release scripts for Dynamo to simplify DMesh3 creation
