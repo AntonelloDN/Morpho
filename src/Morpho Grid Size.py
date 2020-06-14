@@ -10,7 +10,7 @@
 """
 Set Inx Grid properties.
     Args:
-        _point_: Reference point of the grid [Point3d].
+        _point: Reference point of the grid [Point3d].
         _dim_x_: X dimension of the grid cell [float].
         _dim_y_: Y dimension of the grid cell [float].
         _dim_z_: Z dimension of the grid cell [float].
@@ -52,7 +52,7 @@ def main():
     
     if _point:
         
-        origin = RhinoConvert.ConvertToOrigin(_point)
+        origin = RhinoConvert.FromRhPointToVector(_point)
         dim_x = _dim_x_ if _dim_x_ else 3.0
         dim_y = _dim_y_ if _dim_y_ else 3.0
         dim_z = _dim_z_ if _dim_z_ else 3.0

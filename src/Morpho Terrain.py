@@ -13,11 +13,11 @@ Construct an Inx Terrain.
 If you have a single mesh or surface split it in many parts to speed up calculation.
 -
 Behavior:
-a. If you connect a single inx_mesh _ID will be assigned to it
-b. If you connect a list of inx_mesh component will assign automatically IDs starting from _ID connected
+a. If you connect a single inx_facegroup _ID will be assigned to it
+b. If you connect a list of inx_facegroup component will assign automatically IDs starting from _ID connected
     Args:
         _inx_grid: Inx Grid.
-        _inx_mesh: Inx Mesh.
+        _inx_facegroup: Inx Facegroup.
         _ID: An integer to identify terrain group [integer].
         _name_: Optional name to give to terrain group [string].
     
@@ -51,11 +51,11 @@ ghenv.Component.Message = "1.0.0 2.5D"
 
 def main():
     
-    if _inx_grid and _inx_mesh and _ID:
+    if _inx_grid and _inx_facegroup and _ID:
         
-        IDs = [i+_ID for i in xrange(len(_inx_mesh))]
+        IDs = [i+_ID for i in xrange(len(_inx_facegroup))]
         
-        terrain = [Terrain(mesh, index, _inx_grid, _name_) for mesh, index in zip(_inx_mesh, IDs)]
+        terrain = [Terrain(mesh, index, _inx_grid, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
         
         return terrain
     
@@ -63,4 +63,4 @@ def main():
         return
 
 inx_terrain = main()
-if not inx_terrain: print("Please, connect _inx_grid, _inx_mesh, _ID.")
+if not inx_terrain: print("Please, connect _inx_grid, _inx_facegroup, _ID.")

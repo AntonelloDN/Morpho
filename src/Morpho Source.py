@@ -11,11 +11,11 @@
 Construct an Inx Source.
 -
 Behavior:
-a. If you connect a single inx_mesh _ID will be assigned to it
-b. If you connect a list of inx_mesh component will assign automatically IDs starting from _ID connected
+a. If you connect a single inx_facegroup _ID will be assigned to it
+b. If you connect a list of inx_facegroup component will assign automatically IDs starting from _ID connected
     Args:
         _inx_grid: Inx Grid.
-        _inx_mesh: Inx Mesh.
+        _inx_facegroup: Inx Facegroup.
         _ID: An integer to identify source [integer].
         _name_: Optional name to give to source [string].
         _code_: Code of material to apply to source [string]. E.g. 0000FT.
@@ -52,14 +52,14 @@ ghenv.Component.Message = "1.0.0 2.5D"
 
 def main():
     
-    if _inx_grid and _inx_mesh and _ID:
+    if _inx_grid and _inx_facegroup and _ID:
         
-        IDs = [i+_ID for i in xrange(len(_inx_mesh))]
+        IDs = [i+_ID for i in xrange(len(_inx_facegroup))]
         
         if (_code_ != None):
-            source = [Source(mesh, index, _code_, _inx_grid, _name_) for mesh, index in zip(_inx_mesh, IDs)]
+            source = [Source(mesh, index, _code_, _inx_grid, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
         else:
-            source = [Source(mesh, index, _inx_grid, _name_) for mesh, index in zip(_inx_mesh, IDs)]
+            source = [Source(mesh, index, _inx_grid, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
         
         return source
     
@@ -67,4 +67,4 @@ def main():
         return
 
 inx_source = main()
-if not inx_source: print("Please, connect _inx_grid, _inx_mesh, _ID.")
+if not inx_source: print("Please, connect _inx_grid, _inx_facegroup, _ID.")

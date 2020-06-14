@@ -11,13 +11,13 @@
 Construct an Inx Building.
 -
 Behavior:
-a. If you connect a single inx_mesh _ID will be assigned to it
-b. If you connect a list of inx_mesh component will assign automatically IDs starting from _ID connected
+a. If you connect a single inx_facegroup _ID will be assigned to it
+b. If you connect a list of inx_facegroup component will assign automatically IDs starting from _ID connected
     Args:
         _inx_grid: Inx Grid.
-        _inx_mesh: Inx Mesh that represents a building <Item or List>.
+        _inx_facegroup: Inx Facegroup that represents a building <Item or List>.
         -
-        If you connect a list of inx_mesh ID will be added automatically.
+        If you connect a list of inx_facegroup ID will be added automatically.
         _ID: An integer to identify a building [integer].
         _name_: Optional name to give to building [string].
         _material_: Material to apply to buildings [Material]. Default material is 000000.
@@ -55,18 +55,18 @@ ghenv.Component.Message = "1.0.0 2.5D"
 
 def main():
     
-    if _inx_grid and _inx_mesh and _ID:
+    if _inx_grid and _inx_facegroup and _ID:
         
-        IDs = [i+_ID for i in xrange(len(_inx_mesh))]
+        IDs = [i+_ID for i in xrange(len(_inx_facegroup))]
         
         if (_material_ != None):
-            building = [Building(mesh, index, _material_, _inx_grid, _name_) for mesh, index in zip(_inx_mesh, IDs)]
+            building = [Building(mesh, index, _material_, _inx_grid, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
         else:
-            building = [Building(mesh, index, _inx_grid, _name_) for mesh, index in zip(_inx_mesh, IDs)]
+            building = [Building(mesh, index, _inx_grid, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
         
         return building
     else:
         return
 
 inx_building = main()
-if not inx_building: print("Please, connect _inx_grid, _inx_mesh, _ID.")
+if not inx_building: print("Please, connect _inx_grid, _inx_facegroup, _ID.")

@@ -47,7 +47,7 @@ def main():
     
     if _point != None:
         
-        inx_point = [RhinoConvert.ConvertToOrigin(pt) for pt in _point]
+        inx_point = [RhinoConvert.FromRhPointToVector(pt) for pt in _point]
         
         return inx_point
     else:

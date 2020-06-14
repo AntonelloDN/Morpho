@@ -8,22 +8,21 @@
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
-Construct a Inx Mesh to use with Envimet Entities.
+Construct a Inx Faces from rh mesh or brep to use with Envimet Entities.
 -
-Icon made by Darius Dan <https://www.flaticon.com/authors/darius-dan>.
+Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
 See license for more details.
     Args:
-        _brep: Rhino brep [List or Item or Tree of Brep]
-        _grid_size_: Dimension of grid for discretization. Default is 30 [integer].
+        _geometry: Rhino mesh or brep [List or Item or Tree of Mesh]
     
     Returns:
         read_me: Message for users.
-        inx_mesh: Inx Mesh to use with Envimet Entities.
+        inx_facegroup: Inx geometry (FaceGroup) to use with Envimet Entities.
         mesh: Rhino mesh for checking.
 """
 
-ghenv.Component.Name = "Morpho Brep"
-ghenv.Component.NickName = "morpho_brep"
+ghenv.Component.Name = "Morpho Facegroup"
+ghenv.Component.NickName = "morpho_facegroup"
 ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "0 || Geometry"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
@@ -47,16 +46,13 @@ ghenv.Component.Message = "1.0.0 2.5D"
 
 def main():
     
-    grid_size = _grid_size_ if _grid_size_ else 30
-    
-    if _brep != None and grid_size:
+    if _geometry != None:
         
-        rh_mesh = RhinoConvert.CreateMeshFromBreps(_brep, grid_size)
-        inx_mesh = RhinoConvert.ConvertToMesh(rh_mesh)
+        inx_facegroup = [RhinoConvert.FromRhMeshToFacegroup(geo) for geo in _geometry]
         
-        return inx_mesh, rh_mesh
+        return inx_facegroup
     else:
         return
 
-inx_mesh, mesh = main()
-if not _brep: print("Please, connect _brep.")
+inx_facegroup = main()
+if not inx_facegroup: print("Please, connect _geometry.")
