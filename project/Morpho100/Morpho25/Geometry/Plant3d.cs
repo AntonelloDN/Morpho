@@ -1,4 +1,5 @@
 ﻿using Morpho25.Utility;
+using MorphoGeometry;
 using System;
 
 namespace Morpho25.Geometry
@@ -7,7 +8,7 @@ namespace Morpho25.Geometry
     {
         private const int SHIFT = 1;
 
-        public g3.Vector3d Geometry { get; }
+        public Vector Geometry { get; }
 
         public override Material Material
         {
@@ -27,7 +28,7 @@ namespace Morpho25.Geometry
 
         public Pixel Pixel { get; private set; }
 
-        public Plant3d(g3.Vector3d geometry, Grid grid, string name)
+        public Plant3d(Vector geometry, Grid grid, string name)
         {
             Geometry = geometry;
             Material = CreateMaterial(Material.DEFAULT_PLANT_3D);
@@ -36,7 +37,7 @@ namespace Morpho25.Geometry
             SetPixel(grid);
         }
 
-        public Plant3d(g3.Vector3d geometry, string code, Grid grid, string name)
+        public Plant3d(Vector geometry, string code, Grid grid, string name)
         {
             Geometry = geometry;
             Material = CreateMaterial(Material.DEFAULT_PLANT_3D, code);

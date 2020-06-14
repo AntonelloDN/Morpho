@@ -1,11 +1,13 @@
 ﻿using Morpho25.Utility;
+using MorphoGeometry;
 using System;
+using System.Collections.Generic;
 
 namespace Morpho25.Geometry
 {
     public class Building : Entity
     {
-        public g3.DMesh3 Geometry { get; }
+        public FaceGroup Geometry { get; }
 
         public Matrix2d TopMatrix { get; private set; }
         public Matrix2d BottomMatrix { get; private set; }
@@ -25,7 +27,7 @@ namespace Morpho25.Geometry
         }
         public override string Name { get; }
 
-        public Building(g3.DMesh3 geometry, int id, Grid grid, string name = " ")
+        public Building(FaceGroup geometry, int id, Grid grid, string name = " ")
         {
             ID = id;
             Geometry = geometry;
@@ -35,7 +37,7 @@ namespace Morpho25.Geometry
             SetMatrix(grid);
         }
 
-        public Building(g3.DMesh3 geometry, int id, Material material, Grid grid, string name = " ")
+        public Building(FaceGroup geometry, int id, Material material, Grid grid, string name = " ")
         {
             ID = id;
             Geometry = geometry;
@@ -51,8 +53,10 @@ namespace Morpho25.Geometry
             Matrix2d bottomMatrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
             Matrix2d idMatrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
 
-            var intersectionTop = EnvimetUtility.Raycasting(Geometry, grid);
-            var intersectionBottom = EnvimetUtility.Raycasting(Geometry, grid, top: false);
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+
+            IEnumerable<Vector> intersectionTop = EnvimetUtility.Raycasting(rays, Geometry, true, false);
+            IEnumerable<Vector> intersectionBottom = EnvimetUtility.Raycasting(rays, Geometry, false, false);
 
             SetMatrix(intersectionTop, grid, topMatrix, "");
             SetMatrix(intersectionBottom, grid, bottomMatrix, "");

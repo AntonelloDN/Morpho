@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MorphoGeometry;
+using System;
 using System.Collections.Generic;
 
 namespace Morpho25.Geometry
@@ -23,9 +24,9 @@ namespace Morpho25.Geometry
             }
         }
 
-        protected void SetMatrix(IEnumerable<g3.Vector3d> intersection, Grid grid, Matrix2d matrix, String text)
+        protected void SetMatrix(IEnumerable<Vector> intersection, Grid grid, Matrix2d matrix, String text)
         {
-            foreach (g3.Vector3d vec in intersection)
+            foreach (Vector vec in intersection)
             {
                 int indexX = Array.FindIndex(grid.Xaxis, val => Math.Round(val, 4) == Math.Round(vec.x, 4));
                 int indexY = Array.FindIndex(grid.Yaxis, val => Math.Round(val, 4) == Math.Round(vec.y, 4));

@@ -1,4 +1,5 @@
 ﻿using Morpho25.Utility;
+using MorphoGeometry;
 using System;
 
 
@@ -6,7 +7,7 @@ namespace Morpho25.Geometry
 {
     public class Receptor : Entity
     {
-        public g3.Vector3d Geometry { get; }
+        public Vector Geometry { get; }
 
         public override string Name { get; }
 
@@ -15,7 +16,7 @@ namespace Morpho25.Geometry
         public override Material Material { get => throw new NotImplementedException();
             protected set => throw new NotImplementedException(); }
 
-        public Receptor(g3.Vector3d geometry, Grid grid, string name)
+        public Receptor(Vector geometry, Grid grid, string name)
         {
             Geometry = geometry;
             SetPixel(grid);

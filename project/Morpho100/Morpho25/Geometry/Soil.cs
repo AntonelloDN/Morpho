@@ -1,12 +1,13 @@
 ﻿using Morpho25.Utility;
+using MorphoGeometry;
 using System;
-
+using System.Collections.Generic;
 
 namespace Morpho25.Geometry
 {
     public class Soil : Entity
     {
-        public g3.DMesh3 Geometry { get; }
+        public FaceGroup Geometry { get; }
 
         public override string Name { get; }
 
@@ -26,7 +27,7 @@ namespace Morpho25.Geometry
 
         }
 
-        public Soil(g3.DMesh3 geometry, int id, Grid grid, string name)
+        public Soil(FaceGroup geometry, int id, Grid grid, string name)
         {
             ID = id;
             Geometry = geometry;
@@ -36,7 +37,7 @@ namespace Morpho25.Geometry
             SetMatrix(grid);
         }
 
-        public Soil(g3.DMesh3 geometry, int id, string code, Grid grid, string name)
+        public Soil(FaceGroup geometry, int id, string code, Grid grid, string name)
         {
             ID = id;
             Geometry = geometry;
@@ -50,7 +51,9 @@ namespace Morpho25.Geometry
         {
             Matrix2d matrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, Material.DEFAULT_SOIL);
 
-            var intersection = EnvimetUtility.Raycasting(Geometry, grid);
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+
+            var intersection = EnvimetUtility.Raycasting(rays, Geometry, false, false);
             SetMatrix(intersection, grid, matrix, Material.IDs[0]);
 
             IDmatrix = matrix;

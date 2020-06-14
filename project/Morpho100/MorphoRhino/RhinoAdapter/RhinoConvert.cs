@@ -1,98 +1,59 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Morpho25.Transformation;
-using g3;
+using Rhino.Geometry;
+using MorphoGeometry;
 
 namespace MorphoRhino.RhinoAdapter
 {
     public class RhinoConvert
     {
-        public static g3.Vector3d ConvertToOrigin(Rhino.Geometry.Point3d point)
+        public static FaceGroup FromRhMeshToFacegroup(Mesh rhMesh)
         {
-            return new g3.Vector3d(point.X, point.Y, point.Z);
-        }
+            var rhFaces = rhMesh.Faces;
+            var vertices = rhMesh.Vertices;
 
-        public static g3.DMesh3 ConvertToMesh(Rhino.Geometry.Mesh mesh)
-        {
-            int[] triangles;
-            List<g3.Vector3f> vertices = new List<g3.Vector3f>();
-            var normals = DecomposeRhinoMesh(mesh, out triangles, out vertices);
-            var g3mesh = G3.CreateMesh(vertices, triangles, normals);
+            List<Face> faces = new List<Face>();
 
-            return g3mesh;
-        }
-
-        public static Rhino.Geometry.Point3d ConvertToRhinoPoint(g3.Vector3d point)
-        {
-            return new Rhino.Geometry.Point3d(point.x, point.y, point.z);
-        }
-
-        public static Rhino.Geometry.Mesh ConvertToRhinoMesh(g3.DMesh3 mesh)
-        {
-            Rhino.Geometry.Mesh rhMesh = new Rhino.Geometry.Mesh();
-
-            var vertex = mesh.Vertices();
-            var triangle = mesh.Triangles();
-
-            var faces = triangle.ToArray().Select(v => new Rhino.Geometry.MeshFace(v.a, v.b, v.c));
-            var vertices = vertex.ToArray().Select(v => new Rhino.Geometry.Point3d(v.x, v.y, v.z));
-
-            rhMesh.Faces.AddFaces(faces);
-            rhMesh.Vertices.AddVertices(vertices);
-            rhMesh.Normals.ComputeNormals();
-            rhMesh.Compact();
-
-            return rhMesh;
-        }
-
-        public static Rhino.Geometry.Mesh CreateMeshFromBreps(IEnumerable<Rhino.Geometry.Brep> breps, double gridSize)
-        {
-            Rhino.Geometry.Mesh rhMesh = new Rhino.Geometry.Mesh();
-
-            int aspectRatio = 1;
-            Rhino.Geometry.MeshingParameters parameters = new Rhino.Geometry.MeshingParameters()
+            foreach (MeshFace rhFace in rhFaces)
             {
-                MaximumEdgeLength = gridSize,
-                MinimumEdgeLength = gridSize,
-                GridAspectRatio = aspectRatio
-            };
+                Face face;
 
-            foreach (Rhino.Geometry.Brep brep in breps)
-            {
-                Rhino.Geometry.Mesh[] meshPart = Rhino.Geometry.Mesh.CreateFromBrep(brep, parameters);
-                foreach (Rhino.Geometry.Mesh mesh in meshPart)
-                    rhMesh.Append(mesh);
+                Point3d pt1 = vertices[rhFace.A];
+                Point3d pt2 = vertices[rhFace.B];
+                Point3d pt3 = vertices[rhFace.C];
+
+                if (rhFace.IsQuad)
+                {
+                    Point3d pt4 = vertices[rhFace.D];
+                    face = new Face(new Vector[4] {
+                      new Vector((float) pt1.X, (float) pt1.Y, (float) pt1.Z),
+                      new Vector((float) pt2.X, (float) pt2.Y, (float) pt2.Z),
+                      new Vector((float) pt3.X, (float) pt3.Y, (float) pt3.Z),
+                      new Vector((float) pt4.X, (float) pt4.Y, (float) pt4.Z)
+                      });
+                }
+                else
+                {
+                    face = new Face(new Vector[3] {
+                      new Vector((float) pt1.X, (float) pt1.Y, (float) pt1.Z),
+                      new Vector((float) pt2.X, (float) pt2.Y, (float) pt2.Z),
+                      new Vector((float) pt3.X, (float) pt3.Y, (float) pt3.Z)
+                      });
+                }
+                faces.Add(face);
             }
 
-            return rhMesh;
+            return new FaceGroup(faces);
         }
 
-        public static Rhino.Geometry.Mesh CreateMeshFromMeshes(IEnumerable<Rhino.Geometry.Mesh> meshes)
+        public static Vector FromRhPointToVector(Point3d point)
         {
-            Rhino.Geometry.Mesh rhMesh = new Rhino.Geometry.Mesh();
-
-            foreach (Rhino.Geometry.Mesh mesh in meshes)
-                rhMesh.Append(mesh);
-
-            return rhMesh;
+            return new Vector((float)point.X, (float)point.Y, (float)point.Z);
         }
 
-        private static List<g3.Vector3f> DecomposeRhinoMesh(Rhino.Geometry.Mesh mesh, out int[] triangles, out List<g3.Vector3f> vertices)
+        public static Point3d FromVectorToRhPoint(Vector vector)
         {
-            triangles = mesh.Faces.ToIntArray(true);
-            List<g3.Vector3f> vectors = new List<g3.Vector3f>();
-            vertices = new List<g3.Vector3f>();
-
-            var verticiMesh = mesh.Vertices;
-            var vettoriMesh = mesh.Normals;
-
-            for (int i = 0; i < verticiMesh.Count; i++)
-            {
-                vertices.Add(new g3.Vector3f((float)verticiMesh[i].X, (float)verticiMesh[i].Y, (float)verticiMesh[i].Z));
-                vectors.Add(new g3.Vector3f((float)vettoriMesh[i].X, (float)vettoriMesh[i].Y, (float)vettoriMesh[i].Z));
-            }
-
-            return vectors;
+            return new Point3d(vector.x, vector.y, vector.z);
         }
+
     }
 }

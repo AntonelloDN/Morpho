@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Morpho25.Utility;
-
+using MorphoGeometry;
 
 namespace Morpho25.Geometry
 {
@@ -21,7 +21,7 @@ namespace Morpho25.Geometry
 
     public struct Size
     {
-        public Size(g3.Vector3d origin, CellDimension dimension, int numX, int numY, int numZ)
+        public Size(Vector origin, CellDimension dimension, int numX, int numY, int numZ)
         {
             Origin = origin;
             NumX = numX;
@@ -48,7 +48,7 @@ namespace Morpho25.Geometry
         public double DimX { get; }
         public double DimY { get; }
         public double DimZ { get; }
-        public g3.Vector3d Origin { get; }
+        public Vector Origin { get; }
 
         public override string ToString()
         {

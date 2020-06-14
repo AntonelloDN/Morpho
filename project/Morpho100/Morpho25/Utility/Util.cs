@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace Morpho25.Utility
 {
-    class Util
+    public class Util
     {
         public const double TO_KELVIN = 273.15;
 

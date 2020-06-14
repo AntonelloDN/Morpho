@@ -4,17 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{28173BCD-CA54-4B73-88F0-6BD41D118BE1}</ProjectGuid>
+    <ProjectGuid>{E673720F-76C3-43C5-8CA0-9718C1B63265}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Morpho25</RootNamespace>
-    <AssemblyName>Morpho25</AssemblyName>
+    <RootNamespace>MorphoGeometry</RootNamespace>
+    <AssemblyName>MorphoGeometry</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MorphoGeometry">
-      <HintPath>.\MorphoGeometry.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,32 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Geometry\Building.cs" />
-    <Compile Include="Geometry\Entity.cs" />
-    <Compile Include="Geometry\Material.cs" />
-    <Compile Include="Geometry\Plant2d.cs" />
-    <Compile Include="Geometry\Plant3d.cs" />
-    <Compile Include="Geometry\Receptor.cs" />
-    <Compile Include="Geometry\Soil.cs" />
-    <Compile Include="Geometry\Source.cs" />
-    <Compile Include="Geometry\Terrain.cs" />
-    <Compile Include="IO\FoxBatch.cs" />
-    <Compile Include="IO\Inx.cs" />
-    <Compile Include="IO\Library.cs" />
-    <Compile Include="IO\SimulationBatch.cs" />
-    <Compile Include="IO\Simx.cs" />
-    <Compile Include="Management\Workspace.cs" />
-    <Compile Include="Settings\Configuration.cs" />
-    <Compile Include="Settings\Location.cs" />
-    <Compile Include="Settings\Model.cs" />
-    <Compile Include="Geometry\Grid.cs" />
-    <Compile Include="Geometry\Matrix2d.cs" />
+    <Compile Include="BoundaryBox.cs" />
+    <Compile Include="Face.cs" />
+    <Compile Include="FaceGroup.cs" />
+    <Compile Include="Intersection.cs" />
+    <Compile Include="Ray.cs" />
+    <Compile Include="Vector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\EnvimetUtility.cs" />
-    <Compile Include="Utility\Util.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

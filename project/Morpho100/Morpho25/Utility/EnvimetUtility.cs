@@ -1,36 +1,35 @@
 ﻿using Morpho25.Geometry;
 using System.Collections.Generic;
-using Morpho25.Transformation;
 using System;
-
+using MorphoGeometry;
 
 namespace Morpho25.Utility
 {
     public class EnvimetUtility
     {
-        public static IEnumerable<g3.Vector3d> Raycasting(g3.DMesh3 gMesh, Grid grid, bool top = true)
+        public static IEnumerable<Vector> Raycasting(List<Ray> rays, FaceGroup facegroup, bool reverse = false, bool project = false)
         {
-            var bounds = G3.GetBoundaryBox(gMesh);
+            return Intersection.RaysFaceGroupIntersect(rays, facegroup, reverse, project);
+        }
 
-            g3.Vector3d min = bounds.Min;
-            g3.Vector3d max = bounds.Max;
+        public static List<Ray> GetRayFromFacegroup(Grid grid, FaceGroup facegroup)
+        {
+            MorphoGeometry.BoundaryBox box = new MorphoGeometry.BoundaryBox(facegroup);
 
-            var rayXcomponent = Util.FilterByMinMax(grid.Xaxis, max.x, min.x);
-            var rayYcomponent = Util.FilterByMinMax(grid.Yaxis, max.y, min.y);
+            Vector minPt = box.MinPoint;
+            Vector maxPt = box.MaxPoint;
 
-            double position = top ? grid.Zaxis[grid.Zaxis.Length - 1] : -grid.Zaxis[grid.Zaxis.Length - 1];
+            var rayXcomponent = Util.FilterByMinMax(grid.Xaxis, maxPt.x, minPt.x);
+            var rayYcomponent = Util.FilterByMinMax(grid.Yaxis, maxPt.y, minPt.y);
 
-            List<g3.Vector3d> intersection = new List<g3.Vector3d>();
+            List<Ray> rays = new List<Ray>();
             foreach (double y in rayYcomponent)
                 foreach (double x in rayXcomponent)
                 {
-                    var origin = G3.ConvertToOrigin(x, y, position);
-                    var vector = G3.RayIntersection(gMesh, origin, top);
-                    if (vector.z != G3.INTERSECTION_FAILED)
-                        intersection.Add(vector);
+                    rays.Add(new Ray(new Vector((float)x, (float)y, 0), new Vector(0, 0, 1)));
                 }
 
-            return intersection;
+            return rays;
         }
 
         public static string GetASCIImatrix(Matrix2d matrix)

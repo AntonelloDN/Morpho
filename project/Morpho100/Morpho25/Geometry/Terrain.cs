@@ -1,12 +1,13 @@
 ﻿using Morpho25.Utility;
+using MorphoGeometry;
 using System;
-
+using System.Collections.Generic;
 
 namespace Morpho25.Geometry
 {
     public class Terrain : Entity
     {
-        public g3.DMesh3 Geometry { get; }
+        public FaceGroup Geometry { get; }
 
         public override string Name { get; }
 
@@ -15,7 +16,7 @@ namespace Morpho25.Geometry
         public override Material Material { get => throw new NotImplementedException();
             protected set => throw new NotImplementedException(); }
 
-        public Terrain(g3.DMesh3 geometry, int id, Grid grid, string name)
+        public Terrain(FaceGroup geometry, int id, Grid grid, string name)
         {
             ID = id;
             Geometry = geometry;
@@ -28,7 +29,9 @@ namespace Morpho25.Geometry
         {
             Matrix2d matrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
 
-            var intersection = EnvimetUtility.Raycasting(Geometry, grid);
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+
+            var intersection = EnvimetUtility.Raycasting(rays, Geometry, true, false);
             SetMatrix(intersection, grid, matrix, "");
 
             IDmatrix = matrix;
