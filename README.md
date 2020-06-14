@@ -37,4 +37,4 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 - [x] Solve geometry3sharp intersection performance issue with big meshes - MorphoGeometry! :muscle::
 - [x] Example file for Grasshopper
 - [ ] Add documentation string of C# library
-- [ ] Release scripts for Dynamo to simplify DMesh3 creation
+- [ ] Release nodes for Dynamo to simplify DMesh3 creation
