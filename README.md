@@ -14,7 +14,7 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 ## Dependencies:
 * Morpho25.dll (for Rhino and Dynamo)
 * MorphoRhino.dll (for Rhino only)
-* geometry3sharp
+* MorphoGeometry
 ## Software tested
 * Rhino 6
 * Dynamo for Revit 2021
@@ -34,6 +34,6 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 * It is like Monde of ENVI-met: it does not use detail 3D mode
 ## Roadmap:
 - [x] Components for Grasshopper
-- [ ] Solve geometry3sharp intersection performance issue with big meshes. Suggestions are welcome :)
+- [x] Solve geometry3sharp intersection performance issue with big meshes - MorphoGeometry! :muscle::
 - [ ] Add documentation string of C# library
 - [ ] Release scripts for Dynamo to simplify DMesh3 creation
