@@ -60,15 +60,17 @@ namespace MorphoGeometry
         {
             List<Vector> intersections = new List<Vector>();
 
+            Vector intersection;
             foreach (Face face in facegroup.Faces)
                 foreach (Ray ray in rays)
                 {
-                    Vector intersection = RayFaceIntersect(ray, face, reverse, project);
+                    intersection = RayFaceIntersect(ray, face, reverse, project);
                     if (intersection != null)
                         intersections.Add(intersection);
                 }
 
             return intersections;
         }
+
     }
 }

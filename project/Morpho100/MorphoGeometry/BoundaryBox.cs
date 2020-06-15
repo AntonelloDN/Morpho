@@ -8,14 +8,15 @@ namespace MorphoGeometry
 {
     public class BoundaryBox
     {
+        private const int NUM_VERT = 3;
         public Vector MinPoint { get; }
         public Vector MaxPoint { get; }
 
         public BoundaryBox(FaceGroup facegroup)
         {
-            float[] coordinateX = new float[facegroup.Faces.Count];
-            float[] coordinateY = new float[facegroup.Faces.Count];
-            float[] coordinateZ = new float[facegroup.Faces.Count];
+            float[] coordinateX = new float[facegroup.Faces.Count * NUM_VERT];
+            float[] coordinateY = new float[facegroup.Faces.Count * NUM_VERT];
+            float[] coordinateZ = new float[facegroup.Faces.Count * NUM_VERT];
 
             for (int i = 0; i < facegroup.Faces.Count; i++)
             {
@@ -43,5 +44,6 @@ namespace MorphoGeometry
             MinPoint = new Vector(minX, minY, minZ);
             MaxPoint = new Vector(maxX, maxY, maxZ);
         }
+
     }
 }
