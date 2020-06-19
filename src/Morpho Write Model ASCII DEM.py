@@ -8,14 +8,21 @@
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
-Write an Inx Model. You must use it before running simulation.
+EXPERT ONLY - Write an Inx Model adding custom ASCII terrain matrix. You must use it before running simulation.
 -
-Use this component to save INX file on your machine.
+Use this component to save INX file on your machine and only if you want to use a DEM matrix from custom text, otherwise you can use Morpho Terrain to generate terrain from Rhino geometries.
 -
 Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
 See license for more details.
     Args:
         _inx_model: Inx Model.
+        _ASCII_DEM_file: absolute path of text file that contain only ASCII matrix of terrain.E.g. C:\Example\dem.txt
+        -
+        Terrain ASCII matrix is made by integers divided by comma and each row is divided by newline. E.g. 
+        2,2,3,4,5,6,6
+        2,2,3,4,5,6,6
+        ...
+        Number of row must be equal to numY of Grid. Number of integers for each row must be equal to numX of Grid.
         _write_it: Set it to 'True' to write model on your machine.
     
     Returns:
@@ -23,8 +30,8 @@ See license for more details.
         file_path: Path where inx file is on your machine.
 """
 
-ghenv.Component.Name = "Morpho Write Model"
-ghenv.Component.NickName = "morpho_write_model"
+ghenv.Component.Name = "Morpho Write Model ASCII DEM"
+ghenv.Component.NickName = "morpho_write_model_ASCII_DEM"
 ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "3 || IO"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
@@ -48,9 +55,13 @@ ghenv.Component.Message = "1.0.0 2.5D"
 
 def main():
     
-    if _inx_model and _write_it:
+    if _inx_model and _ASCII_DEM_file and _write_it:
         
-        inx = Inx(_inx_model)
+        with open(_ASCII_DEM_file, 'r') as f:
+            text = f.read()
+        
+        inx = Inx(_inx_model, text)
+        
         inx.WriteInx()
         
         return inx.Model.Workspace.ModelPath
@@ -58,4 +69,4 @@ def main():
         return
 
 file_path = main()
-if not file_path: print("Please, connect _inx_model and set _write_it to 'True'.")
+if not file_path: print("Please, connect _inx_model, _ASCII_DEM_file and set _write_it to 'True'.")

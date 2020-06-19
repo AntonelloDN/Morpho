@@ -15,7 +15,7 @@ EXPERT SETTINGS.
 Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
 See license for more details.
     Args:
-        _active: Run parallel calculation [bool].
+        _active: Set it to True [bool].
         
     Returns:
         read_me: Message for users.

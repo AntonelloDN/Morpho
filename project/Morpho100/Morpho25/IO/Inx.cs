@@ -6,37 +6,72 @@ using Morpho25.Utility;
 using Morpho25.Settings;
 using Morpho25.Geometry;
 using System.Collections.Generic;
-
+using System.Data;
 
 namespace Morpho25.IO
 {
     public class Inx
     {
-        public static void WriteInx(Model model)
+        const char NEWLINE = '\n';
+        const string VERSION = "404";
+        const string CHECK_SUM = "6104088";
+
+        public Model Model { get; }
+
+        public string TerrainMatrix { get; private set; }
+
+        public Inx(Model model)
+        {
+            Model = model;
+            TerrainMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["terrainMatrix"]);
+        }
+
+        public Inx(Model model, string ASCIIterrain)
+        {
+            Model = model;
+            if (IsASCIIcorrect(ASCIIterrain))
+                TerrainMatrix = ASCIIterrain;
+        }
+
+        private bool IsASCIIcorrect(string ASCIImatrix)
+        {
+            // ASCII envimet matrix are made by integers. I do not add validation for now.
+
+            string[] yDirection = ASCIImatrix.Split('\n');
+            if (yDirection.Length != Model.Grid.Size.NumY)
+                throw new ArgumentOutOfRangeException(
+                    $"{nameof(ASCIImatrix)} must contain {Model.Grid.Size.NumY} elements in Y.");
+            foreach (string y in yDirection)
+            {
+                string[] xDirection = y.Split(',');
+                if (xDirection.Length != Model.Grid.Size.NumX)
+                    throw new ArgumentOutOfRangeException(
+                        $"{nameof(ASCIImatrix)} must contain {Model.Grid.Size.NumX} elements in X.");
+            }
+            return true;
+        }
+
+        public void WriteInx()
         {
             var now = DateTime.Now;
             string revisionDate = now.ToString("yyyy-MM-dd HH:mm:ss");
-            const string NEWLINE = "\n";
-            const string VERSION = "404";
-            const string CHECK_SUM = "6104088";
 
-            // get envimet objects
-            Grid grid = model.Grid;
-            Location location = model.Location;
-            List<Building> buildings = model.BuildingObjects;
-            List<Plant3d> plant3d = model.Plant3dObjects;
-            List<Receptor> receptors = model.ReceptorObjects;
+            // get objects
+            Grid grid = Model.Grid;
+            Location location = Model.Location;
+            List<Building> buildings = Model.BuildingObjects;
+            List<Plant3d> plant3d = Model.Plant3dObjects;
+            List<Receptor> receptors = Model.ReceptorObjects;
 
-            // get envimet matrix
-            string topMatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["topMatrix"]);
-            string bottomMatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["bottomMatrix"]);
-            string IDmatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["idMatrix"]);
-            string soilMatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["soilMatrix"]);
-            string terrainMatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["terrainMatrix"]);
+            // get ascii matrix
+            string topMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["topMatrix"]);
+            string bottomMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["bottomMatrix"]);
+            string IDmatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["idMatrix"]);
+            string soilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
             string zeroMatrix = EnvimetUtility.GetASCIImatrix(new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0"));
 
             // start with xml
-            XmlTextWriter xWriter = new XmlTextWriter(model.Workspace.ModelPath, Encoding.UTF8);
+            XmlTextWriter xWriter = new XmlTextWriter(Model.Workspace.ModelPath, Encoding.UTF8);
             xWriter.WriteStartElement("ENVI-MET_Datafile");
             xWriter.WriteString(NEWLINE + " ");
 
@@ -106,9 +141,9 @@ namespace Morpho25.IO
             string[] buildings2DValue = new string[] { NEWLINE + topMatrix, NEWLINE + bottomMatrix, NEWLINE + IDmatrix, NEWLINE + zeroMatrix };
             Util.CreateXmlSection(xWriter, buildings2DTitle, buildings2DTag, buildings2DValue, 1, attribute2dElements);
 
-            if (model.Plant2dObjects.Count > 0)
+            if (Model.Plant2dObjects.Count > 0)
             {
-                string plantMatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["plantMatrix"]);
+                string plantMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["plantMatrix"]);
                 string simpleplants2DTitle = "simpleplants2D";
                 string[] simpleplants2DTag = new string[] { "ID_plants1D" };
                 string[] simpleplants2DValue = new string[] { NEWLINE + plantMatrix };
@@ -144,12 +179,12 @@ namespace Morpho25.IO
 
             string demTitle = "dem";
             string[] demDTag = new string[] { "terrainheight" };
-            string[] demValue = new string[] { NEWLINE + terrainMatrix };
+            string[] demValue = new string[] { NEWLINE + TerrainMatrix };
             Util.CreateXmlSection(xWriter, demTitle, demDTag, demValue, 1, attribute2dElements);
 
-            if (model.SourceObjects.Count > 0)
+            if (Model.SourceObjects.Count > 0)
             {
-                string sourceMatrix = EnvimetUtility.GetASCIImatrix(model.EnvimetMatrix["sourceMatrix"]);
+                string sourceMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["sourceMatrix"]);
                 string sources2DTitle = "sources2D";
                 string[] sources2DTag = new string[] { "ID_sources" };
                 string[] sources2DValue = new string[] { NEWLINE + sourceMatrix };

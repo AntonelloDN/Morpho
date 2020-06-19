@@ -15,11 +15,11 @@ EXPERT SETTINGS.
 Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
 See license for more details.
     Args:
-        _active: Run parallel calculation [bool].
+        _active: Set active to 'True' for avg inflow [bool].
         
     Returns:
         read_me: Message for users.
-        parallel_cpu: Parallel calculation settings of *.simx file.
+        parallel_cpu: Avg inflow calculation settings of *.simx file.
 """
 
 ghenv.Component.Name = "Morpho Averaged Inflow"
