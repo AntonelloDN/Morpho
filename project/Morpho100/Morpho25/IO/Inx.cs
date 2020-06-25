@@ -20,10 +20,14 @@ namespace Morpho25.IO
 
         public string TerrainMatrix { get; private set; }
 
+        public string SoilMatrix { get; set; }
+
+
         public Inx(Model model)
         {
             Model = model;
             TerrainMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["terrainMatrix"]);
+            SoilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
         }
 
         public Inx(Model model, string ASCIIterrain)
@@ -31,6 +35,7 @@ namespace Morpho25.IO
             Model = model;
             if (IsASCIIcorrect(ASCIIterrain))
                 TerrainMatrix = ASCIIterrain;
+            SoilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
         }
 
         private bool IsASCIIcorrect(string ASCIImatrix)
@@ -67,7 +72,6 @@ namespace Morpho25.IO
             string topMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["topMatrix"]);
             string bottomMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["bottomMatrix"]);
             string IDmatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["idMatrix"]);
-            string soilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
             string zeroMatrix = EnvimetUtility.GetASCIImatrix(new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0"));
 
             // start with xml
@@ -174,7 +178,7 @@ namespace Morpho25.IO
 
             string soils2DTitle = "soils2D";
             string[] soils2DTag = new string[] { "ID_soilprofile" };
-            string[] soils2DValue = new string[] { NEWLINE + soilMatrix };
+            string[] soils2DValue = new string[] { NEWLINE + SoilMatrix };
             Util.CreateXmlSection(xWriter, soils2DTitle, soils2DTag, soils2DValue, 1, attribute2dElements);
 
             string demTitle = "dem";
