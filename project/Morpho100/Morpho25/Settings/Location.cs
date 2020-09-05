@@ -3,16 +3,38 @@
 
 namespace Morpho25.Settings
 {
+
+    public class UTM
+    {
+        public UTM(double utmEsting, double utmNorthing, string utmZone)
+        {
+            UTMesting = utmEsting;
+            UTMnorthing = utmNorthing;
+            UTMzone = utmZone;
+        }
+        public double UTMesting { get; }
+        public double UTMnorthing { get; }
+        public string UTMzone { get; }
+
+        public override string ToString()
+        {
+            return String.Format("UTM coordinate::{0}", UTMzone);
+        }
+    }
+
+
     public class Location
     {
-        public const string TIMEZONE_LONGITUDE = "15.00000";
-        public const string PROJECTION_SYSTEM = "GCS_WGS_1984 (lat/long)";
+        public const double TIMEZONE_LONGITUDE = 15.00000;
+        public const string PROJECTION_SYSTEM = " ";
         public const string REALWORLD_POINT = "0.00000";
 
         private double _latitude;
         private double _longitude;
         private string _timeZone;
         private double _modelRotation;
+        public UTM UTM { get; set; }
+        public double TimezoneReference { get; set; }
 
         public string LocationName { get; }
         public double Latitude {
@@ -73,34 +95,31 @@ namespace Morpho25.Settings
             LocationName = "Envimet Location";
             TimeZone = "0";
             ModelRotation = 0.0;
+            TimezoneReference = Location.TIMEZONE_LONGITUDE;
         }
 
-        public Location(double latitude, double longitude, string locationName)
+        public Location(double latitude, double longitude, string locationName) :
+            this(latitude, longitude)
         {
-            Latitude = latitude;
-            Longitude = longitude;
             LocationName = locationName;
-            TimeZone = "0";
-            ModelRotation = 0.0;
         }
 
-        public Location(double latitude, double longitude, string locationName, string timeZone)
+        public Location(double latitude, double longitude, string locationName, string timeZone) :
+            this(latitude, longitude, locationName)
         {
-            Latitude = latitude;
-            Longitude = longitude;
-            LocationName = locationName;
             TimeZone = timeZone;
-            ModelRotation = 0.0;
         }
 
-        public Location(double latitude, double longitude, string locationName, string timeZone, double modelRotation)
+        public Location(double latitude, 
+                        double longitude, 
+                        string locationName, 
+                        string timeZone, 
+                        double modelRotation) :
+            this(latitude, longitude, locationName, timeZone)
         {
-            Latitude = latitude;
-            Longitude = longitude;
-            LocationName = locationName;
-            TimeZone = timeZone;
             ModelRotation = modelRotation;
         }
+
 
         public override string ToString()
         {

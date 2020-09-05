@@ -127,12 +127,22 @@ namespace Morpho25.IO
 
             string nestingAreaTitle = "nestingArea";
             string[] nestingAreaTag = new string[] { "numberNestinggrids", "soilProfileA", "soilProfileB" };
-            string[] nestingAreaValue = new string[] {"0", Material.DEFAULT_SOIL, Material.DEFAULT_SOIL };
+            string[] nestingAreaValue = new string[] { "0", Material.DEFAULT_SOIL, Material.DEFAULT_SOIL };
             Util.CreateXmlSection(xWriter, nestingAreaTitle, nestingAreaTag, nestingAreaValue, 0, empty);
 
             string locationDataTitle = "locationData";
-            string[] locationDataTag = new string[] { "modelRotation", "projectionSystem", "realworldLowerLeft_X", "realworldLowerLeft_Y", "locationName", "location_Longitude", "location_Latitude", "locationTimeZone_Name", "locationTimeZone_Longitude" };
-            string[] locationDataValue = new string[] { location.ModelRotation.ToString("n5"), Location.PROJECTION_SYSTEM, Location.REALWORLD_POINT, Location.REALWORLD_POINT, location.LocationName, location.Longitude.ToString("n5"), location.Latitude.ToString("n5"), location.TimeZone, Location.TIMEZONE_LONGITUDE };
+
+            string utmZone = " ", realworldLowerLeftX = Location.REALWORLD_POINT, realworldLowerLeftY = Location.REALWORLD_POINT;
+
+            if (location.UTM != null)
+            {
+                utmZone = location.UTM.UTMzone;
+                realworldLowerLeftX = location.UTM.UTMesting.ToString();
+                realworldLowerLeftY = location.UTM.UTMnorthing.ToString(); 
+            }
+
+            string[] locationDataTag = new string[] { "modelRotation", "projectionSystem", "UTMZone", "realworldLowerLeft_X", "realworldLowerLeft_Y", "locationName", "location_Longitude", "location_Latitude", "locationTimeZone_Name", "locationTimeZone_Longitude" };
+            string[] locationDataValue = new string[] { location.ModelRotation.ToString("n5"), Location.PROJECTION_SYSTEM, utmZone, realworldLowerLeftX, realworldLowerLeftY, location.LocationName, location.Longitude.ToString("n5"), location.Latitude.ToString("n5"), location.TimeZone, location.TimezoneReference.ToString("n5") };
             Util.CreateXmlSection(xWriter, locationDataTitle, locationDataTag, locationDataValue, 0, empty);
 
             string defaultSettingsTitle = "defaultSettings";

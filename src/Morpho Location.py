@@ -17,6 +17,8 @@ You can decompose location data from other plugin, such as Ladybug and Gismo!
         _longitude_: Longitude of Location WGS84 [float].
         _time_zone_: UTC timezone of location [integer].
         _model_rotation_: Rotation angle of your model [float].
+        utm_: UTM object from "Morpho UTM" [UTM].
+        _longitude_reference_: Longitude reference of your Location. Default is 15.0. [float].
     
     Returns:
         read_me: Message for users.
@@ -60,6 +62,8 @@ def main():
             location = Location(_latitude, _longitude, _name_, str(_time_zone_), _model_rotation_)
         
         if _model_rotation_: location.ModelRotation = _model_rotation_ 
+        if utm_: location.UTM = utm_ 
+        if _longitude_reference_: location.TimezoneReference = _longitude_reference_ 
         
         return location
     else:
