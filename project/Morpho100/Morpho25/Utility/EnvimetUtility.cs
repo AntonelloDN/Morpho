@@ -1,7 +1,9 @@
-﻿using Morpho25.Geometry;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
-using System;
 using MorphoGeometry;
+using Morpho25.Geometry;
+
 
 namespace Morpho25.Utility
 {
@@ -49,6 +51,23 @@ namespace Morpho25.Utility
             text = String.Join("\n", rows) + "\n";
 
             return text;
+        }
+
+        public static double GetAtmosphereSpecificHumidity(List<double> temperature, List<double> relativeHumidity)
+        {
+            const double AIR_PRESSURE = 1013.25;
+
+            List<double> kelvinTemperature = temperature.Select(_ => _ + Util.TO_KELVIN)
+                                             .ToList();
+
+            double meanTemperature = kelvinTemperature.Average();
+            double meanRelativeHumidity = relativeHumidity.Average();
+
+            double eSaturation = 0.6112 * Math.Exp(17.67 * (meanTemperature - 273.15) / (meanTemperature - 29.66)) * 10;
+            double qSaturation = (0.6112 * (eSaturation / AIR_PRESSURE)) * 1000;
+            double specificHumidity = qSaturation * (meanRelativeHumidity / 100);
+
+            return specificHumidity;
         }
     }
 }
