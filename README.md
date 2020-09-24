@@ -38,5 +38,6 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 - [x] 4 Example files for Grasshopper
 - [x] Create DEM using directly an ASCII matrix
 - [x] Added UTM for georeference.
+- [ ] Add DLL and components to read EDT EDX. Almost done.
 - [ ] Add documentation string of C# library
 - [ ] Release nodes for Dynamo for geometry
