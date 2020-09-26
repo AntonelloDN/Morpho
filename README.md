@@ -41,7 +41,7 @@ This project is partially financed by ENVI_met GmbH
 ## Roadmap:
 - [x] Components for Grasshopper
 - [x] Solve geometry3sharp intersection performance issue with big meshes - MorphoGeometry! :muscle::
-- [x] 4 Example files for Grasshopper
+- [x] 5 Example files for Grasshopper
 - [x] Create DEM using directly an ASCII matrix
 - [x] Added UTM for georeference.
 - [x] Add DLL and components to read EDT EDX. Almost done.
