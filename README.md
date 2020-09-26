@@ -16,7 +16,8 @@ This project is partially financed by ENVI_met GmbH
 ## Dependencies:
 * Morpho25.dll (for Rhino and Dynamo)
 * MorphoRhino.dll (for Rhino only)
-* MorphoGeometry
+* MorphoGeometry.dll (for Rhino and Dynamo)
+* MorphoReader.dll (for Rhino and Dynamo)
 ## Software tested
 * Rhino 6
 * Dynamo for Revit 2021
