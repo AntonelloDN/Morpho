@@ -1,4 +1,5 @@
 ![Logo](https://github.com/AntonelloDN/Morpho/blob/master/logo/logo_morpho_32.png)
+![Example](https://github.com/AntonelloDN/Morpho/blob/master/images/morpho_read_results_00.PNG)
 # Morpho
 A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation.<br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
