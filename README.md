@@ -27,13 +27,15 @@ This project is partially financed by ENVI_met GmbH
 * Reading materials from system DB, project DB and user DB
 * Settings of simulation file (SIMX) with more than 15 advanced settings. Both Simpleforcing and Fullforcing supported.
 * Running envimet simulation
+* Reading binary output files of envimet (EDT): Atmosphere, Soil, Surface, Buildings, Vegetation, SolarAccess, Radiation
 ## Improvements
 * it is possible to use class library with other softwares: only requirement is translate input geometries in Facegroup and Vector of MorphoGeometry
 * integration with ShrimpGIS and Gismo
 * Grid settings is based on a single point, user specify how many grid cells to use in x, y and z.
 * User experiece of modeling of 3D trees. Geometries are points
+* Flexible way to read EDT files
 ## Limits v.1.0.0:
-* Reading part not added (I was planning to release it in another plugin)
+* 1D results reader and receptors reader need to be add
 * It is like Monde of ENVI-met: it does not use detail 3D mode
 ## Roadmap:
 - [x] Components for Grasshopper
@@ -41,6 +43,6 @@ This project is partially financed by ENVI_met GmbH
 - [x] 4 Example files for Grasshopper
 - [x] Create DEM using directly an ASCII matrix
 - [x] Added UTM for georeference.
-- [ ] Add DLL and components to read EDT EDX. Almost done.
+- [x] Add DLL and components to read EDT EDX. Almost done.
 - [ ] Add documentation string of C# library
 - [ ] Release nodes for Dynamo for geometry
