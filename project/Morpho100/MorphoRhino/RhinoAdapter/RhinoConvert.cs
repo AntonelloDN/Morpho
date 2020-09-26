@@ -6,6 +6,8 @@ namespace MorphoRhino.RhinoAdapter
 {
     public class RhinoConvert
     {
+        public const double TOLERANCE = 0.01;
+
         public static FaceGroup FromRhMeshToFacegroup(Mesh rhMesh)
         {
             var rhFaces = rhMesh.Faces;
@@ -43,6 +45,32 @@ namespace MorphoRhino.RhinoAdapter
             }
 
             return new FaceGroup(faces);
+        }
+
+        public static Brep FromFaceToBrep(Face face)
+        {
+            Point3d pt1 = FromVectorToRhPoint(face.A);
+            Point3d pt2 = FromVectorToRhPoint(face.B);
+            Point3d pt3 = FromVectorToRhPoint(face.C);
+            Point3d pt4 = FromVectorToRhPoint(face.D);
+
+            return Brep.CreateFromCornerPoints(pt1, pt2, pt3, pt4, TOLERANCE);
+        }
+
+        public static Mesh FromFacesToMesh(List<Face> faces)
+        {
+            Mesh mesh = new Mesh();
+
+            MeshingParameters settings = new MeshingParameters();
+            settings.SimplePlanes = true;
+
+            foreach (Face face in faces)
+            {
+                Brep brep = FromFaceToBrep(face);
+                mesh.Append(Mesh.CreateFromBrep(brep, settings)[0]);
+            }
+
+            return mesh;
         }
 
         public static Vector FromRhPointToVector(Point3d point)

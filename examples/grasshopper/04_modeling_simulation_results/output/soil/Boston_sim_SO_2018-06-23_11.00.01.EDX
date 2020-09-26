@@ -1,0 +1,52 @@
+<ENVI-MET_Datafile>
+<Header>
+<filetype>EDX ENVI-met Simulation Data Definition</filetype>
+<version>101</version>
+<revisiondate>26/09/2020 15:03:21</revisiondate>
+<remark>This file links to the EDT file of the same name</remark>
+<checksum>0</checksum>
+<encryptionlevel>0</encryptionlevel>
+</Header>
+  <datadescription>
+     <data_type> 2 </data_type>
+     <data_content> 3 </data_content>
+     <data_zorientation> 1 </data_zorientation>
+     <data_health_status> 0 </data_health_status>
+     <data_spatial_dim> 3 </data_spatial_dim>
+     <nr_xdata> 39 </nr_xdata>
+     <nr_ydata> 37 </nr_ydata>
+     <nr_zdata> 19 </nr_zdata>
+     <spacing_x> 2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000 </spacing_x>
+     <spacing_y> 2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000 </spacing_y>
+     <spacing_z> 0.01000,0.01000,0.01000,0.01000,0.02000,0.02000,0.02000,0.10000,0.10000,0.10000,0.10000,0.50000,0.50000,0.50000,0.50000,0.50000,0.50000,0.50000,1.00000 </spacing_z>
+  </datadescription>
+  <variables>
+     <Data_per_variable> 1 </Data_per_variable>
+     <nr_variables> 7 </nr_variables>
+     <name_variables> Temperature (°C),Volumetic Water Content (m3 H20/m3),Relative Soil Wetness related to sat (%),Relative Soil Wetness related to av. field capacity (%),Local RAD (normalized) (m²/m³),Local RAD Owner (),Root Water Uptake (g H20/m3*1/s) </name_variables>
+  </variables>
+  <modeldescription>
+     <title> Boston_sim 11.00.01 23.06.2018 </title>
+     <simulation_basename> Boston_sim_SO_ </simulation_basename>
+     <simulation_date> 23.06.2018 </simulation_date>
+     <simulation_time> 11.00.01 </simulation_time>
+     <projectname> Small_town </projectname>
+     <locationname> Larino </locationname>
+     <model_rotation> 0.00000 </model_rotation>
+     <location_georef_lat> 41.80902 </location_georef_lat>
+     <location_georef_lon> 14.92303 </location_georef_lon>
+     <locationname> Larino </locationname>
+     <location_georef_xy_utmzone> 33 </location_georef_xy_utmzone>
+     <location_georef_x> 493606.40625 </location_georef_x>
+     <location_georef_y> 4628575.50000 </location_georef_y>
+  </modeldescription>
+  <envi-met_reference>
+     <envi-met_version> ENVI-MET® V4.4.5 Summer20 © ENVI_MET GmbH Essen, Michael Bruse and Team, 1997-2020 </envi-met_version>
+     <envi-met_GUID> MSI_26/09/2020_14.47.11 </envi-met_GUID>
+     <licenseholder> Antonello Di Nunzio </licenseholder>
+  </envi-met_reference>
+  <additional_info>
+     <sunposition> 139.93571 </sunposition>
+     <windinflow> 0.00000 </windinflow>
+  </additional_info>
+</ENVI-MET_Datafile>
