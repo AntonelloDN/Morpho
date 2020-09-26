@@ -3,6 +3,8 @@
 A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX) and run simulation.<br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
 It contains a library of classes you can use with **Grasshopper**, **Dynamo** and other softwares.
+
+This project is partially financed by ENVI_met GmbH
 ## Requirements
 * [ENVI-met 4.4.5](https://www.envi-met.com/buy-now/)
 ## Installation:
