@@ -1,0 +1,52 @@
+<ENVI-MET_Datafile>
+<Header>
+<filetype>EDX ENVI-met Simulation Data Definition</filetype>
+<version>101</version>
+<revisiondate>05/10/2020 19:42:11</revisiondate>
+<remark>This file links to the EDT file of the same name</remark>
+<checksum>0</checksum>
+<encryptionlevel>0</encryptionlevel>
+</Header>
+  <datadescription>
+     <data_type> 1 </data_type>
+     <data_content> 2 </data_content>
+     <data_zorientation> 0 </data_zorientation>
+     <data_health_status> 0 </data_health_status>
+     <data_spatial_dim> 2 </data_spatial_dim>
+     <nr_xdata> 53 </nr_xdata>
+     <nr_ydata> 58 </nr_ydata>
+     <nr_zdata> 1 </nr_zdata>
+     <spacing_x> 2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000 </spacing_x>
+     <spacing_y> 2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000,2.00000 </spacing_y>
+     <spacing_z> 0.00000 </spacing_z>
+  </datadescription>
+  <variables>
+     <Data_per_variable> 1 </Data_per_variable>
+     <nr_variables> 37 </nr_variables>
+     <name_variables> Index Surface Grid (),Soil Profile Type (),z Topo (m),Surface inclination (°),Surface exposition (°),Shadow Flag (),T Surface (°C),T Surface Diff. (K),T Surface Change (K/h),q Surface (g/kg),uv above Surface (m/s),Sensible heat flux (W/m2),Exchange Coeff. Heat (m2/s),Latent heat flux (W/m2),Soil heat Flux (W/m2),Q_Sw Direct (W/m2),Q_Sw Direct Horizontal (W/m2),Q_Sw Diffuse Horizontal (W/m2),Q_Sw Reflected Received Horizontal (W/m2),Lambert Factor (),Q_Lw emitted (W/m2),Q_Lw budget (W/m2),Q_Lw Sum all Fluxes (W/m2),Water Flux (g/m2s),Sky-View-Faktor (),Building Height (m),Surface Albedo (),Deposition Speed (mm/s),Mass Deposed (µg/m2),z node Biomet (),z Biomet (m),T Air Biomet (°C),q Air Biomet (g/kg),TMRT Biomet (°C),Wind Speed Biomet (m/s),Mass Biomet (ug/m3),Receptors () </name_variables>
+  </variables>
+  <modeldescription>
+     <title> Larino_sim 16.00.01 23.06.2018 </title>
+     <simulation_basename> Larino_sim_FX_ </simulation_basename>
+     <simulation_date> 23.06.2018 </simulation_date>
+     <simulation_time> 16.00.01 </simulation_time>
+     <projectname> Larino_project </projectname>
+     <locationname> Larino </locationname>
+     <model_rotation> 0.00000 </model_rotation>
+     <location_georef_lat> 41.80563 </location_georef_lat>
+     <location_georef_lon> 14.91883 </location_georef_lon>
+     <locationname> Larino </locationname>
+     <location_georef_xy_utmzone> 33 </location_georef_xy_utmzone>
+     <location_georef_x> 493257.28125 </location_georef_x>
+     <location_georef_y> 4628199.00000 </location_georef_y>
+  </modeldescription>
+  <envi-met_reference>
+     <envi-met_version> ENVI-MET® V4.4.5 Summer20 © ENVI_MET GmbH Essen, Michael Bruse and Team, 1997-2020 </envi-met_version>
+     <envi-met_GUID> MSI_05/10/2020_17.08.16 </envi-met_GUID>
+     <licenseholder> Antonello Di Nunzio </licenseholder>
+  </envi-met_reference>
+  <additional_info>
+     <sunposition> 268.86337 </sunposition>
+     <windinflow> 180.00000 </windinflow>
+  </additional_info>
+</ENVI-MET_Datafile>
