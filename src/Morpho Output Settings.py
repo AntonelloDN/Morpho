@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -26,9 +26,9 @@ REMINDER: BPS is not supported in BASIC and STUDENT version.
         -
         It works building by building. Once you have activated you must connect inx building you want to calculate.
         -
-        REMINDER It is not supported in LITE and STUDENT version. 
+        REMINDER It is not supported in LITE and STUDENT version.
         inx_building_: Connect inx buildings to calculate with BPS.
-        
+
     Returns:
         read_me: Message for users.
         output_settings: Output settings of *.simx file.
@@ -51,19 +51,19 @@ from System.Collections.Generic import *
 try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
-    clr.AddReference("Morpho25.dll")
+    clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Settings import OutputSettings, Active
     from Morpho25.Geometry import Building
-    
+
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
-    
+
     ouput_setting = OutputSettings()
-    
+
     if _netCDF_: ouput_setting.NetCDF = int(Active.YES)
     if _netCDF_in_one_file_: ouput_setting.NetCDFAllDataInOneFile = int(Active.YES)
     if _BPS_: ouput_setting.WriteBPS = int(Active.YES)
@@ -72,12 +72,12 @@ def main():
     if inx_building_ and _BPS_:
         buildings = List[Building](inx_building_)
         ouput_setting.SetBuildingNumber(buildings)
-    
+
     if (ouput_setting.BuildingCnt == 0 and _BPS_):
         w = gh.GH_RuntimeMessageLevel.Warning
         message = "Please provide inx_building_."
         ghenv.Component.AddRuntimeMessage(w, message)
-    
+
     return ouput_setting
 
 output_settings = main()

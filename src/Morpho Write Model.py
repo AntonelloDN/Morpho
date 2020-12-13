@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -17,7 +17,7 @@ See license for more details.
     Args:
         _inx_model: Inx Model.
         _write_it: Set it to 'True' to write model on your machine.
-    
+
     Returns:
         read_me: Message for users.
         file_path: Path where inx file is on your machine.
@@ -38,21 +38,21 @@ import clr
 try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
-    clr.AddReference("Morpho25.dll")
+    clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.IO import Inx
-    
+
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
-    
+
     if _inx_model and _write_it:
-        
+
         inx = Inx(_inx_model)
         inx.WriteInx()
-        
+
         return inx.Model.Workspace.ModelPath
     else:
         return

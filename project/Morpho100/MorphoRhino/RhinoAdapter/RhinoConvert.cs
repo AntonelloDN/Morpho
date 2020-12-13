@@ -52,9 +52,15 @@ namespace MorphoRhino.RhinoAdapter
             Point3d pt1 = FromVectorToRhPoint(face.A);
             Point3d pt2 = FromVectorToRhPoint(face.B);
             Point3d pt3 = FromVectorToRhPoint(face.C);
-            Point3d pt4 = FromVectorToRhPoint(face.D);
 
-            return Brep.CreateFromCornerPoints(pt1, pt2, pt3, pt4, TOLERANCE);
+            if (face.Vertices.Length > 3)
+            { 
+                Point3d pt4 = FromVectorToRhPoint(face.D);
+                return Brep.CreateFromCornerPoints(pt1, pt2, pt3, pt4, TOLERANCE);
+            }
+
+            return Brep.CreateFromCornerPoints(pt1, pt2, pt3, TOLERANCE);
+
         }
 
         public static Mesh FromFacesToMesh(List<Face> faces)

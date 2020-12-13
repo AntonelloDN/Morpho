@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -24,7 +24,7 @@ EXPERT SETTINGS.
         0 = Open
         1 = Forced
         2 = Cyclic
-        
+
     Returns:
         read_me: Message for users.
         LBC: Lateral boundary condition to use in *.simx file.
@@ -46,26 +46,26 @@ import clr
 try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
-    clr.AddReference("Morpho25.dll")
+    clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Settings import LBC, BoundaryCondition
-    
+
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
-    
+
     model = {
         0:BoundaryCondition.Open,
         1:BoundaryCondition.Forced,
         2:BoundaryCondition.Cyclic
     }
-    
+
     if _LBC_temperature_humidity >= 0 and _LBC_turbolence >= 0:
-        
+
         lbc = LBC(model[_LBC_temperature_humidity], model[_LBC_turbolence])
-        
+
         return lbc
     else:
         return

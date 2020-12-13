@@ -16,11 +16,11 @@ namespace Morpho25.Geometry
         public override Material Material { get => throw new NotImplementedException();
             protected set => throw new NotImplementedException(); }
 
-        public Receptor(Vector geometry, Grid grid, string name)
+        public Receptor(Grid grid, Vector geometry, string name)
         {
             Geometry = geometry;
             SetPixel(grid);
-            string text = name ?? "R";
+            string text = name ?? "R_";
 
             Name = text + String.Join("_", Pixel.I, Pixel.J, Pixel.K);
         }

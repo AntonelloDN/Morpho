@@ -20,7 +20,7 @@ This project is partially financed by ENVI_met GmbH
 * MorphoGeometry.dll (for Rhino and Dynamo)
 * MorphoReader.dll (for Rhino and Dynamo)
 ## Software tested
-* Rhino 6
+* Rhino 6, Rhino 7
 * Dynamo for Revit 2021
 ## Features:
 * Settings of Workspace, project and model

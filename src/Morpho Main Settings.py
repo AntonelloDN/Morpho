@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -27,7 +27,7 @@ Use this component to set basic properties of the simulation file.
         initial_temperature_: Initial temperature of the air (°C) [float]. Default value is 19.
         specific_humidity_: Initial specific humidity of the air in 2500 m (g Water/kg air). Default value is 7.0.
         relative_humidity_: Initial relative humidity of the air in 2m (%) [float]. Default value is 50%.
-        
+
     Returns:
         read_me: Message for users.
         main_settings: Basic settings of *.simx file.
@@ -48,18 +48,18 @@ import clr
 try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
-    clr.AddReference("Morpho25.dll")
+    clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Settings import MainSettings
-    
+
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
-    
+
     if _inx_model and _sim_name:
-        
+
         main_settings = MainSettings(_sim_name, _inx_model)
         if _start_date_: main_settings.StartDate = _start_date_
         if _start_time_: main_settings.StartTime = _start_time_
@@ -70,7 +70,7 @@ def main():
         if initial_temperature_: main_settings.InitialTemperature = initial_temperature_
         if specific_humidity_: main_settings.SpecificHumidity = specific_humidity_
         if relative_humidity_: main_settings.RelativeHumidity = relative_humidity_
-        
+
         return main_settings
     else:
         return

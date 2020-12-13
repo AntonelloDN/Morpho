@@ -16,7 +16,7 @@ namespace Morpho25.Geometry
         public override Material Material { get => throw new NotImplementedException();
             protected set => throw new NotImplementedException(); }
 
-        public Terrain(FaceGroup geometry, int id, Grid grid, string name)
+        public Terrain(Grid grid, FaceGroup geometry, int id, string name)
         {
             ID = id;
             Geometry = geometry;

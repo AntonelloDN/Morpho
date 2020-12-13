@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -18,13 +18,13 @@ See license for more details.
         _inx_model: Inx Model.
         _ASCII_DEM_file: absolute path of text file that contain only ASCII matrix of terrain.E.g. C:\Example\dem.txt
         -
-        Terrain ASCII matrix is made by integers divided by comma and each row is divided by newline. E.g. 
+        Terrain ASCII matrix is made by integers divided by comma and each row is divided by newline. E.g.
         2,2,3,4,5,6,6
         2,2,3,4,5,6,6
         ...
         Number of row must be equal to numY of Grid. Number of integers for each row must be equal to numX of Grid.
         _write_it: Set it to 'True' to write model on your machine.
-    
+
     Returns:
         read_me: Message for users.
         file_path: Path where inx file is on your machine.
@@ -45,25 +45,25 @@ import clr
 try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
-    clr.AddReference("Morpho25.dll")
+    clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.IO import Inx
-    
+
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
-    
+
     if _inx_model and _ASCII_DEM_file and _write_it:
-        
+
         with open(_ASCII_DEM_file, 'r') as f:
             text = f.read()
-        
+
         inx = Inx(_inx_model, text)
-        
+
         inx.WriteInx()
-        
+
         return inx.Model.Workspace.ModelPath
     else:
         return

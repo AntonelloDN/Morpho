@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -36,8 +36,8 @@ You cannot use SimpleForcing and FullForcing at same time.
         -
         Please note, you cannot use SimpleForcing and FullForcing at same time.
         _run_it: Set it to 'True' to create SIMX Model.
-        
-        
+
+
     Returns:
         read_me: Message for users.
         simx: SIMX object to use for simulation.
@@ -58,21 +58,21 @@ import clr
 try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
-    clr.AddReference("Morpho25.dll")
+    clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.IO import *
     from Morpho25.Settings import *
-    
+
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
-    
+
     if _main_settings and _run_it:
-        
+
         simx = Simx(_main_settings)
-        
+
         if other_settings_:
             for obj in other_settings_:
                 if (type(obj) == SimpleForcing):
@@ -115,10 +115,10 @@ def main():
                     simx.PlantSetting = obj
                 if (type(obj) == LBC):
                     simx.LBC = obj
-        
+
         simx.WriteSimx()
         print("{0} written!".format(simx.MainSettings.Name))
-        
+
         return simx
     else:
         return

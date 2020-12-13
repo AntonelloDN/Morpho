@@ -1,4 +1,5 @@
-﻿using MorphoGeometry;
+﻿using Morpho25.Utility;
+using MorphoGeometry;
 using System;
 using System.Collections.Generic;
 
@@ -28,8 +29,8 @@ namespace Morpho25.Geometry
         {
             foreach (Vector vec in intersection)
             {
-                int indexX = Array.FindIndex(grid.Xaxis, val => Math.Round(val, 4) == Math.Round(vec.x, 4));
-                int indexY = Array.FindIndex(grid.Yaxis, val => Math.Round(val, 4) == Math.Round(vec.y, 4));
+                int indexX = Util.ClosestValue(grid.Xaxis, vec.x);
+                int indexY = Util.ClosestValue(grid.Yaxis, vec.y);
                 matrix[indexX, indexY] = (text == String.Empty) ? Math.Round(vec.z, 0).ToString() : text;
             }
         }

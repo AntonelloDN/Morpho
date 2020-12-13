@@ -28,19 +28,10 @@ namespace Morpho25.Geometry
 
         public Pixel Pixel { get; private set; }
 
-        public Plant3d(Vector geometry, Grid grid, string name)
+        public Plant3d(Grid grid, Vector geometry, string code, string name)
         {
             Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_PLANT_3D);
-            Name = name ?? "PlantGroup";
-
-            SetPixel(grid);
-        }
-
-        public Plant3d(Vector geometry, string code, Grid grid, string name)
-        {
-            Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_PLANT_3D, code);
+            Material = (code != null) ? CreateMaterial(Material.DEFAULT_PLANT_3D, code) : CreateMaterial(Material.DEFAULT_PLANT_3D);
             Name = name ?? "PlantGroup";
 
             SetPixel(grid);

@@ -8,7 +8,6 @@ namespace Morpho25.Geometry
     public class Building : Entity
     {
         public FaceGroup Geometry { get; }
-
         public Matrix2d TopMatrix { get; private set; }
         public Matrix2d BottomMatrix { get; private set; }
         public Matrix2d IDmatrix { get; private set; }
@@ -27,22 +26,12 @@ namespace Morpho25.Geometry
         }
         public override string Name { get; }
 
-        public Building(FaceGroup geometry, int id, Grid grid, string name = " ")
+        public Building(Grid grid, FaceGroup geometry, int id, Material material, string name)
         {
             ID = id;
             Geometry = geometry;
-            Material = CreateMaterial(null, null, null, null);
-            Name = name;
-
-            SetMatrix(grid);
-        }
-
-        public Building(FaceGroup geometry, int id, Material material, Grid grid, string name = " ")
-        {
-            ID = id;
-            Geometry = geometry;
-            Material = material;
-            Name = name;
+            Material = material ?? CreateMaterial(null, null, null, null);
+            Name = name ?? "Building";
 
             SetMatrix(grid);
         }

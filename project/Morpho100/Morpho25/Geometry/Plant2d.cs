@@ -27,21 +27,11 @@ namespace Morpho25.Geometry
 
         }
 
-        public Plant2d(FaceGroup geometry, int id, Grid grid, string name)
+        public Plant2d(Grid grid, FaceGroup geometry, int id, string code, string name)
         {
             ID = id;
             Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_PLANT_2D);
-            Name = name ?? "PlantGroup";
-
-            SetMatrix(grid);
-        }
-
-        public Plant2d(FaceGroup geometry, int id, string code, Grid grid, string name)
-        {
-            ID = id;
-            Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_PLANT_2D, code);
+            Material = (code != null) ? CreateMaterial(Material.DEFAULT_PLANT_2D, code) : CreateMaterial(Material.DEFAULT_PLANT_2D);
             Name = name ?? "PlantGroup";
 
             SetMatrix(grid);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MorphoGeometry
 {
@@ -66,11 +67,12 @@ namespace MorphoGeometry
                 {
                     intersection = RayFaceIntersect(ray, face, reverse, project);
                     if (intersection != null)
+                    {
                         intersections.Add(intersection);
+                    }
                 }
 
             return intersections;
         }
-
     }
 }

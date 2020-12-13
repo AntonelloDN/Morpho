@@ -27,21 +27,11 @@ namespace Morpho25.Geometry
 
         }
 
-        public Source(FaceGroup geometry, int id, Grid grid, string name = " ")
+        public Source(Grid grid, FaceGroup geometry, int id, string code, string name)
         {
             ID = id;
             Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_SOURCE);
-            Name = name ?? "SourceGroup";
-
-            SetMatrix(grid);
-        }
-
-        public Source(FaceGroup geometry, int id, string code, Grid grid, string name = " ")
-        {
-            ID = id;
-            Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_SOURCE, code);
+            Material = (code != null) ? CreateMaterial(Material.DEFAULT_SOURCE, code) : CreateMaterial(Material.DEFAULT_SOURCE);
             Name = name ?? "SourceGroup";
 
             SetMatrix(grid);

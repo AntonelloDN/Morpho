@@ -27,21 +27,11 @@ namespace Morpho25.Geometry
 
         }
 
-        public Soil(FaceGroup geometry, int id, Grid grid, string name)
+        public Soil(Grid grid, FaceGroup geometry, int id, string code, string name)
         {
             ID = id;
             Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_SOIL);
-            Name = name ?? "SoilGroup";
-
-            SetMatrix(grid);
-        }
-
-        public Soil(FaceGroup geometry, int id, string code, Grid grid, string name)
-        {
-            ID = id;
-            Geometry = geometry;
-            Material = CreateMaterial(Material.DEFAULT_SOIL, code);
+            Material = (code != null) ? CreateMaterial(Material.DEFAULT_SOIL, code) : CreateMaterial(Material.DEFAULT_SOIL);
             Name = name ?? "SoilGroup";
 
             SetMatrix(grid);

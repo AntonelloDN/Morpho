@@ -4,7 +4,7 @@
 # Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-# 
+#
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
@@ -14,9 +14,7 @@ This component parses XML from strings and show text by keywords.
     Args:
         _XML: XML content from Library component.
         _keyword: A list of tag of the XML file you are reading.\nKeyword is a word of the XML file between <>.
-        -
-        Please, note some chars in envimet file corrispond to garbage char in xml. These chars will be replaced with ''.
-    
+
     Returns:
         read_me: Message for users.
         results: InnerText of selected keyword.
@@ -35,28 +33,28 @@ from Grasshopper.Kernel.Data import GH_Path
 from Grasshopper import DataTree
 import re
 
-ghenv.Component.Message = "1.0.0 2.5D"
+ghenv.Component.Message = "1.0.1 2.5D"
 
 
 
 def get_clean_xml(text):
-    
+
     characters = '[^\s()_<>/,\.A-Za-z0-9=""]+'
     text = re.sub(characters, '', text)
     return text
 
 
 def main():
-    
+
     if _XML and _keyword:
-        
+
         roots = [ET.fromstring(get_clean_xml(el)) for el in _XML]
         results = DataTree[System.Object]()
-        
+
         for i, key in enumerate(_keyword):
             path = GH_Path(0, i)
             results.AddRange( [root.find(key).text for root in roots if root.find(key) != None] ,path )
-        
+
         return results
     else:
         return

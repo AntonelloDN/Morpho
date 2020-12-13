@@ -36,6 +36,24 @@ namespace Morpho25.Settings
             ReceptorObjects = new List<Receptor>();
         }
 
+        public Model(Grid grid, Location location, Workspace workspace, 
+            List<Building> buildingObjects)
+        {
+            Workspace = workspace;
+            EnvimetMatrix = new Dictionary<string, Matrix2d>();
+            Grid = grid;
+            Location = location;
+            BuildingObjects = buildingObjects;
+            Plant2dObjects = new List<Plant2d>();
+            Plant3dObjects = new List<Plant3d>();
+            SoilObjects = new List<Soil>();
+            TerrainObjects = new List<Terrain>();
+            SourceObjects = new List<Source>();
+            ReceptorObjects = new List<Receptor>();
+
+            Calculation();
+        }
+
         public Model(Grid grid, Location location, Workspace workspace,
             List<Building> buildingObjects, List<Plant2d> plant2dObjects)
         {
