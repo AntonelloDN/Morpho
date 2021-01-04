@@ -138,6 +138,10 @@ namespace MorphoReader
                 }
             }
 
+            result = result.OrderBy(f => f.Pixel.I)
+                .OrderBy(f => f.Pixel.J)
+                .ToList();
+
             return result;
         }
 
