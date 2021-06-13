@@ -35,7 +35,7 @@ This project is partially financed by ENVI_met GmbH
 * Grid settings is based on a single point, user specify how many grid cells to use in x, y and z.
 * User experiece of modeling of 3D trees. Geometries are points
 * Flexible way to read EDT files
-## Limits v.1.0.0:
+## Limits v.1.0.1:
 * 1D results reader and receptors reader need to be add
 * It is like Monde of ENVI-met: it does not use detail 3D mode
 ## Roadmap:
