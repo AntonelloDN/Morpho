@@ -12,7 +12,7 @@ namespace Morpho25.Management
 
     public class Workspace
     {
-        public const string DEFAULT_FOLDER = "ENVImet445";
+        public const string DEFAULT_FOLDER = "ENVImet446";
         private const string VERSION = "7174219";
         private const string ENCRIPTION_LEVEL = "5194660";
         private const string CHECK_SUM = "18076640";
