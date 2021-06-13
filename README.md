@@ -7,7 +7,7 @@ It contains a library of classes you can use with **Grasshopper**, **Dynamo** an
 
 This project is partially financed by ENVI_met GmbH
 ## Requirements
-* [ENVI-met 4.4.5](https://www.envi-met.com/buy-now/)
+* [ENVI-met 4.4.6](https://www.envi-met.com/buy-now/)
 ## Installation:
 1. Download Morpho.
 2. Check if downloaded .zip file has been blocked: right click on it, and choose Properties. If there is an Unblock button click on it, otherwise it is OK. Unzip it.
@@ -46,4 +46,4 @@ This project is partially financed by ENVI_met GmbH
 - [x] Added UTM for georeference.
 - [x] Add DLL and components to read EDT EDX. Almost done.
 - [ ] Add documentation string of C# library
-- [ ] Release nodes for Dynamo for geometry
+- [ ] Release nodes for Dynamo for geometry. Dynamo development is on pause. If you are a dynamo developer feel you free to improve Morpho
