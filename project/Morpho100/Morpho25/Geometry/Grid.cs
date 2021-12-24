@@ -70,7 +70,10 @@ namespace Morpho25.Geometry
             SetYaxis();
         }
 
-        public Grid(Size size, double telescope, double startTelescopeHeight, bool combineGridType)
+        public Grid(Size size, 
+            double telescope, 
+            double startTelescopeHeight, 
+            bool combineGridType)
         {
             Size = size;
             Telescope = telescope;
@@ -80,12 +83,17 @@ namespace Morpho25.Geometry
             SetSequenceAndExtension();
             SetXaxis();
             SetYaxis();
+
+            if (NestingGrids == null)
+                NestingGrids = new NestingGrids();
         }
 
         private double _telescope;
         private double _startTelescopeHeight;
 
         public Size Size { get; }
+
+        public NestingGrids NestingGrids { get; set; }
 
         public double Telescope {
             get { return _telescope; }
@@ -233,4 +241,26 @@ namespace Morpho25.Geometry
         #endregion
     }
 
+    public class NestingGrids
+    {
+        public string FirstMaterial { get; private set; }
+        public string SecondMaterial { get; private set; }
+        public uint NumberOfCells { get; private set; }
+
+        public NestingGrids()
+        {
+            NumberOfCells = 0;
+            FirstMaterial = Material.DEFAULT_SOIL;
+            SecondMaterial = Material.DEFAULT_SOIL;
+        }
+
+        public NestingGrids(uint numberOfCells, 
+            string firstMaterial,
+            string secondMaterial)
+        {
+            NumberOfCells = numberOfCells;
+            FirstMaterial = firstMaterial;
+            SecondMaterial = secondMaterial;
+        }
+    }
 }

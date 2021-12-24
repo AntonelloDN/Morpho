@@ -127,7 +127,7 @@ namespace Morpho25.IO
 
             string nestingAreaTitle = "nestingArea";
             string[] nestingAreaTag = new string[] { "numberNestinggrids", "soilProfileA", "soilProfileB" };
-            string[] nestingAreaValue = new string[] { "0", Material.DEFAULT_SOIL, Material.DEFAULT_SOIL };
+            string[] nestingAreaValue = new string[] { grid.NestingGrids.NumberOfCells.ToString(), grid.NestingGrids.FirstMaterial, grid.NestingGrids.SecondMaterial };
             Util.CreateXmlSection(xWriter, nestingAreaTitle, nestingAreaTag, nestingAreaValue, 0, empty);
 
             string locationDataTitle = "locationData";
