@@ -8,21 +8,19 @@
 # @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
 
 """
-Construct an Inx Grid.
+Set Nesting Grids properties.
     Args:
-        _grid_size: Grid properties created by 'Envimet INX Grid Size'.
-        _telescope_: Connect a number to change grid type from equidistant grid into telescopic grid [float].
-        _telescope_start_height_: Height where to start telescoping Z grid growth [float].
-        _combined_grid_: Set it to 'True' if you want to combine equidistant and telescopic grid [bool].
-        nesting_grids_: Add nesting grids if needed [NestingGrids].
+        _soil_profile_a: First profile material to use [str].
+        _soil_profile_b: Second profile material to use [str].
+        _number_of_cells: Number of nesting cells to add [int].
     
     Returns:
         read_me: Message for users.
-        inx_grid: Inx Grid.
+        nesting_grids: Nesting Grids attributes. Connect it to Grid component.
 """
 
-ghenv.Component.Name = "Morpho Grid"
-ghenv.Component.NickName = "morpho_grid"
+ghenv.Component.Name = "Morpho Nesting Grids"
+ghenv.Component.NickName = "morpho_nesting_grids"
 ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "1 || Settings"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "2"
@@ -37,7 +35,9 @@ try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
-    from Morpho25.Geometry import Grid, NestingGrids
+    clr.AddReferenceToFile("MorphoRhino.dll")
+    from Morpho25.Geometry import NestingGrids
+    from Morpho25.Geometry import Material
     
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
@@ -45,19 +45,13 @@ except ImportError as e:
 ghenv.Component.Message = "1.0.1 2.5D"
 
 def main():
+    soil_profile_a = _soil_profile_a if _soil_profile_a else Material.DEFAULT_SOIL
+    soil_profile_b = _soil_profile_b if _soil_profile_b else Material.DEFAULT_SOIL
     
-    if _grid_size:
-        grid = Grid(_grid_size, nesting_grids_)
-        if (_telescope_ > 0 and _telescope_start_height_ > 0):
-            grid = Grid(_grid_size, 
-                _telescope_, 
-                _telescope_start_height_, 
-                _combined_grid_, 
-                nesting_grids_)
-        
-        return grid
-    else:
-        return
+    num_of_cells = _number_of_cells if _number_of_cells else 0
+    
+    nesting_grids = NestingGrids(num_of_cells, soil_profile_a, soil_profile_b)
+    
+    return nesting_grids
 
-inx_grid = main()
-if not _grid_size: print("Please, connect _grid_size.")
+nesting_grids = main()

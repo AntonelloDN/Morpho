@@ -58,7 +58,8 @@ namespace Morpho25.Geometry
 
     public class Grid
     {
-        public Grid(Size size)
+        public Grid(Size size,
+            NestingGrids nestingGrids = null)
         {
             Size = size;
             Telescope = 0.0;
@@ -68,6 +69,11 @@ namespace Morpho25.Geometry
             SetSequenceAndExtension();
             SetXaxis();
             SetYaxis();
+
+            if (nestingGrids == null)
+                NestingGrids = new NestingGrids();
+            else
+                NestingGrids = nestingGrids;
         }
 
         public Grid(Size size, 
@@ -85,7 +91,7 @@ namespace Morpho25.Geometry
             SetXaxis();
             SetYaxis();
 
-            if (NestingGrids == null)
+            if (nestingGrids == null)
                 NestingGrids = new NestingGrids();
             else
                 NestingGrids = nestingGrids;
