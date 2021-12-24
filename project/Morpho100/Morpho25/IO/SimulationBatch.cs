@@ -40,7 +40,7 @@ namespace Morpho25.IO
             $"cd {unit}\n" +
             $"cd {envimet}\n" +
             $"if errorlevel 1 goto :failed\n" +
-            $"\"{envimet}\\envimet4_console.exe\" \"{simx.MainSettings.Inx.Workspace.WorkspaceFolder}\" \"{project}\" \"{simulationName}\"\n" +
+            $"\"{envimet}\\envicore_console.exe\" \"{simx.MainSettings.Inx.Workspace.WorkspaceFolder}\" \"{project}\" \"{simulationName}\"\n" +
             $": failed\n" +
             $"echo If Envimet is not in default unit 'C:\' connect installation folder.\n" +
             $"pause\n";
