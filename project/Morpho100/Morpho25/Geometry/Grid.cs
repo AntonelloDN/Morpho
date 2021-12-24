@@ -73,7 +73,8 @@ namespace Morpho25.Geometry
         public Grid(Size size, 
             double telescope, 
             double startTelescopeHeight, 
-            bool combineGridType)
+            bool combineGridType,
+            NestingGrids nestingGrids = null)
         {
             Size = size;
             Telescope = telescope;
