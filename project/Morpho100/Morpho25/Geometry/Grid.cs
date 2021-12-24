@@ -87,6 +87,8 @@ namespace Morpho25.Geometry
 
             if (NestingGrids == null)
                 NestingGrids = new NestingGrids();
+            else
+                NestingGrids = nestingGrids;
         }
 
         private double _telescope;
