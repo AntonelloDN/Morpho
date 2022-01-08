@@ -45,7 +45,9 @@ if _output_folder:
     for p in path:
         
         if os.path.basename(p) == 'buildings':
-            p += '\\dynamic'
+            subdir = os.listdir(p)
+            if 'dynamic' in subdir:
+                p += '\\dynamic'
         
         result[os.path.basename(p)] = sorted([os.path.join(p, f) for f in os.listdir(p) 
                                              if f.endswith(".EDT") 
