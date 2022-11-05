@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace MorphoGeometry
 {
@@ -34,6 +35,25 @@ namespace MorphoGeometry
         {
             return (Vertices.Length == 4);
         }
+
+        public Vector Min()
+        {
+            var x = Vertices.Select(_ => _.x).Min();
+            var y = Vertices.Select(_ => _.y).Min();
+            var z = Vertices.Select(_ => _.z).Min();
+
+            return new Vector(x, y, z);
+        }
+
+        public Vector Max()
+        {
+            var x = Vertices.Select(_ => _.x).Max();
+            var y = Vertices.Select(_ => _.y).Max();
+            var z = Vertices.Select(_ => _.z).Max();
+
+            return new Vector(x, y, z);
+        }
+
 
         public static Face[] Triangulate(Face face)
         {

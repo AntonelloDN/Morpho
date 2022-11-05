@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MorphoGeometry
 {
@@ -57,20 +58,38 @@ namespace MorphoGeometry
             return intersection;
         }
 
-        public static IEnumerable<Vector> RaysFaceGroupIntersect(List<Ray> rays, FaceGroup facegroup, bool reverse = false, bool project = false)
+        public static IEnumerable<Vector> RaysFaceGroupIntersect(IEnumerable<Ray> rays,
+            FaceGroup facegroup,
+            bool reverse = false,
+            bool project = false)
         {
-            List<Vector> intersections = new List<Vector>();
+            var faceIntersectArr = new List<Vector>[facegroup.Faces.Count];
 
-            Vector intersection;
-            foreach (Face face in facegroup.Faces)
-                foreach (Ray ray in rays)
+            Parallel.For(0, facegroup.Faces.Count, i =>
+            {
+                var partial = new List<Vector>();
+                var face = facegroup.Faces[i];
+                var min = face.Min();
+                var max = face.Max();
+
+                foreach (var ray in rays)
                 {
-                    intersection = RayFaceIntersect(ray, face, reverse, project);
+                    if (ray.origin.x < min.x) continue;
+                    if (ray.origin.y < min.y) continue;
+                    if (ray.origin.x > max.x) continue;
+                    if (ray.origin.y > max.y) continue;
+
+                    var intersection = RayFaceIntersect(ray, face, reverse, project);
                     if (intersection != null)
                     {
-                        intersections.Add(intersection);
+                        partial.Add(intersection);
                     }
                 }
+                faceIntersectArr[i] = partial;
+            });
+            var intersections = faceIntersectArr
+                .SelectMany(i => i)
+                .Where(_ => _ != null);
 
             return intersections;
         }
