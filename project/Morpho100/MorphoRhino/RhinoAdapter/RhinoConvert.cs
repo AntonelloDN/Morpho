@@ -4,10 +4,21 @@ using MorphoGeometry;
 
 namespace MorphoRhino.RhinoAdapter
 {
+    /// <summary>
+    /// Rhino convert class.
+    /// </summary>
     public class RhinoConvert
     {
+        /// <summary>
+        /// Base tolerance.
+        /// </summary>
         public const double TOLERANCE = 0.01;
 
+        /// <summary>
+        /// From rhino mesh to facegroup.
+        /// </summary>
+        /// <param name="rhMesh">Rhino mesh.</param>
+        /// <returns>New facegroup.</returns>
         public static FaceGroup FromRhMeshToFacegroup(Mesh rhMesh)
         {
             var rhFaces = rhMesh.Faces;
@@ -47,6 +58,11 @@ namespace MorphoRhino.RhinoAdapter
             return new FaceGroup(faces);
         }
 
+        /// <summary>
+        /// From face to rhino brep.
+        /// </summary>
+        /// <param name="face">Face to convert.</param>
+        /// <returns>Rhino brep.</returns>
         public static Brep FromFaceToBrep(Face face)
         {
             Point3d pt1 = FromVectorToRhPoint(face.A);
@@ -63,6 +79,11 @@ namespace MorphoRhino.RhinoAdapter
 
         }
 
+        /// <summary>
+        /// From faces to rhino mesh.
+        /// </summary>
+        /// <param name="faces">Faces to convert.</param>
+        /// <returns>Rhino mesh.</returns>
         public static Mesh FromFacesToMesh(List<Face> faces)
         {
             Mesh mesh = new Mesh();
@@ -79,11 +100,21 @@ namespace MorphoRhino.RhinoAdapter
             return mesh;
         }
 
+        /// <summary>
+        /// From rhino point to vector.
+        /// </summary>
+        /// <param name="point">Rhino point to convert.</param>
+        /// <returns>New vector.</returns>
         public static Vector FromRhPointToVector(Point3d point)
         {
             return new Vector((float)point.X, (float)point.Y, (float)point.Z);
         }
 
+        /// <summary>
+        /// From vector to rhino point.
+        /// </summary>
+        /// <param name="vector">Vector to convert.</param>
+        /// <returns>Rhino point.</returns>
         public static Point3d FromVectorToRhPoint(Vector vector)
         {
             return new Point3d(vector.x, vector.y, vector.z);
