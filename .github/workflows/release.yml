@@ -24,8 +24,13 @@ jobs:
           ls deploy
           echo "Create zip file"
           Compress-Archive -Path deploy\* -DestinationPath Morpho.zip
-      
-      - run: npx semantic-release
-        if: github.ref == 'refs/heads/master'
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Semantic release
+        uses: cycjimmy/semantic-release-action@v3
+        id: semantic
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
