@@ -27,8 +27,8 @@ jobs:
           msbuild MorphoRhino.csproj /p:Configuration=Release /restore
       - name: zip Plugin
         run: |
-          ls project\Morpho\MorphoReader\bin\Release
-          Compress-Archive -Path project\Morpho\MorphoReader\bin\Release\* -DestinationPath Morpho.zip
+          ls ..\..\..\deploy
+          Compress-Archive -Path ..\..\..\deploy\* -DestinationPath Morpho.zip
       - run: npx semantic-release
         if: github.ref == 'refs/heads/master'
         env:

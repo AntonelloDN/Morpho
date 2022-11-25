@@ -20,6 +20,7 @@
 		</PostBuildEvent>
 
 		<PreBuildEvent Condition="'$(Configuration)'=='Release'">
+			echo "Clean"
 			RmDir /S /Q "..\..\..\deploy\lib\Morpho"
 		</PreBuildEvent>
 		<AppendTargetFrameworkToOutputPath Condition="'$(Configuration)'=='Release'">false</AppendTargetFrameworkToOutputPath>
