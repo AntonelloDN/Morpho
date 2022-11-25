@@ -29,20 +29,8 @@ namespace Morpho25.Geometry
         {
             foreach (Vector vec in intersection)
             {
-                int indexX = Util.ClosestValue(grid.Xaxis, vec.x);
-                int indexY = Util.ClosestValue(grid.Yaxis, vec.y);
-                matrix[indexX, indexY] = (text == String.Empty) ? Math.Round(vec.z, 0).ToString() : text;
-            }
-        }
-
-        protected void SetMatrix(IEnumerable<Vector> intersection, Grid grid, Matrix3d matrix, String text)
-        {
-            foreach (Vector vec in intersection)
-            {
-                int indexX = Util.ClosestValue(grid.Xaxis, vec.x);
-                int indexY = Util.ClosestValue(grid.Yaxis, vec.y);
-                int indexZ = Util.ClosestValue(grid.Zaxis, vec.z);
-                matrix[indexX, indexY, indexZ] = (text == String.Empty) ? Math.Round(vec.z, 0).ToString() : text;
+                var pixel = vec.ToPixel(grid);
+                matrix[pixel.I, pixel.J] = (text == String.Empty) ? Math.Round(vec.z, 0).ToString() : text;
             }
         }
 

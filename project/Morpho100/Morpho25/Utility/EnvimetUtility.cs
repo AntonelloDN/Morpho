@@ -6,7 +6,7 @@ using Morpho25.Geometry;
 
 namespace Morpho25.Utility
 {
-    public class EnvimetUtility
+    public static class EnvimetUtility
     {
         public static IEnumerable<Vector> Raycasting2D(List<Ray> rays, 
             FaceGroup facegroup, bool reverse = false, 
@@ -51,6 +51,28 @@ namespace Morpho25.Utility
             }
 
             return centroids;
+        }
+
+        public static IEnumerable<string> GetStringRows(Matrix3d<string[]> matrix)
+        {
+            for (int i = 0; i < matrix.GetLengthX(); i++)
+                for (int j = 0; j < matrix.GetLengthY(); j++)
+                    for (int k = 0; k < matrix.GetLengthZ(); k++)
+                    {
+                        if (matrix[i, j, k].Count(_ => _ == null) < 3)
+                        {
+                            var value = string.Join(",", matrix[i, j, k]);
+                            yield return String.Format("{0},{1},{2},{3}", i, j, k, value);
+                        }
+                    }
+        }
+
+        public static Pixel ToPixel(this Vector vector, Grid grid)
+        {
+            int i = Util.ClosestValue(grid.Xaxis, vector.x);
+            int j = Util.ClosestValue(grid.Yaxis, vector.y);
+            int k = Util.ClosestValue(grid.Zaxis, vector.z);
+            return new Pixel(i, j, k);
         }
 
         public static List<Ray> GetRayFromFacegroup(Grid grid, FaceGroup facegroup)

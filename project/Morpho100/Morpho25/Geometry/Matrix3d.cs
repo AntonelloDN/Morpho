@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Morpho25.Geometry
 {
-    public class Matrix3d
+    public class Matrix3d<T>
     {
-        private readonly string[,,] _values;
+        private readonly T[,,] _values;
 
-        public string this[int x, int y, int z]
+        public T this[int x, int y, int z]
         {
             get { return _values[x, y, z]; }
             set { _values[x, y, z] = value; }
@@ -18,12 +18,12 @@ namespace Morpho25.Geometry
 
         public Matrix3d(int x, int y, int z)
         {
-            _values = new string[x, y, z];
+            _values = new T[x, y, z];
         }
 
-        public Matrix3d(int x, int y, int z, string value)
+        public Matrix3d(int x, int y, int z, T value)
         {
-            _values = new string[x, y, z];
+            _values = new T[x, y, z];
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
                     for(int k = 0; k < z; k++)

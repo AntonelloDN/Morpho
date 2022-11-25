@@ -1,24 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MorphoGeometry;
+using Morpho25.Utility;
 
 namespace MorphoReader
 {
-    public class Pixel
-    {
-        public int I { get; private set; }
-        public int J { get; private set; }
-        public int K { get; private set; }
-
-        public Pixel(int i, int j, int k)
-        {
-            I = i;
-            J = j;
-            K = k;
-        }
-    }
-
-
     public class Facade
     {
         const int NULL_VALUE = -999;

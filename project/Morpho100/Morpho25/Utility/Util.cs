@@ -18,6 +18,7 @@ namespace Morpho25.Utility
                 yield return sum;
             }
         }
+
         public static List<List<T>> ChunkBy<T>(this List<T> source, int chunkSize)
         {
             return source
@@ -93,12 +94,5 @@ namespace Morpho25.Utility
             w.WriteEndElement();
             w.WriteString("\n");
         }
-    }
-
-    public struct Pixel
-    {
-        public int I { get; set; }
-        public int J { get; set; }
-        public int K { get; set; }
     }
 }
