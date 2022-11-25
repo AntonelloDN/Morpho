@@ -146,8 +146,8 @@ namespace Morpho25.Geometry
         public double[] Xaxis { get; private set; }
         public double[] Yaxis { get; private set; }
         public double[] Zaxis { get; private set; }
-
         public double[] SequenceZ { get; private set; }
+        public bool IsSplitted { get; private set; }
 
         public override string ToString()
         {
@@ -173,11 +173,20 @@ namespace Morpho25.Geometry
         private void SetSequenceAndExtension()
         {
             if (CombineGridType && Telescope > 0.0)
+            {
                 SequenceZ = GetCombinedSequence(Telescope, StartTelescopeHeight);
+                IsSplitted = true;
+            }
             else if (CombineGridType == false && Telescope > 0.0)
+            {
                 SequenceZ = GetTelescopeSequence(Telescope, StartTelescopeHeight);
+                IsSplitted = false;
+            }
             else
+            {
                 SequenceZ = GetEquidistantSequence();
+                IsSplitted = true;
+            }
 
             var accumulated = Util.Accumulate(SequenceZ)
                 .ToArray();

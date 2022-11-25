@@ -21,6 +21,8 @@ namespace Morpho25.Settings
         public List<Source> SourceObjects { get; set; }
         public List<Receptor> ReceptorObjects { get; set; }
 
+        public bool IsDetailed { get; set; }
+
         public Model(Grid grid, Location location, Workspace workspace)
         {
             Workspace = workspace;

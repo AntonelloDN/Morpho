@@ -57,7 +57,7 @@ namespace Morpho25.Geometry
             foreach (var pt in intersection)
             {
                 var h = (pt.z < 0) ? 0 : pt.z;
-                var zList = Util.FilterByMinMax(grid.Xaxis, h, 0);
+                var zList = Util.FilterByMinMax(grid.Zaxis, h, 0);
 
                 foreach(var v in zList)
                 {

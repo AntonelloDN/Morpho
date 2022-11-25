@@ -36,6 +36,8 @@ namespace Morpho25.IO
             if (IsASCIIcorrect(ASCIIterrain))
                 TerrainMatrix = ASCIIterrain;
             SoilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
+
+            // TODO: Remove 3D calculation
         }
 
         private bool IsASCIIcorrect(string ASCIImatrix)
@@ -64,9 +66,13 @@ namespace Morpho25.IO
             // get objects
             Grid grid = Model.Grid;
             Location location = Model.Location;
+            List<Terrain> terrains = Model.TerrainObjects;
             List<Building> buildings = Model.BuildingObjects;
             List<Plant3d> plant3d = Model.Plant3dObjects;
             List<Receptor> receptors = Model.ReceptorObjects;
+
+            // Is 3D?
+            var is3D = Model.IsDetailed;
 
             // get ascii matrix
             string topMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["topMatrix"]);
@@ -94,7 +100,9 @@ namespace Morpho25.IO
             string useSplitting = null;
             string verticalStretch = null;
             string startStretch = null;
-            string gridsZ = grid.Size.NumZ.ToString();
+            string gridsZ = (grid.IsSplitted)
+                ? (grid.Size.NumZ - 4).ToString()
+                : grid.Size.NumZ.ToString();
             string useTelescoping = null;
             string gridsI = (grid.Size.NumX).ToString();
             string gridsJ = (grid.Size.NumY).ToString();
@@ -122,7 +130,7 @@ namespace Morpho25.IO
 
             string modelGeometryTitle = "modelGeometry";
             string[] modelGeometryTag = new string[] { "grids-I", "grids-J", "grids-Z", "dx", "dy", "dz-base", "useTelescoping_grid", "useSplitting", "verticalStretch", "startStretch", "has3DModel", "isFull3DDesign" };
-            string[] modelGeometryValue = new string[] { gridsI, gridsJ, gridsZ, dx, dy, dz, useTelescoping, useSplitting, verticalStretch, startStretch, "0", "0" };
+            string[] modelGeometryValue = new string[] { gridsI, gridsJ, gridsZ, dx, dy, dz, useTelescoping, useSplitting, verticalStretch, startStretch, is3D ? "1" : "0", is3D ? "1" : "0" };
             Util.CreateXmlSection(xWriter, modelGeometryTitle, modelGeometryTag, modelGeometryValue, 0, empty);
 
             string nestingAreaTitle = "nestingArea";
@@ -138,7 +146,7 @@ namespace Morpho25.IO
             {
                 utmZone = location.UTM.UTMzone;
                 realworldLowerLeftX = location.UTM.UTMesting.ToString();
-                realworldLowerLeftY = location.UTM.UTMnorthing.ToString(); 
+                realworldLowerLeftY = location.UTM.UTMnorthing.ToString();
             }
 
             string[] locationDataTag = new string[] { "modelRotation", "projectionSystem", "UTMZone", "realworldLowerLeft_X", "realworldLowerLeft_Y", "locationName", "location_Longitude", "location_Latitude", "locationTimeZone_Name", "locationTimeZone_Longitude" };
@@ -166,7 +174,7 @@ namespace Morpho25.IO
 
             if (plant3d.Count > 0)
             {
-                foreach(Plant3d plant in plant3d)
+                foreach (Plant3d plant in plant3d)
                 {
                     string plants3DTitle = "3Dplants";
                     string[] plants3DTag = new string[] { "rootcell_i", "rootcell_j", "rootcell_k", "plantID", "name", "observe" };
@@ -215,6 +223,77 @@ namespace Morpho25.IO
                     Util.CreateXmlSection(xWriter, buildinginfoTitle, buildinginfoTag, buildinginfoValue, 0, empty);
                 }
             }
+
+            if (!is3D)
+            {
+                xWriter.WriteEndElement();
+                xWriter.Close();
+                return;
+            }
+
+            // 3D part
+            var gridsK = grid.Size.NumZ.ToString();
+            string[] attribute3dElements = { "sparematrix-3D", gridsI, gridsJ, gridsK, "" };
+            string[] attribute3dBuildings3D = { "sparematrix-3D", gridsI, gridsJ, gridsK, "0" };
+            string[] attribute3dDem3D = { "sparematrix-3D", gridsI, gridsJ, gridsK, "0.00000" };
+
+            string modelGeometry3DTitle = "modelGeometry3D";
+            string[] modelGeometry3DTag = new string[] { "grids3D-I", "grids3D-J", "grids3D-K" };
+            string[] modelGeometry3DValue = new string[] { gridsI, gridsJ, gridsK };
+            Util.CreateXmlSection(xWriter, modelGeometry3DTitle, modelGeometry3DTag, modelGeometry3DValue, 0, empty);
+
+            // 3D ID
+            var terrainPixels = terrains.SelectMany(_ => _.Pixels)
+                .ToList();
+            if (!terrainPixels.Any()) terrainPixels = null;
+
+            var idMatrix = new List<string>() { string.Empty };
+            var wallMatrix = new List<string>() { string.Empty };
+            var greenMatrix = new List<string>() { string.Empty };
+
+            foreach (var building in buildings)
+            {
+                // TODO: Add terrain
+                building.SetMatrix3d(grid, terrainPixels);
+                idMatrix.AddRange(building.BuildingIDrows);
+                wallMatrix.AddRange(building.BuildingWallRows);
+                greenMatrix.AddRange(building.BuildingGreenWallRows);
+            }
+            idMatrix.Add(string.Empty);
+            wallMatrix.Add(string.Empty);
+            greenMatrix.Add(string.Empty);
+
+            string buildings3DTitle = "buildings3D";
+            string[] buildings3DTag = new string[] { "buildingFlagAndNr" };
+            string[] buildings3DValue = new string[] { String.Join("\n", idMatrix) };
+            Util.CreateXmlSection(xWriter, buildings3DTitle, buildings3DTag, buildings3DValue, 2, attribute3dBuildings3D);
+
+            var demMatrix = new List<string>() { string.Empty };
+            foreach (var terrain in terrains)
+            {
+                demMatrix.AddRange(terrain.TerrainIDrows);
+            }
+            demMatrix.Add(string.Empty);
+
+            string dem3DTitle = "dem3D";
+            string[] dem3DTag = new string[] { "terrainflag" };
+            string[] dem3DValue = new string[] { String.Join("\n", demMatrix) };
+            Util.CreateXmlSection(xWriter, dem3DTitle, dem3DTag, dem3DValue, 2, attribute3dDem3D);
+
+            string wallDBTitle = "WallDB";
+            string[] wallDBTag = new string[] { "ID_wallDB" };
+            string[] wallDBValue = new string[] { String.Join("\n", wallMatrix) };
+            Util.CreateXmlSection(xWriter, wallDBTitle, wallDBTag, wallDBValue, 2, attribute3dElements);
+
+            string singleWallDBTitle = "SingleWallDB";
+            string[] singleWallDBTag = new string[] { "ID_singlewallDB" };
+            string[] singleWallDBValue = new string[] { "\n" };
+            Util.CreateXmlSection(xWriter, singleWallDBTitle, singleWallDBTag, singleWallDBValue, 2, attribute3dElements);
+
+            string greeningDBTitle = "GreeningDB";
+            string[] greeningDBTag = new string[] { "ID_GreeningDB" };
+            string[] greeningDBValue = new string[] { String.Join("\n", greenMatrix) };
+            Util.CreateXmlSection(xWriter, greeningDBTitle, greeningDBTag, greeningDBValue, 2, attribute3dElements);
 
             xWriter.WriteEndElement();
             xWriter.Close();

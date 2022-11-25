@@ -13,9 +13,6 @@ namespace Morpho25.Geometry
         public Matrix2d TopMatrix { get; private set; }
         public Matrix2d BottomMatrix { get; private set; }
         public Matrix2d IDmatrix { get; private set; }
-
-        public bool IsDetailed { get; private set; }
-        public List<Pixel> Pixels { get; private set; }
         public List<string> BuildingIDrows { get; private set; }
         public List<string> BuildingWallRows { get; private set; }
         public List<string> BuildingGreenWallRows { get; private set; }
@@ -36,19 +33,14 @@ namespace Morpho25.Geometry
         public override string Name { get; }
 
         public Building(Grid grid, FaceGroup geometry,
-            int id, Material material, string name, bool isDetailed = false)
+            int id, Material material, string name)
         {
             ID = id;
             Geometry = geometry;
             Material = material ?? CreateMaterial(null, null, null, null);
             Name = name ?? "Building";
-            IsDetailed = isDetailed;
-            BuildingWallRows = new List<string>();
-            BuildingGreenWallRows = new List<string>();
-            BuildingIDrows = new List<string>();
 
             SetMatrix(grid);
-            if (IsDetailed) GetPixels(grid);
         }
 
         private void SetMatrix(Grid grid)
@@ -83,7 +75,6 @@ namespace Morpho25.Geometry
             Grid grid, string wall, string roof)
         {
             var nullPx = new Pixel(0, 0, 0);
-            var temp = new string[pixels.Count];
 
             // Matrix with default values
             var matrix = new Matrix3d<string[]>(grid.Size.NumX,
@@ -92,7 +83,6 @@ namespace Morpho25.Geometry
                 for (int j = 0; j < matrix.GetLengthY(); j++)
                     for (int k = 0; k < matrix.GetLengthZ(); k++)
                         matrix[i, j, k] = new string[] { null, null, null };
-
 
             Parallel.For(0, pixels.Count, i =>
             {
@@ -112,51 +102,80 @@ namespace Morpho25.Geometry
                 if (li == nullPx) matrix[px.I, px.J, px.K][0] = wallMat;
                 if (lj == nullPx) matrix[px.I, px.J, px.K][1] = wallMat;
                 if (bk == nullPx) matrix[px.I, px.J, px.K][2] = roofMat;
-                if (ri == nullPx) matrix[px.I, px.J, px.K][0] = wallMat;
-                if (rj == nullPx) matrix[px.I, px.J, px.K][1] = wallMat;
-                if (tk == nullPx) matrix[px.I, px.J, px.K][2] = roofMat;
+                if (ri == nullPx) matrix[px.I + 1, px.J, px.K][0] = wallMat;
+                if (rj == nullPx) matrix[px.I, px.J + 1, px.K][1] = wallMat;
+                if (tk == nullPx) matrix[px.I, px.J, px.K + 1][2] = roofMat;
             });
             var rows = EnvimetUtility.GetStringRows(matrix);
             return rows;
         }
 
-        public IEnumerable<Vector> GetPixels(Grid grid)
+        private static void ShiftPixels(List<Pixel> pixels, List<Pixel> terrainPixels)
+        {
+            if (terrainPixels != null)
+            {
+                Parallel.For(0, pixels.Count, i =>
+                {
+                    var pixel = new Pixel(0, 0, 0);
+                    var offset = (int)terrainPixels
+                            .Where(_ => _.I == pixels[i].I && _.J == pixels[i].J)?
+                            .Select(_ => _.K)?
+                            .Max();
+                    var x = pixels[i].I;
+                    var y = pixels[i].J;
+                    var z = pixels[i].K + offset;
+
+                    pixel.I = x;
+                    pixel.J = y;
+                    pixel.K = z;
+                    pixels[i] = pixel;
+                });
+            };
+        }
+
+        public IEnumerable<Pixel> GetPixels(Grid grid)
         {
             List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
             var intersections = EnvimetUtility.Raycasting3D(rays, Geometry, false, false);
             var centroids = EnvimetUtility.GetCentroids(grid, intersections);
-            Pixels = centroids.Select(_ => _.ToPixel(grid)).ToList();
+            var pixels = centroids.Select(_ => _.ToPixel(grid)).ToList();
 
-            return centroids;
+            return pixels;
         }
 
         /// <summary>
         /// Generate model 3D. It should run after generating buildings and terrains.
         /// </summary>
         /// <param name="grid">Morpho Grid.</param>
-        /// <param name="buildingPixels">Pixels of the building.</param>
         /// <param name="terrainPixels">Pixels of the terrain.</param>
-        public void SetMatrix3d(Grid grid, 
+        public void SetMatrix3d(Grid grid,
             List<Pixel> terrainPixels = null)
         {
-            // TODO: Offset pixels 
-            // Il terreno sposta i pixel in alto
+            Reset3Dmatrix();
 
-            // ID
-            BuildingIDrows.AddRange(GetBuildingRows(Pixels));
+            var pixels = GetPixels(grid).ToList();
+            ShiftPixels(pixels, terrainPixels);
 
-            // WallDB
-            var wallDB = GetBuildingRows(Pixels, grid, 
+            BuildingIDrows.AddRange(GetBuildingRows(pixels));
+
+            var wallDB = GetBuildingRows(pixels, grid,
                 Material.IDs[0], Material.IDs[1]);
             BuildingWallRows.AddRange(wallDB);
 
             if (Material.IDs[2] != Material.DEFAULT_GREEN_WALL ||
                 Material.IDs[3] != Material.DEFAULT_GREEN_WALL)
             {
-                var greeningsDB = GetBuildingRows(Pixels, grid, 
+                var greeningsDB = GetBuildingRows(pixels, grid,
                     Material.IDs[0], Material.IDs[1]);
                 BuildingGreenWallRows.AddRange(greeningsDB);
             }
+        }
+
+        private void Reset3Dmatrix()
+        {
+            BuildingWallRows = new List<string>();
+            BuildingGreenWallRows = new List<string>();
+            BuildingIDrows = new List<string>();
         }
 
         public override string ToString()
