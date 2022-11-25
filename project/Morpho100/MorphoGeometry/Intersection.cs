@@ -93,5 +93,67 @@ namespace MorphoGeometry
 
             return intersections;
         }
+
+        public static bool IsPointInside(FaceGroup facegroup, Vector point)
+        {
+            var triangles = facegroup.ToArray();
+            var P = point.ToArray();
+
+            foreach (var tri in triangles)
+                foreach (var pt in tri)
+                    for (var i = 0; i < pt.Length; i++)
+                        pt[i] -= P[i];
+
+            var qM = new float[triangles.Length][][];
+            for (var i = 0; i < triangles.Length; i++)
+            {
+                var tri = triangles[i];
+                qM[i] = new float[tri.Length][];
+                for (var j = 0; j < tri.Length; j++)
+                {
+                    var pt = tri[j];
+                    qM[i][j] = new float[pt.Length];
+                    for (int k = 0; k < pt.Length; k++)
+                    {
+                        qM[i][j][k] = Convert.ToSingle(Math.Pow((double)pt[k], 
+                            (double)2));
+                    }
+                }
+            }
+
+            var Mnorm = new float[triangles.Length][];
+            for (var i = 0; i < qM.Length; i++)
+            {
+                var tri = qM[i];
+                Mnorm[i] = new float[tri.Length];
+                for (var j = 0; j < tri.Length; j++)
+                {
+                    Mnorm[i][j] = Convert.ToSingle(Math
+                        .Sqrt((double)tri[j].Sum()));
+                }
+            }
+
+            var winding_number = 0.0;
+            for (var i = 0; i < Mnorm.Length; i++)
+            {
+                triangles[i].Deconstruct(out float[] A, out float[] B, out float[] C);
+                Mnorm[i].Deconstruct(out float a, out float b, out float c);
+
+                var j = (a * b * c);
+                var jj = c * (Vector.FromArray(A)
+                    .Dot(Vector.FromArray(B)));
+                var jjj = a * (Vector.FromArray(B)
+                    .Dot(Vector.FromArray(C)));
+                var jjjj = b * (Vector.FromArray(C)
+                    .Dot(Vector.FromArray(A)));
+
+                var tot = j + jj + jjj + jjjj;
+
+                var det = Vector.Det3x3(new float[3][] { A, B, C });
+                winding_number += Math.Atan2((double)det, (double)tot - 1);
+
+            }
+            return winding_number >= (2.0 * Math.PI);
+        }
     }
 }

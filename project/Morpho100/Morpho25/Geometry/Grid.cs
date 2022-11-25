@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Morpho25.Utility;
 using MorphoGeometry;
@@ -126,6 +127,19 @@ namespace Morpho25.Geometry
 
                 _startTelescopeHeight = value;
             }
+        }
+
+        public List<double[]> ToList()
+        {
+            var list = new List<double[]>();
+            foreach (var x in Xaxis)
+                foreach (var y in Yaxis)
+                    foreach (var z in Zaxis)
+                    {
+                        list.Add(new[] { x, y, z });
+                    }
+
+            return list;
         }
 
         public bool CombineGridType { get; }

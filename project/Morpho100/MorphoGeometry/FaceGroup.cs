@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MorphoGeometry
 {
@@ -10,6 +11,16 @@ namespace MorphoGeometry
         public FaceGroup(List<Face> faces)
         {
             Faces = TriangulateFaces(faces);
+        }
+
+        public float[][][] ToArray()
+        {
+            return Faces
+                .Select(face => {
+                    return face.Vertices
+                        .Select(_ => _.ToArray())
+                        .ToArray();
+                }).ToArray();
         }
 
         private static List<Face> TriangulateFaces(List<Face> faces)

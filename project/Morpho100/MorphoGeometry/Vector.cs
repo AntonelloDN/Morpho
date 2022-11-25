@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MorphoGeometry
 {
@@ -14,6 +15,28 @@ namespace MorphoGeometry
             this.x = x;
             this.y = y;
             this.z = z;
+        }
+
+        public static float Det3x3(float[][] matr)
+        {
+            return matr[0][0] * matr[1][1] * matr[2][2] +
+                matr[0][1] * matr[1][2] * matr[2][0] +
+                matr[0][2] * matr[1][0] * matr[2][1] -
+                (
+                    matr[0][2] * matr[1][1] * matr[2][0] +
+                    matr[0][1] * matr[1][0] * matr[2][2] +
+                    matr[0][0] * matr[1][2] * matr[2][1]
+                );
+        }
+
+        public static Vector FromArray(float[] arr)
+        {
+            return new Vector(arr[0], arr[1], arr[2]);
+        }
+
+        public float[] ToArray()
+        { 
+            return new[] { x, y, z };
         }
 
         public Vector Sub(Vector v)
