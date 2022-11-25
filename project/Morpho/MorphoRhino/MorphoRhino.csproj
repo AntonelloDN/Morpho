@@ -37,9 +37,13 @@
 		<DebugType>none</DebugType>
 	</PropertyGroup>
 	
-	<ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Debug'">
 		<ProjectReference Include="..\MorphoReader\MorphoReader.csproj" />
 		<ProjectReference Include="..\Morpho25\Morpho25.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Release'">
+		<PackageReference Include="Morpho.Envimet" Version="1.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
