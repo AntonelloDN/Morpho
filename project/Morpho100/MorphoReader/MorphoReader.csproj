@@ -6,9 +6,12 @@
 		<AssemblyName>MorphoReader</AssemblyName>
 		<Authors>AntonelloDN</Authors>
 		<Company>ENVI-met GmbH</Company>
+		<PackageId>Morpho.Envimet</PackageId>
+		<Product>Morpho.Envimet</Product>
 		<Version>1.1.0</Version>
-		<Title>Envimet reader library</Title>
-		<Description>Envimet reader library</Description>
+		<Title>Envimet libraries</Title>
+		<Description>Envimet libraries to create models and read results</Description>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -16,8 +19,20 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\MorphoGeometry\MorphoGeometry.csproj" />
-		<ProjectReference Include="..\Morpho25\Morpho25.csproj" />
+		<ProjectReference Include="..\MorphoGeometry\MorphoGeometry.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>MorphoGeometry.dll</IncludeAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\Morpho25\Morpho25.csproj">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+			<IncludeAssets>Morpho25.dll</IncludeAssets>
+		</ProjectReference>
 	</ItemGroup>
+
+	<Target DependsOnTargets="ResolveReferences" Name="CopyProjectReferencesToPackage">
+		<ItemGroup>
+			<BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"/>
+		</ItemGroup>
+	</Target>
 
 </Project>
