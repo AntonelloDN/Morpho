@@ -9,14 +9,26 @@ using System.Linq;
 
 namespace Morpho25.Settings
 {
+    /// <summary>
+    /// Configuration class.
+    /// </summary>
     public class Configuration
     {
+        /// <summary>
+        /// Check if value is positive.
+        /// </summary>
+        /// <param name="value">Value to check.</param>
+        /// <exception cref="ArgumentException">Negative.</exception>
         protected void ItIsPositive(double value)
         {
             if (value < 0)
                 throw new ArgumentException("You cannot insert negative numbers");
         }
-
+        /// <summary>
+        /// Check if relative humidity value is between 0% and 100%.
+        /// </summary>
+        /// <param name="value">Value to check.</param>
+        /// <exception cref="ArgumentException">Wrong value.</exception>
         protected void IsHumidityOk(double value)
         {
             if (value < 0 || value > 100)
@@ -24,12 +36,17 @@ namespace Morpho25.Settings
         }
     }
 
+    /// <summary>
+    /// Active enum.
+    /// </summary>
     public enum Active
     {
         NO,
         YES
     }
-
+    /// <summary>
+    /// Main settings class.
+    /// </summary>
     public class MainSettings : Configuration
     {
         private int _simulationDuration;
@@ -39,10 +56,17 @@ namespace Morpho25.Settings
         private string _startDate;
         private string _startTime;
         private double _windDir;
-
+        /// <summary>
+        /// Name of simulation file (*.simx).
+        /// </summary>
         public string Name { get; }
+        /// <summary>
+        /// Model.
+        /// </summary>
         public Model Inx { get; }
-
+        /// <summary>
+        /// It sets when your simulation starts. Format DD.MM.YYYY.
+        /// </summary>
         public string StartDate
         {
             get { return _startDate; }
@@ -52,7 +76,9 @@ namespace Morpho25.Settings
                 _startDate = value;
             }
         }
-
+        /// <summary>
+        /// It sets at what time your simulation starts. Format HH:MM:SS.
+        /// </summary>
         public string StartTime
         {
             get { return _startTime; }
@@ -62,9 +88,13 @@ namespace Morpho25.Settings
                 _startTime = value;
             }
         }
-
+        /// <summary>
+        /// Initial wind speed (m/s).
+        /// </summary>
         public double WindSpeed { get; set; }
-
+        /// <summary>
+        /// Initial wind direction (°dec).
+        /// </summary>
         public double WindDir
         {
             get
@@ -77,9 +107,13 @@ namespace Morpho25.Settings
                 _windDir = value;
             }
         }
-
+        /// <summary>
+        /// Roughness.
+        /// </summary>
         public double Roughness { get; set; }
-
+        /// <summary>
+        /// Initial temperature of the air (°C).
+        /// </summary>
         public double InitialTemperature
         {
             get { return _initialTemperature; }
@@ -88,7 +122,9 @@ namespace Morpho25.Settings
                 _initialTemperature = value + Util.TO_KELVIN;
             }
         }
-
+        /// <summary>
+        /// Duration of simulation in hours.
+        /// </summary>
         public int SimDuration
         {
             get { return _simulationDuration; }
@@ -99,7 +135,9 @@ namespace Morpho25.Settings
                 _simulationDuration = value;
             }
         }
-
+        /// <summary>
+        /// Initial specific humidity of the air in 2500 m.
+        /// </summary>
         public double SpecificHumidity
         {
             get
@@ -110,7 +148,9 @@ namespace Morpho25.Settings
                 _specificHumidity = value;
             }
         }
-
+        /// <summary>
+        /// Initial relative humidity of the air in 2m (%).
+        /// </summary>
         public double RelativeHumidity
         {
             get
@@ -138,7 +178,11 @@ namespace Morpho25.Settings
             if (!regexp.IsMatch(value))
                 throw new ArgumentException("Format must to be HH:MM:SS");
         }
-
+        /// <summary>
+        /// Create a new main settings.
+        /// </summary>
+        /// <param name="name">Name of the simulation file.</param>
+        /// <param name="inx">Model.</param>
         public MainSettings(string name, Model inx)
         {
             Name = name;
@@ -153,20 +197,39 @@ namespace Morpho25.Settings
             SpecificHumidity = 7.00;
             RelativeHumidity = 50;
         }
-
+        /// <summary>
+        /// String representation of main settings.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
             return $"Config::MainSettings::{StartDate}::{StartTime}";
         }
 
     }
-
+    /// <summary>
+    /// Simple forcing class.
+    /// </summary>
     public class SimpleForcing
     {
+        /// <summary>
+        /// List of temperature values to use as boundary condition (°C).
+        /// </summary>
         public string Temperature { get; }
+        /// <summary>
+        /// List of relative humidity values to use as boundary condition (%).
+        /// </summary>
         public string RelativeHumidity { get; }
+        /// <summary>
+        /// Number of values.
+        /// </summary>
         public int Count { get; }
-
+        /// <summary>
+        /// Create a simple forcing object.
+        /// </summary>
+        /// <param name="temperature">List of temperature values to use as boundary condition (°C).</param>
+        /// <param name="relativeHumidity">List of relative humidity values to use as boundary condition (%)</param>
+        /// <exception cref="ArgumentException"></exception>
         public SimpleForcing(List<double> temperature, List<double> relativeHumidity)
         {
             Count = temperature.Count;
@@ -181,25 +244,43 @@ namespace Morpho25.Settings
             RelativeHumidity = String.Join(",", relativeHumidity);
             Count = temperature.Count;
         }
-
+        /// <summary>
+        /// String representation of simple forcing settigns.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => $"Config::SimpleForcing::count {Count}";
     }
-
+    /// <summary>
+    /// TThread class.
+    /// </summary>
     public class TThread
     {
+        /// <summary>
+        /// Is active?
+        /// </summary>
         public int UseTreading { get; }
-
+        /// <summary>
+        /// Thread priority.
+        /// </summary>
         public int TThreadpriority { get; }
-
+        /// <summary>
+        /// Create a new tthread object.
+        /// </summary>
+        /// <param name="useTreading">Active.</param>
         public TThread(Active useTreading)
         {
             UseTreading = (int) useTreading;
             TThreadpriority = 5;
         }
-
+        /// <summary>
+        /// String representation of tthread object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => $"Config::Treading {UseTreading}";
     }
-
+    /// <summary>
+    /// Timesteps class.
+    /// </summary>
     public class TimeSteps : Configuration
     {
         private double _sunheightStep01;
@@ -207,7 +288,9 @@ namespace Morpho25.Settings
         private double _dtStep00;
         private double _dtStep01;
         private double _dtStep02;
-
+        /// <summary>
+        /// Sun height for switching dt(0). From 0 deg to 40.00.
+        /// </summary>
         public double SunheightStep01 {
             get { return _sunheightStep01; }
             set
@@ -216,6 +299,9 @@ namespace Morpho25.Settings
                 _sunheightStep01 = value;
             }
         }
+        /// <summary>
+        /// Sun height for switching dt(1). From 40.00 deg to 50.00 deg.
+        /// </summary>
         public double SunheightStep02
         {
             get { return _sunheightStep02; }
@@ -225,6 +311,9 @@ namespace Morpho25.Settings
                 _sunheightStep02 = value;
             }
         }
+        /// <summary>
+        /// Time step (s) for interval 1 dt(0).
+        /// </summary>
         public double DtStep00
         {
             get { return _dtStep00; }
@@ -234,6 +323,9 @@ namespace Morpho25.Settings
                 _dtStep00 = value;
             }
         }
+        /// <summary>
+        /// Time step (s) for interval 1 dt(1).
+        /// </summary>
         public double DtStep01
         {
             get { return _dtStep01; }
@@ -243,6 +335,9 @@ namespace Morpho25.Settings
                 _dtStep01 = value;
             }
         }
+        /// <summary>
+        /// Time step (s) for interval 1 dt(2).
+        /// </summary>
         public double DtStep02
         {
             get { return _dtStep02; }
@@ -252,7 +347,9 @@ namespace Morpho25.Settings
                 _dtStep02 = value;
             }
         }
-
+        /// <summary>
+        /// Create time step settings.
+        /// </summary>
         public TimeSteps()
         {
             SunheightStep01 = 40.00000;
@@ -261,10 +358,15 @@ namespace Morpho25.Settings
             DtStep01 = 2.00000;
             DtStep02 = 1.00000;
         }
-
+        /// <summary>
+        /// String representation of TimeSteps object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::TimeSteps";
     }
-
+    /// <summary>
+    /// Model timing settings.
+    /// </summary>
     public class ModelTiming : Configuration
     {
         private int _surfaceSteps;
@@ -272,7 +374,9 @@ namespace Morpho25.Settings
         private int _radiationSteps;
         private int _plantSteps;
         private int _sourcesSteps;
-
+        /// <summary>
+        /// Update Surface Data each ? sec.
+        /// </summary>
         public int SurfaceSteps
         {
             get { return _surfaceSteps; }
@@ -282,7 +386,9 @@ namespace Morpho25.Settings
                 _surfaceSteps = value;
             }
         }
-
+        /// <summary>
+        /// Update Wind field each ? sec.
+        /// </summary>
         public int FlowSteps
         {
             get { return _flowSteps; }
@@ -292,7 +398,9 @@ namespace Morpho25.Settings
                 _flowSteps = value;
             }
         }
-
+        /// <summary>
+        /// Update Radiation and Shadows each ? sec.
+        /// </summary>
         public int RadiationSteps
         {
             get { return _radiationSteps; }
@@ -302,7 +410,9 @@ namespace Morpho25.Settings
                 _radiationSteps = value;
             }
         }
-
+        /// <summary>
+        /// Update Plant Data each ? sec.
+        /// </summary>
         public int PlantSteps
         {
             get { return _plantSteps; }
@@ -312,7 +422,9 @@ namespace Morpho25.Settings
                 _plantSteps = value;
             }
         }
-
+        /// <summary>
+        /// Update Emmission Data each ? sec.
+        /// </summary>
         public int SourcesSteps
         {
             get { return _sourcesSteps; }
@@ -322,7 +434,9 @@ namespace Morpho25.Settings
                 _sourcesSteps = value;
             }
         }
-
+        /// <summary>
+        /// Create model timing object.
+        /// </summary>
         public ModelTiming()
         {
             SurfaceSteps = 30;
@@ -331,10 +445,15 @@ namespace Morpho25.Settings
             PlantSteps = 600;
             SourcesSteps = 600;
         }
-
+        /// <summary>
+        /// String representation of ModelTiming object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::ModelTiming";
     }
-
+    /// <summary>
+    /// Soil settings class.
+    /// </summary>
     public class SoilSettings : Configuration
     {
         private double _tempUpperlayer;
@@ -350,7 +469,9 @@ namespace Morpho25.Settings
         {
             return value + Util.TO_KELVIN;
         }
-
+        /// <summary>
+        /// Initial Temperature Upper Layer (0-20 cm) [°C].
+        /// </summary>
         public double TempUpperlayer
         {
             get { return _tempUpperlayer; }
@@ -359,7 +480,9 @@ namespace Morpho25.Settings
                 _tempUpperlayer = ToKelvin(value);
             }
         }
-
+        /// <summary>
+        /// Initial Temperature Middle Layer (20-50 cm) [°C].
+        /// </summary>
         public double TempMiddlelayer
         {
             get { return _tempMiddlelayer; }
@@ -368,7 +491,9 @@ namespace Morpho25.Settings
                 _tempMiddlelayer = ToKelvin(value);
             }
         }
-
+        /// <summary>
+        /// Initial Temperature Deep Layer (below 50-200 cm) [°C].
+        /// </summary>
         public double TempDeeplayer
         {
             get { return _tempDeeplayer; }
@@ -377,7 +502,9 @@ namespace Morpho25.Settings
                 _tempDeeplayer = ToKelvin(value);
             }
         }
-
+        /// <summary>
+        /// Initial Temperature Bedrock Layer (200 cm) [°C].
+        /// </summary>
         public double TempBedrockLayer
         {
             get { return _tempBedrockLayer; }
@@ -386,7 +513,9 @@ namespace Morpho25.Settings
                 _tempBedrockLayer = ToKelvin(value);
             }
         }
-
+        /// <summary>
+        /// Relative Humidity Upper Layer (0-20 cm).
+        /// </summary>
         public double WaterUpperlayer
         {
             get { return _waterUpperlayer; }
@@ -396,7 +525,9 @@ namespace Morpho25.Settings
                 _waterUpperlayer = value;
             }
         }
-
+        /// <summary>
+        /// Relative Humidity Middle Layer (20-50 cm).
+        /// </summary>
         public double WaterMiddlelayer
         {
             get { return _waterMiddlelayer; }
@@ -406,7 +537,9 @@ namespace Morpho25.Settings
                 _waterMiddlelayer = value;
             }
         }
-
+        /// <summary>
+        /// Relative Humidity Deep Layer (50-200 cm).
+        /// </summary>
         public double WaterDeeplayer
         {
             get { return _waterDeeplayer; }
@@ -416,7 +549,9 @@ namespace Morpho25.Settings
                 _waterDeeplayer = value;
             }
         }
-
+        /// <summary>
+        /// Relative Humidity Bedrock (below 200 cm).
+        /// </summary>
         public double WaterBedrockLayer
         {
             get { return _waterBedrockLayer; }
@@ -426,7 +561,9 @@ namespace Morpho25.Settings
                 _waterBedrockLayer = value;
             }
         }
-
+        /// <summary>
+        /// Create soil settings object.
+        /// </summary>
         public SoilSettings()
         {
             TempUpperlayer = 19.85;
@@ -438,10 +575,15 @@ namespace Morpho25.Settings
             WaterDeeplayer = 75.0;
             WaterBedrockLayer = 75.0;
         }
-
+        /// <summary>
+        /// String representation of SoilSettings object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::SoilSettings";
     }
-
+    /// <summary>
+    /// Pollutant enum.
+    /// </summary>
     public enum Pollutant
     {
         PM,
@@ -454,20 +596,37 @@ namespace Morpho25.Settings
         H2O2,
         SPRAY
     }
-
+    /// <summary>
+    /// Sources settings class.
+    /// </summary>
     public class Sources : Configuration
     {
+        /// <summary>
+        /// Isoprene index.
+        /// </summary>
         public const string ISOPRENE = "0";
-
+        /// <summary>
+        /// User pollutant name.
+        /// </summary>
         public string UserPolluName { get; }
+        /// <summary>
+        /// User pollutant type.
+        /// </summary>
         public int UserPolluType { get; }
+        /// <summary>
+        /// Dispersion and active chemistry
+        /// </summary>
         public int ActiveChem { get; }
 
         private double _userPartDiameter;
         private double _userPartDensity;
-
+        /// <summary>
+        /// Multiple source types.
+        /// </summary>
         public int MultipleSources { get; }
-
+        /// <summary>
+        /// Particle diameter (μm).
+        /// </summary>
         public double UserPartDiameter
         {
             get { return _userPartDiameter; }
@@ -477,7 +636,9 @@ namespace Morpho25.Settings
                 _userPartDiameter = value;
             }
         }
-
+        /// <summary>
+        /// Particle density (g/cm3).
+        /// </summary>
         public double UserPartDensity
         {
             get { return _userPartDensity; }
@@ -487,7 +648,13 @@ namespace Morpho25.Settings
                 _userPartDensity = value;
             }
         }
-
+        /// <summary>
+        /// Create new Pollutant.
+        /// </summary>
+        /// <param name="userPolluName">Name of pollutant source.</param>
+        /// <param name="userPolluType">Pollutant type.</param>
+        /// <param name="multipleSources">If multiple sources.</param>
+        /// <param name="activeChem">Set dispersion and active chemistry.</param>
         public Sources(string userPolluName, Pollutant userPolluType, Active multipleSources, Active activeChem)
         {
             UserPolluName = userPolluName;
@@ -497,10 +664,15 @@ namespace Morpho25.Settings
             MultipleSources = (int) multipleSources;
             ActiveChem = (int) activeChem;
         }
-
+        /// <summary>
+        /// String representation of Pollutant object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => $"Config::Sources::{UserPolluName}";
     }
-
+    /// <summary>
+    /// Turbulence enum.
+    /// </summary>
     public enum TurbolenceType
     {
         MellorAndYamada,
@@ -508,33 +680,57 @@ namespace Morpho25.Settings
         Lopez,
         Bruse
     }
-
+    /// <summary>
+    /// Turbulence class.
+    /// </summary>
     public class Turbulence
     {
+        /// <summary>
+        /// Turbulence model index.
+        /// </summary>
         public int TurbulenceModel { get; }
-
+        /// <summary>
+        /// Create new Turbulence object.
+        /// </summary>
+        /// <param name="turbulenceModel">Turbulence type.</param>
         public Turbulence(TurbolenceType turbulenceModel)
         {
             TurbulenceModel = (int) turbulenceModel;
         }
-
+        /// <summary>
+        /// String representation of the Turbulence object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::TurbulenceModel";
     }
-
+    /// <summary>
+    /// OutputSettings class.
+    /// </summary>
     public class OutputSettings : Configuration
     {
         public const int NESTING_GRID = 0;
 
         private int _mainFiles;
         private int _textFiles;
-
+        /// <summary>
+        /// Number of buildings.
+        /// </summary>
         public string BuildingNumbers { get; private set; }
+        /// <summary>
+        /// Building count.
+        /// </summary>
         public int BuildingCnt { get; private set; }
-
+        /// <summary>
+        /// 1 to enable NetCDF output.
+        /// </summary>
         public int NetCDF { get; set; }
-
+        /// <summary>
+        /// Merge NetCDF files.
+        /// </summary>
         public int NetCDFAllDataInOneFile { get; set; }
-
+        /// <summary>
+        /// Decide in which output interval save output files.
+        /// </summary>
         public int MainFiles
         {
             get { return _mainFiles; }
@@ -544,7 +740,9 @@ namespace Morpho25.Settings
                 _mainFiles = value;
             }
         }
-
+        /// <summary>
+        /// Decide in which output interval save receptor and building files.
+        /// </summary>
         public int TextFiles
         {
             get { return _textFiles; }
@@ -554,9 +752,14 @@ namespace Morpho25.Settings
                 _textFiles = value;
             }
         }
-
+        /// <summary>
+        /// Write BPS.
+        /// </summary>
         public int WriteBPS { get; set; }
-
+        /// <summary>
+        /// Set building numbers.
+        /// </summary>
+        /// <param name="buildings">Buildings.</param>
         public void SetBuildingNumber(IEnumerable<Building> buildings)
         {
             if (WriteBPS == (int) Active.YES)
@@ -565,7 +768,9 @@ namespace Morpho25.Settings
                 BuildingCnt = buildings.Count();
             }
         }
-
+        /// <summary>
+        /// Create new OutputSettings.
+        /// </summary>
         public OutputSettings()
         {
             MainFiles = 60;
@@ -576,10 +781,15 @@ namespace Morpho25.Settings
             BuildingCnt = 0;
             BuildingNumbers = " ";
         }
-
+        /// <summary>
+        /// String representation of OutputSettings.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => $"Config::OutputSettings::{BuildingCnt}";
     }
-
+    /// <summary>
+    /// Cloud class.
+    /// </summary>
     public class Cloud
     {
         private double _lowClouds;
@@ -591,7 +801,9 @@ namespace Morpho25.Settings
             if (value < 0 || value > 8)
                 throw new ArgumentException("Value must be in range (0, 8).");
         }
-
+        /// <summary>
+        /// Fraction of LOW clouds (x/8).
+        /// </summary>
         public double LowClouds
         {
             get { return _lowClouds; }
@@ -601,7 +813,9 @@ namespace Morpho25.Settings
                 _lowClouds = value;
             }
         }
-
+        /// <summary>
+        /// Fraction of MIDDLE clouds (x/8).
+        /// </summary>
         public double MiddleClouds
         {
             get { return _middleClouds; }
@@ -611,7 +825,9 @@ namespace Morpho25.Settings
                 _middleClouds = value;
             }
         }
-
+        /// <summary>
+        /// Fraction of HIGH clouds (x/8).
+        /// </summary>
         public double HighClouds
         {
             get { return _highClouds; }
@@ -621,7 +837,9 @@ namespace Morpho25.Settings
                 _highClouds = value;
             }
         }
-
+        /// <summary>
+        /// Create new Cloud object.
+        /// </summary>
         public Cloud()
         {
             LowClouds = 0;
@@ -629,10 +847,15 @@ namespace Morpho25.Settings
             HighClouds = 0;
 
         }
-
+        /// <summary>
+        /// String representation of Cloud object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => $"Config::Cloud::{LowClouds},{MiddleClouds},{HighClouds}";
     }
-
+    /// <summary>
+    /// Background class.
+    /// </summary>
     public class Background : Configuration
     {
         private double _userSpec;
@@ -641,7 +864,9 @@ namespace Morpho25.Settings
         private double _o3;
         private double _pm10;
         private double _pm25;
-
+        /// <summary>
+        /// User pollutant.
+        /// </summary>
         public double UserSpec
         {
             get { return _userSpec; }
@@ -651,7 +876,9 @@ namespace Morpho25.Settings
                 _userSpec = value;
             }
         }
-
+        /// <summary>
+        /// Enable NO.
+        /// </summary>
         public double No
         {
             get { return _no; }
@@ -661,7 +888,9 @@ namespace Morpho25.Settings
                 _no = value;
             }
         }
-
+        /// <summary>
+        /// Enable NO2.
+        /// </summary>
         public double No2
         {
             get { return _no2; }
@@ -671,7 +900,9 @@ namespace Morpho25.Settings
                 _no2 = value;
             }
         }
-
+        /// <summary>
+        /// Enable O3.
+        /// </summary>
         public double O3
         {
             get { return _o3; }
@@ -681,7 +912,9 @@ namespace Morpho25.Settings
                 _o3 = value;
             }
         }
-
+        /// <summary>
+        /// Enable PM10.
+        /// </summary>
         public double Pm10
         {
             get { return _pm10; }
@@ -691,7 +924,9 @@ namespace Morpho25.Settings
                 _pm10 = value;
             }
         }
-
+        /// <summary>
+        /// Enable PM25.
+        /// </summary>
         public double Pm25
         {
             get { return _pm25; }
@@ -701,7 +936,9 @@ namespace Morpho25.Settings
                 _pm25 = value;
             }
         }
-
+        /// <summary>
+        /// Create new Background object.
+        /// </summary>
         public Background()
         {
             UserSpec = 0;
@@ -711,14 +948,21 @@ namespace Morpho25.Settings
             Pm10 = 0;
             Pm25 = 0;
         }
-
+        /// <summary>
+        /// String representation of BackGround object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::Background";
     }
-
+    /// <summary>
+    /// SolarAdjust class.
+    /// </summary>
     public class SolarAdjust
     {
         private double _sWfactor;
-
+        /// <summary>
+        /// Solar adjustment factor.
+        /// </summary>
         public double SWfactor
         {
             get { return _sWfactor; }
@@ -729,19 +973,29 @@ namespace Morpho25.Settings
                 _sWfactor = value;
             }
         }
-
+        /// <summary>
+        /// Create a new SolarAdjust object.
+        /// </summary>
+        /// <param name="sWfactor">Solar adjustment factor to apply. double in range (0.5, 1.50).</param>
         public SolarAdjust(double sWfactor)
         {
             SWfactor = sWfactor;
         }
-
+        /// <summary>
+        /// String representation of solar adjust object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::SolarAdjust";
     }
-
+    /// <summary>
+    /// BuildingSettings class.
+    /// </summary>
     public class BuildingSettings
     {
         private double _indoorTemp;
-
+        /// <summary>
+        /// Indoor temperature [°C].
+        /// </summary>
         public double IndoorTemp
         {
             get { return _indoorTemp; }
@@ -750,18 +1004,29 @@ namespace Morpho25.Settings
                 _indoorTemp = value + Util.TO_KELVIN;
             }
         }
-
+        /// <summary>
+        /// 1 to active the setpoint.
+        /// </summary>
         public int IndoorConst { get; set; }
-
+        /// <summary>
+        /// Create a new BuildingSettings object.
+        /// </summary>
+        /// <param name="indoorTemp">Indoor temperature [°C].</param>
+        /// <param name="indoorConst">Active the setpoint.</param>
         public BuildingSettings(double indoorTemp, Active indoorConst)
         {
             IndoorTemp = indoorTemp;
             IndoorConst = (int) indoorConst;
         }
-
+        /// <summary>
+        /// String representation of building settings.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString() => "Config::BuildingSettings";
     }
-
+    /// <summary>
+    /// IVS class.
+    /// </summary>
     public class IVS
     {
         public int IVSOn { get; }

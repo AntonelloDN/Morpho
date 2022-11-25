@@ -5,8 +5,16 @@ using System.IO;
 
 namespace Morpho25.IO
 {
+    /// <summary>
+    /// Simulation batch class.
+    /// </summary>
     public class SimulationBatch
     {
+        /// <summary>
+        /// Run envimet simulation.
+        /// </summary>
+        /// <param name="simx">Simulation definition.</param>
+        /// <exception cref="Exception"></exception>
         public static void RunSimulation(Simx simx)
         {
             try
@@ -15,24 +23,30 @@ namespace Morpho25.IO
             }
             catch (System.IO.DirectoryNotFoundException)
             {
-                throw new Exception("Batch file not found. If problem persist, run simulation using ENVI-Met GUI.");
+                throw new Exception("Batch file not found. " +
+                    "If problem persist, run simulation using ENVI-Met GUI.");
             }
         }
 
         private static string GetBatchFile(Simx simx)
         {
             string envimet;
-            string root = System.IO.Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            string root = Path.GetPathRoot(
+                Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData));
 
             if (simx.MainSettings.Inx.Workspace.EnvimetFolder == null)
-                envimet = System.IO.Path.Combine(root, Workspace.DEFAULT_FOLDER + "\\win64");
+                envimet = Path.Combine(root, 
+                    Workspace.DEFAULT_FOLDER + "\\win64");
             else
-                envimet = System.IO.Path.Combine(simx.MainSettings.Inx.Workspace.EnvimetFolder, "win64");
+                envimet = Path.Combine(simx.MainSettings
+                    .Inx.Workspace.EnvimetFolder, "win64");
 
             string project = simx.MainSettings.Inx.Workspace.ProjectName;
             string simulationName = simx.MainSettings.Name + ".simx";
 
-            string path = System.IO.Path.Combine(simx.MainSettings.Inx.Workspace.ProjectFolder, simulationName + ".bat");
+            string path = Path.Combine(simx.MainSettings
+                .Inx.Workspace.ProjectFolder, simulationName + ".bat");
             string unit = Path.GetPathRoot(envimet);
             unit = Path.GetPathRoot(envimet).Remove(unit.Length - 1);
 
@@ -47,7 +61,7 @@ namespace Morpho25.IO
 
             //string[] contentOfBatch = { String.Format(batch, unit, envimet, project, simulationName) };
 
-            System.IO.File.WriteAllText(path, batch);
+            File.WriteAllText(path, batch);
 
             return path;
         }

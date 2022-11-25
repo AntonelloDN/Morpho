@@ -3,15 +3,23 @@
 
 namespace Morpho25.Management
 {
+    /// <summary>
+    /// Database source enum.
+    /// </summary>
     public enum DatabaseSource
     {
         User,
         Project
     }
 
-
+    /// <summary>
+    /// Workspace class.
+    /// </summary>
     public class Workspace
     {
+        /// <summary>
+        /// Default envimet folder.
+        /// </summary>
         public const string DEFAULT_FOLDER = "ENVImet5";
         private const string VERSION = "7174219";
         private const string ENCRIPTION_LEVEL = "5194660";
@@ -33,17 +41,21 @@ namespace Morpho25.Management
 
         private string _systemFolder;
         private string _userFolder;
-
+        /// <summary>
+        /// Workspace folder.
+        /// </summary>
         public string WorkspaceFolder
         {
             get { return _workspaceFolder; }
             private set
             {
                 string folder = GetFolder(value);
-                _workspaceFolder = value;
+                _workspaceFolder = folder;
             }
         }
-
+        /// <summary>
+        /// Project folder.
+        /// </summary>
         public string ProjectFolder
         {
             get { return _projectFolder; }
@@ -53,15 +65,30 @@ namespace Morpho25.Management
                 _projectFolder = value;
             }
         }
-
+        /// <summary>
+        /// Project name.
+        /// </summary>
         public string ProjectName { get; private set; }
+        /// <summary>
+        /// Model name.
+        /// </summary>
         public string ModelName { get; private set; }
+        /// <summary>
+        /// Model path.
+        /// </summary>
         public string ModelPath { get; private set; }
-
+        /// <summary>
+        /// Project database location.
+        /// </summary>
         public string ProjectDB { get; private set; }
+        /// <summary>
+        /// System database location.
+        /// </summary>
         public string SystemDB { get; private set; }
+        /// <summary>
+        /// User database location.
+        /// </summary>
         public string UserDB { get; private set; }
-
 
         private string GetFolder(string folder)
         {
@@ -71,8 +98,16 @@ namespace Morpho25.Management
             }
             return folder;
         }
-
-        public Workspace(string workspaceFolder, DatabaseSource databaseSource, string envimetFolder = null)
+        /// <summary>
+        /// Create a workspace object.
+        /// </summary>
+        /// <param name="workspaceFolder">Workspace folder.</param>
+        /// <param name="databaseSource">Database source.</param>
+        /// <param name="envimetFolder">Envimet folder on machine.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Envimet not found.</exception>
+        public Workspace(string workspaceFolder, 
+            DatabaseSource databaseSource, 
+            string envimetFolder = null)
         {
             _systemFolder = GetEnvimetSystemFolder(SYSTEM_FOLDER, envimetFolder);
             _userFolder = GetEnvimetSystemFolder(USER_FOLDER, envimetFolder);
@@ -95,8 +130,16 @@ namespace Morpho25.Management
 
             SetDatabase(databaseSource, _systemFolder, _userFolder);
         }
-
-        public Workspace(string workspaceFolder, DatabaseSource databaseSource, string projectName, string modelName, string envimetFolder)
+        /// <summary>
+        /// Create a workspace object.
+        /// </summary>
+        /// <param name="workspaceFolder">Workspace folder.</param>
+        /// <param name="databaseSource">Database source.</param>
+        /// <param name="projectName">Project name.</param>
+        /// <param name="modelName">Model name.</param>
+        /// <param name="envimetFolder">Envimet folder.</param>
+        public Workspace(string workspaceFolder, DatabaseSource databaseSource, 
+            string projectName, string modelName, string envimetFolder)
             : this(workspaceFolder, databaseSource, envimetFolder)
         {
             ProjectName = projectName;
@@ -112,13 +155,18 @@ namespace Morpho25.Management
 
             SetDatabase(databaseSource, _systemFolder, _userFolder);
         }
-
+        /// <summary>
+        /// String representation of the workspace object.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
-            return String.Format("Workspace::{0}::{1}", ProjectName, ModelName);
+            return String.Format("Workspace::{0}::{1}", 
+                ProjectName, ModelName);
         }
 
-        private void SetDatabase(DatabaseSource databaseSource, string systemFolder, string userFolder)
+        private void SetDatabase(DatabaseSource databaseSource, 
+            string systemFolder, string userFolder)
         {
             SystemDB = System.IO.Path.Combine(systemFolder, SYSTEM_DB);
 
@@ -134,7 +182,8 @@ namespace Morpho25.Management
             }
         }
 
-        private string GetEnvimetSystemFolder(string folderName, string envimetFolder)
+        private string GetEnvimetSystemFolder(string folderName, 
+            string envimetFolder)
         {
             string root = System.IO.Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
             string directory = System.IO.Path.Combine(root, DEFAULT_FOLDER + $"\\{folderName}\\");

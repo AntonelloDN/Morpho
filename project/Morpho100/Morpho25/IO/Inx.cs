@@ -10,39 +10,59 @@ using System.Data;
 
 namespace Morpho25.IO
 {
+    /// <summary>
+    /// INX File class.
+    /// </summary>
     public class Inx
     {
         const char NEWLINE = '\n';
         const string VERSION = "404";
         const string CHECK_SUM = "6104088";
-
+        /// <summary>
+        /// Model.
+        /// </summary>
         public Model Model { get; }
-
+        /// <summary>
+        /// Matrix 2D of the terrain.
+        /// </summary>
         public string TerrainMatrix { get; private set; }
-
+        /// <summary>
+        /// Matrix 2D of the soils.
+        /// </summary>
         public string SoilMatrix { get; set; }
 
-
+        /// <summary>
+        /// Create a new INX File.
+        /// </summary>
+        /// <param name="model">Model.</param>
         public Inx(Model model)
         {
             Model = model;
-            TerrainMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["terrainMatrix"]);
-            SoilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
+            TerrainMatrix = EnvimetUtility.GetASCIImatrix(
+                Model.EnvimetMatrix["terrainMatrix"]);
+            SoilMatrix = EnvimetUtility.GetASCIImatrix(
+                Model.EnvimetMatrix["soilMatrix"]);
         }
-
+        /// <summary>
+        /// Create a new INX File. 2.5D only.
+        /// </summary>
+        /// <param name="model">Model.</param>
+        /// <param name="ASCIIterrain">ASCII matrix for DEM.</param>
         public Inx(Model model, string ASCIIterrain)
         {
             Model = model;
             if (IsASCIIcorrect(ASCIIterrain))
                 TerrainMatrix = ASCIIterrain;
-            SoilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
+            SoilMatrix = EnvimetUtility.GetASCIImatrix(
+                Model.EnvimetMatrix["soilMatrix"]);
             // 2D only
             Model.IsDetailed = false;
         }
 
         private bool IsASCIIcorrect(string ASCIImatrix)
         {
-            // ASCII envimet matrix are made by integers. I do not add validation for now.
+            // ASCII envimet matrix are made by integers. I
+            // do not add validation for now.
 
             string[] yDirection = ASCIImatrix.Split('\n');
             if (yDirection.Length != Model.Grid.Size.NumY)
@@ -57,7 +77,9 @@ namespace Morpho25.IO
             }
             return true;
         }
-
+        /// <summary>
+        /// Write INX File on machine.
+        /// </summary>
         public void WriteInx()
         {
             var now = DateTime.Now;

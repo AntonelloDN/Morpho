@@ -7,16 +7,49 @@ using System.Threading.Tasks;
 
 namespace Morpho25.Geometry
 {
+    /// <summary>
+    /// Building class.
+    /// </summary>
     public class Building : Entity
     {
+        /// <summary>
+        /// Geometry of the building.
+        /// </summary>
         public FaceGroup Geometry { get; }
+        
+        /// <summary>
+        /// 2D Matrix from the top.
+        /// </summary>
         public Matrix2d TopMatrix { get; private set; }
+
+        /// <summary>
+        /// 2D Matrix from the bottom.
+        /// </summary>
         public Matrix2d BottomMatrix { get; private set; }
+
+        /// <summary>
+        /// 2D Matrix with building ID.
+        /// </summary>
         public Matrix2d IDmatrix { get; private set; }
+
+        /// <summary>
+        /// Collection of string based on Pixel and ID.
+        /// </summary>
         public List<string> BuildingIDrows { get; private set; }
+
+        /// <summary>
+        /// Collection of string based on Pixel and wall/roof materials.
+        /// </summary>
         public List<string> BuildingWallRows { get; private set; }
+
+        /// <summary>
+        /// Collection of string based on Pixel and green wall/ green roof materials.
+        /// </summary>
         public List<string> BuildingGreenWallRows { get; private set; }
 
+        /// <summary>
+        /// Material of the building.
+        /// </summary>
         public override Material Material
         {
             get { return _material; }
@@ -30,10 +63,22 @@ namespace Morpho25.Geometry
             }
 
         }
+
+        /// <summary>
+        /// Name of the building.
+        /// </summary>
         public override string Name { get; }
 
+        /// <summary>
+        /// Create a building.
+        /// </summary>
+        /// <param name="grid">Grid object.</param>
+        /// <param name="geometry">Geometry of the building.</param>
+        /// <param name="id">Numerical ID.</param>
+        /// <param name="material">Material of the building.</param>
+        /// <param name="name">Optional name.</param>
         public Building(Grid grid, FaceGroup geometry,
-            int id, Material material, string name)
+            int id, Material material = null, string name = null)
         {
             ID = id;
             Geometry = geometry;
@@ -169,7 +214,7 @@ namespace Morpho25.Geometry
             };
         }
 
-        public IEnumerable<Pixel> GetPixels(Grid grid)
+        private IEnumerable<Pixel> GetPixels(Grid grid)
         {
             List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
             var intersections = EnvimetUtility.Raycasting3D(rays, Geometry, false, false);
@@ -247,6 +292,10 @@ namespace Morpho25.Geometry
             BuildingIDrows = new List<string>();
         }
 
+        /// <summary>
+        /// String representation of a building.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
             string name = (Name != " ") ? Name : "Building";

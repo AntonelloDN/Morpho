@@ -6,26 +6,48 @@ using System.Linq;
 
 namespace Morpho25.Geometry
 {
+    /// <summary>
+    /// Terrain class.
+    /// </summary>
     public class Terrain : Entity
     {
+        /// <summary>
+        /// Geometry of the terrain.
+        /// </summary>
         public FaceGroup Geometry { get; }
-
+        /// <summary>
+        /// Name of the terrain.
+        /// </summary>
         public override string Name { get; }
-
+        /// <summary>
+        /// Matrix 2D of the terrain.
+        /// </summary>
         public Matrix2d IDmatrix { get; private set; }
-
+        /// <summary>
+        /// Collection of string based on Pixel and ID.
+        /// </summary>
         public List<string> TerrainIDrows { get; private set; }
-
+        /// <summary>
+        /// Location of the terrain in the grid.
+        /// </summary>
         public List<Pixel> Pixels { get; private set; }
-
+        /// <summary>
+        /// Material of the terrain.
+        /// </summary>
         public override Material Material
         {
             get => throw new NotImplementedException();
             protected set => throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// Create a new terrain.
+        /// </summary>
+        /// <param name="grid">Grid object.</param>
+        /// <param name="geometry">Geometry of the terrain.</param>
+        /// <param name="id">Numerical ID.</param>
+        /// <param name="name">Name of the terrain.</param>
         public Terrain(Grid grid, FaceGroup geometry,
-            int id, string name)
+            int id, string name = null)
         {
             ID = id;
             Geometry = geometry;
@@ -76,10 +98,14 @@ namespace Morpho25.Geometry
         {
             foreach (var px in Pixels)
             {
-                yield return String.Format("{0},{1},{2},{3}", px.I, px.J, px.K, "1.00000");
+                yield return String.Format("{0},{1},{2},{3}", 
+                    px.I, px.J, px.K, "1.00000");
             }
         }
-
+        /// <summary>
+        /// String representation of the terrain.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
             return String.Format("Terrain::{0}::{1}", Name, ID);

@@ -8,9 +8,19 @@ using System.Threading.Tasks;
 
 namespace Morpho25.IO
 {
+    /// <summary>
+    /// Climate file batch class.
+    /// </summary>
     class FoxBatch
     {
-        public static string GetFoxFile(string epw, Workspace workspace)
+        /// <summary>
+        /// Generate a climate file from a EPW file.
+        /// </summary>
+        /// <param name="epw">EPW file to use.</param>
+        /// <param name="workspace">Workspace.</param>
+        /// <returns></returns>
+        public static string GetFoxFile(string epw, 
+            Workspace workspace)
         {
             string envimet;
             string root = System.IO.Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));

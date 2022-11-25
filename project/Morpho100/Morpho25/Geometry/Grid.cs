@@ -2,63 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using Morpho25.Utility;
-using MorphoGeometry;
 
 namespace Morpho25.Geometry
 {
-    public struct CellDimension
-    {
-        public CellDimension(double x, double y, double z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        public double X { get; }
-        public double Y { get; }
-        public double Z { get; }
-    }
-
-    public struct Size
-    {
-        public Size(Vector origin, CellDimension dimension, int numX, int numY, int numZ)
-        {
-            Origin = origin;
-            NumX = numX;
-            NumY = numY;
-            NumZ = numZ;
-
-            DimX = dimension.X;
-            DimY = dimension.Y;
-            DimZ = dimension.Z;
-
-            MinX = Origin.x;
-            MinY = Origin.y;
-            MaxX = Origin.x + (NumX * DimX);
-            MaxY = Origin.y + (NumY * DimY);
-        }
-
-        public int NumX { get; }
-        public int NumY { get; }
-        public int NumZ { get; }
-        public double MinX { get; }
-        public double MinY { get; }
-        public double MaxX { get; }
-        public double MaxY { get; }
-        public double DimX { get; }
-        public double DimY { get; }
-        public double DimZ { get; }
-        public Vector Origin { get; }
-
-        public override string ToString()
-        {
-            return String.Format("Size::{0},{1},{2}::{3},{4},{5}", NumX, NumY, NumZ, DimX, DimY, DimZ);
-        }
-    }
-
+    /// <summary>
+    /// Grid class.
+    /// </summary>
     public class Grid
     {
+        /// <summary>
+        /// Create a new Grid.
+        /// </summary>
+        /// <param name="size">Grid size object.</param>
+        /// <param name="nestingGrids">Optional nestring grids.</param>
         public Grid(Size size,
             NestingGrids nestingGrids = null)
         {
@@ -77,6 +33,15 @@ namespace Morpho25.Geometry
                 NestingGrids = nestingGrids;
         }
 
+        /// <summary>
+        /// Create a new Grid.
+        /// </summary>
+        /// <param name="size">Grid size object.</param>
+        /// <param name="telescope">Vertical increment to use for a telescopic grid.
+        /// If 0.0 it will use equidistant grid.</param>
+        /// <param name="startTelescopeHeight">Start increment z dimension at.</param>
+        /// <param name="combineGridType">True to split the first cell.</param>
+        /// <param name="nestingGrids">Optional nesting grids.</param>
         public Grid(Size size, 
             double telescope, 
             double startTelescopeHeight, 
@@ -101,10 +66,19 @@ namespace Morpho25.Geometry
         private double _telescope;
         private double _startTelescopeHeight;
 
+        /// <summary>
+        /// Grid size.
+        /// </summary>
         public Size Size { get; }
 
+        /// <summary>
+        /// Nesting grids.
+        /// </summary>
         public NestingGrids NestingGrids { get; set; }
 
+        /// <summary>
+        /// Telescope value.
+        /// </summary>
         public double Telescope {
             get { return _telescope; }
             set
@@ -117,6 +91,9 @@ namespace Morpho25.Geometry
             }
         }
 
+        /// <summary>
+        /// Start telescopic grid at.
+        /// </summary>
         public double StartTelescopeHeight {
             get { return _startTelescopeHeight; }
             set
@@ -129,6 +106,10 @@ namespace Morpho25.Geometry
             }
         }
 
+        /// <summary>
+        /// Convert to List of double.
+        /// </summary>
+        /// <returns>List of double.</returns>
         public List<double[]> ToList()
         {
             var list = new List<double[]>();
@@ -142,13 +123,35 @@ namespace Morpho25.Geometry
             return list;
         }
 
+        /// <summary>
+        /// Is telescopic grid + first cell splitted?
+        /// </summary>
         public bool CombineGridType { get; }
+        /// <summary>
+        /// X axis of the grid.
+        /// </summary>
         public double[] Xaxis { get; private set; }
+        /// <summary>
+        /// Y axis of the grid.
+        /// </summary>
         public double[] Yaxis { get; private set; }
+        /// <summary>
+        /// Z axis of the grid.
+        /// </summary>
         public double[] Zaxis { get; private set; }
+        /// <summary>
+        /// Height of cells.
+        /// </summary>
         public double[] SequenceZ { get; private set; }
+        /// <summary>
+        /// Is the grid splitted?
+        /// </summary>
         public bool IsSplitted { get; private set; }
 
+        /// <summary>
+        /// String representation of the grid.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
             return String.Format("Grid::Size {0},{1},{2}", Size.NumX, Size.NumY, Size.NumZ);
@@ -271,28 +274,5 @@ namespace Morpho25.Geometry
             return completeSequence;
         }
         #endregion
-    }
-
-    public class NestingGrids
-    {
-        public string FirstMaterial { get; private set; }
-        public string SecondMaterial { get; private set; }
-        public uint NumberOfCells { get; private set; }
-
-        public NestingGrids()
-        {
-            NumberOfCells = 0;
-            FirstMaterial = Material.DEFAULT_SOIL;
-            SecondMaterial = Material.DEFAULT_SOIL;
-        }
-
-        public NestingGrids(uint numberOfCells, 
-            string firstMaterial,
-            string secondMaterial)
-        {
-            NumberOfCells = numberOfCells;
-            FirstMaterial = firstMaterial;
-            SecondMaterial = secondMaterial;
-        }
     }
 }

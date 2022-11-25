@@ -4,12 +4,21 @@ using System;
 
 namespace Morpho25.Geometry
 {
+    /// <summary>
+    /// Plant 3D class.
+    /// </summary>
     public class Plant3d : Entity
     {
         private const int SHIFT = 1;
 
+        /// <summary>
+        /// Geometry of the plant 3D.
+        /// </summary>
         public Vector Geometry { get; }
 
+        /// <summary>
+        /// Material of the plant 3D.
+        /// </summary>
         public override Material Material
         {
             get { return _material; }
@@ -23,15 +32,28 @@ namespace Morpho25.Geometry
             }
 
         }
-
+        /// <summary>
+        /// Name of the plant 3D.
+        /// </summary>
         public override string Name { get; }
-
+        /// <summary>
+        /// Location of the plant 3D in the grid.
+        /// </summary>
         public Pixel Pixel { get; private set; }
-
-        public Plant3d(Grid grid, Vector geometry, string code, string name)
+        /// <summary>
+        /// Create a new plant 3D.
+        /// </summary>
+        /// <param name="grid">Grid object.</param>
+        /// <param name="geometry">Geometry of the plant 3D.</param>
+        /// <param name="code">Code of the material.</param>
+        /// <param name="name">Name of the plant 3D.</param>
+        public Plant3d(Grid grid, Vector geometry, 
+            string code = null, string name = null)
         {
             Geometry = geometry;
-            Material = (code != null) ? CreateMaterial(Material.DEFAULT_PLANT_3D, code) : CreateMaterial(Material.DEFAULT_PLANT_3D);
+            Material = (code != null) 
+                ? CreateMaterial(Material.DEFAULT_PLANT_3D, code) 
+                : CreateMaterial(Material.DEFAULT_PLANT_3D);
             Name = name ?? "PlantGroup";
 
             SetPixel(grid);
@@ -46,10 +68,15 @@ namespace Morpho25.Geometry
                 K = 0
             };
         }
-
+        /// <summary>
+        /// String representation of the plant 3D.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
-            return String.Format("Plant3D::{0}::{1}::{2}", Name, Material.IDs[0], String.Join(",", Pixel.I, Pixel.J, Pixel.K));
+            return String.Format("Plant3D::{0}::{1}::{2}", 
+                Name, Material.IDs[0], String.Join(",", 
+                Pixel.I, Pixel.J, Pixel.K));
         }
 
     }
