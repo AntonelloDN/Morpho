@@ -15,6 +15,7 @@ namespace Morpho25.Geometry
         public Matrix2d IDmatrix { get; private set; }
 
         public bool IsDetailed { get; private set; }
+        public List<Pixel> Pixels { get; private set; }
         public List<string> BuildingIDrows { get; private set; }
         public List<string> BuildingWallRows { get; private set; }
         public List<string> BuildingGreenWallRows { get; private set; }
@@ -47,7 +48,7 @@ namespace Morpho25.Geometry
             BuildingIDrows = new List<string>();
 
             SetMatrix(grid);
-            if (IsDetailed) SetMatrix3d(grid);
+            if (IsDetailed) GetPixels(grid);
         }
 
         private void SetMatrix(Grid grid)
@@ -119,28 +120,43 @@ namespace Morpho25.Geometry
             return rows;
         }
 
-        public IEnumerable<Vector> SetMatrix3d(Grid grid)
+        public IEnumerable<Vector> GetPixels(Grid grid)
         {
             List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
             var intersections = EnvimetUtility.Raycasting3D(rays, Geometry, false, false);
             var centroids = EnvimetUtility.GetCentroids(grid, intersections);
-            var pixels = centroids.Select(_ => _.ToPixel(grid)).ToList();
+            Pixels = centroids.Select(_ => _.ToPixel(grid)).ToList();
+
+            return centroids;
+        }
+
+        /// <summary>
+        /// Generate model 3D. It should run after generating buildings and terrains.
+        /// </summary>
+        /// <param name="grid">Morpho Grid.</param>
+        /// <param name="buildingPixels">Pixels of the building.</param>
+        /// <param name="terrainPixels">Pixels of the terrain.</param>
+        public void SetMatrix3d(Grid grid, 
+            List<Pixel> terrainPixels = null)
+        {
+            // TODO: Offset pixels 
+            // Il terreno sposta i pixel in alto
 
             // ID
-            BuildingIDrows.AddRange(GetBuildingRows(pixels));
+            BuildingIDrows.AddRange(GetBuildingRows(Pixels));
 
             // WallDB
-            var wallDB = GetBuildingRows(pixels, grid, Material.IDs[0], Material.IDs[1]);
+            var wallDB = GetBuildingRows(Pixels, grid, 
+                Material.IDs[0], Material.IDs[1]);
             BuildingWallRows.AddRange(wallDB);
 
             if (Material.IDs[2] != Material.DEFAULT_GREEN_WALL ||
                 Material.IDs[3] != Material.DEFAULT_GREEN_WALL)
             {
-                var greeningsDB = GetBuildingRows(pixels, grid, Material.IDs[0], Material.IDs[1]);
+                var greeningsDB = GetBuildingRows(Pixels, grid, 
+                    Material.IDs[0], Material.IDs[1]);
                 BuildingGreenWallRows.AddRange(greeningsDB);
             }
-
-            return centroids;
         }
 
         public override string ToString()
