@@ -1,0 +1,35 @@
+name: CD
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: "Build and release Morpho"
+    runs-on: windows-latest
+
+    steps:
+      - name: "Checkout Master Branch"
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          submodules: true
+
+      - name: Setup MSbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build
+        working-directory: project\Morpho\MorphoRhino
+        run: |
+          msbuild MorphoRhino.csproj /p:Configuration=Release /restore
+      - name: zip Plugin
+        run: |
+          ls project\Morpho\MorphoReader\bin\Release
+          Compress-Archive -Path project\Morpho\MorphoReader\bin\Release\* -DestinationPath Morpho.zip
+      - run: npx semantic-release
+        if: github.ref == 'refs/heads/master'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}

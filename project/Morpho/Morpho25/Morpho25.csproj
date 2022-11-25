@@ -19,8 +19,4 @@
 		<ProjectReference Include="..\MorphoGeometry\MorphoGeometry.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="RhinoCommon" Version="6.23.20055.13111" IncludeAssets="compile;build" />
-	</ItemGroup>
-
 </Project>

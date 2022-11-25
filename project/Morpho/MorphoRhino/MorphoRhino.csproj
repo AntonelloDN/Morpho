@@ -25,7 +25,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\MorphoGeometry\MorphoGeometry.csproj" />
+		<ProjectReference Include="..\MorphoReader\MorphoReader.csproj" />
+		<ProjectReference Include="..\Morpho25\Morpho25.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
