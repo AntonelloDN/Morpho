@@ -1,14 +1,14 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
-Construct an Inx 2.5D Model.
+Construct an Inx 2.5D Model or 3D Model
 -
 You can connect many envimet objects to it.
 -
@@ -25,8 +25,11 @@ Icon by Envimet INX for Sketchup.
         . inx_soil;
         . inx_source;
         . inx_terrain.
+        _is_detailed_: Set it to 'True' to convert to detailed model.
+        follow_terrain_: Set it to 'True' if you want buildings to follow terrain shape.
+        'False' if you want to move buildings up by min height of the projected footprint on the terrain.
         _run_it: Set it to 'True' to create INX Model.
-
+    
     Returns:
         read_me: Message for users.
         inx_model: INX Model.
@@ -54,18 +57,18 @@ try:
     from Morpho25.Settings import Model
     from Morpho25.Utility import EnvimetUtility
     from Morpho25.Geometry import *
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     if _inx_grid and _inx_location and _inx_workspace and _run_it:
-
+        
         model = Model(_inx_grid, _inx_location, _inx_workspace)
-
+        
         building = []
         plant3d = []
         plant2d = []
@@ -73,7 +76,7 @@ def main():
         soil = []
         source = []
         terrain = []
-
+        
         if _inx_objects_:
             for obj in _inx_objects_:
                 if (type(obj) == Building):
@@ -90,7 +93,7 @@ def main():
                     source.append(obj)
                 if (type(obj) == Terrain):
                     terrain.append(obj)
-
+        
         if building: model.BuildingObjects = List[Building](building)
         if plant3d: model.Plant3dObjects = List[Plant3d](plant3d)
         if plant2d: model.Plant2dObjects = List[Plant2d](plant2d)
@@ -98,9 +101,14 @@ def main():
         if soil: model.SoilObjects = List[Soil](soil)
         if source: model.SourceObjects = List[Source](source)
         if terrain: model.TerrainObjects = List[Terrain](terrain)
-
+        
         model.Calculation()
-
+        
+        if _is_detailed_:
+            model.IsDetailed = _is_detailed_
+            if follow_terrain_:
+                model.ShiftEachVoxel = follow_terrain_
+        
         return model
     else:
         return

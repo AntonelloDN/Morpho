@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Force boundary condition using EPW file.
@@ -22,10 +22,12 @@ NOTE. Some EPW could not be compatible with Envimet FOX Manager. You get an erro
         min_flow_steps_: FOR EXPERT ONLY. Adjust the minimum interal for updating the Full Forcing inflow. Default value is 50.
         limit_wind_2500_: FOR EXPERT ONLY. Limit of wind speed at 2500 meter. Default is 0.
         max_wind_2500_: FOR EXPERT ONLY. Max wind speed at 2500 meter. Default is 20 m/s.
-
+        _run_it: Set it to 'True' to create fox file.
+        
     Returns:
         read_me: Message for users.
-        simple_forcing: Full forcing settings of *.simx file.
+        full_forcing: Full forcing settings of *.simx file.
+        
 """
 
 ghenv.Component.Name = "Morpho Full Forcing"
@@ -45,35 +47,36 @@ try:
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Settings import FullForcing, Active
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     if _epw and _inx_workspace:
-
+        
         full_forcing = FullForcing(_epw, _inx_workspace)
-
-        if _force_temperature_ != None:
+        
+        if _force_temperature_ != None: 
             full_forcing.ForceTemperature = int(Active.YES) if _force_temperature_ == True else int(Active.NO)
-        if _force_wind_ != None:
+        if _force_wind_ != None: 
             full_forcing.ForceWind = int(Active.YES) if _force_wind_ == True else int(Active.NO)
-        if _force_relative_humidity_ != None:
+        if _force_relative_humidity_ != None: 
             full_forcing.ForceRelativeHumidity = int(Active.YES) if _force_relative_humidity_ == True else int(Active.NO)
-        if _force_precipitation_ != None:
+        if _force_precipitation_ != None: 
             full_forcing.ForcePrecipitation = int(Active.YES) if _force_precipitation_ == True else int(Active.NO)
-        if _force_radiation_clouds_ != None:
+        if _force_radiation_clouds_ != None: 
             full_forcing.ForceRadClouds = int(Active.YES) if _force_radiation_clouds_ == True else int(Active.NO)
         if min_flow_steps_: full_forcing.MinFlowsteps = min_flow_steps_
         if limit_wind_2500_: full_forcing.LimitWind2500 = limit_wind_2500_
         if max_wind_2500_: full_forcing.MaxWind2500 = max_wind_2500_
-
+        
         return full_forcing
     else:
         return
 
-full_forcing = main()
-if not full_forcing: print("Please, connect _epw and _inx_workspace.")
+if _run_it:
+    full_forcing = main()
+    if not full_forcing: print("Please, connect _epw and _inx_workspace.")

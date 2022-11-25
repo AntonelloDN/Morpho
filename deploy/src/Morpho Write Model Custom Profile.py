@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Write an Inx Model. And replace default profile material '000000' with a custom one.
@@ -19,7 +19,7 @@ See license for more details.
         _inx_model: Inx Model.
         _profile_default_material: Input profile material to use instead of default '000000'.
         _write_it: Set it to 'True' to write model on your machine.
-
+    
     Returns:
         read_me: Message for users.
         file_path: Path where inx file is on your machine.
@@ -42,20 +42,20 @@ try:
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.IO import Inx
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     if _inx_model and _write_it and _profile_default_material:
-
+        
         inx = Inx(_inx_model)
         inx.SoilMatrix = inx.SoilMatrix.replace("000000", _profile_default_material)
         inx.WriteInx()
-
+        
         return inx.Model.Workspace.ModelPath
     else:
         return

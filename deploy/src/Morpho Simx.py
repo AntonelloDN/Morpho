@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 This component write simx object to run simulation. Connect it to 'Morpho Run Simulation'.
@@ -36,8 +36,8 @@ You cannot use SimpleForcing and FullForcing at same time.
         -
         Please note, you cannot use SimpleForcing and FullForcing at same time.
         _run_it: Set it to 'True' to create SIMX Model.
-
-
+        
+        
     Returns:
         read_me: Message for users.
         simx: SIMX object to use for simulation.
@@ -61,18 +61,18 @@ try:
     clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.IO import *
     from Morpho25.Settings import *
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     if _main_settings and _run_it:
-
+        
         simx = Simx(_main_settings)
-
+        
         if other_settings_:
             for obj in other_settings_:
                 if (type(obj) == SimpleForcing):
@@ -115,10 +115,10 @@ def main():
                     simx.PlantSetting = obj
                 if (type(obj) == LBC):
                     simx.LBC = obj
-
+        
         simx.WriteSimx()
         print("{0} written!".format(simx.MainSettings.Name))
-
+        
         return simx
     else:
         return

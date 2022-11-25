@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Add cloud to your model. The default setting is with no clouds.
@@ -18,7 +18,7 @@ See license for more details.
         _low_clouds_: Fraction of LOW clouds (x/8). Default value is 0 (no clouds).
         _middle_clouds_: Fraction of MIDDLE clouds (x/8). Default value is 0 (no clouds).
         _high_clouds_: Fraction of HIGH clouds (x/8). Default value is 0 (no clouds).
-
+        
     Returns:
         read_me: Message for users.
         clouds: Cloud settings of *.simx file.
@@ -41,20 +41,20 @@ try:
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Settings import Cloud
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     clouds = Cloud()
-
+    
     if _low_clouds_: clouds.LowClouds = _low_clouds_
     if _middle_clouds_: clouds.MiddleClouds = _middle_clouds_
     if _high_clouds_: clouds.HighClouds = _high_clouds_
-
+    
     return clouds
 
 clouds = main()

@@ -8,31 +8,21 @@
 # @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
-Set Turbolence model.
--
-EXPERT SETTINGS.
--
-Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
-See license for more details.
+This component open ENVI_MET Spaces to check the model.
     Args:
-        _model_type: Connect an integer to select turbolence model.
-        0 = MellorAndYamada
-        1 = KatoAndLaunder
-        2 = Lopez
-        3 = Bruse ENVI_MET
+        _file_path: Full path of the Model (INX).
+        _run_it: Set it to 'True' to run simulation.
         
     Returns:
         read_me: Message for users.
-        turbolence: Turbolence model to use in *.simx file.
 """
 
-ghenv.Component.Name = "Morpho Turbolence"
-ghenv.Component.NickName = "morpho_turbolence"
+ghenv.Component.Name = "Morpho Run INX"
+ghenv.Component.NickName = "morpho_run_inx"
 ghenv.Component.Category = "Morpho"
-ghenv.Component.SubCategory = "4 || Simulation"
-try: ghenv.Component.AdditionalHelpFromDocStrings = "2"
+ghenv.Component.SubCategory = "5 || Util"
+try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
-
 
 import scriptcontext as sc
 import os
@@ -43,29 +33,23 @@ try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
-    from Morpho25.Settings import Turbulence, TurbolenceType
+    from Morpho25.IO import SimulationBatch
     
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
 ghenv.Component.Message = "1.1.0"
 
+
 def main():
     
-    model = {
-        0:TurbolenceType.MellorAndYamada,
-        1:TurbolenceType.KatoAndLaunder,
-        2:TurbolenceType.Lopez,
-        3:TurbolenceType.Bruse
-    }
-    
-    if _model_type >= 0:
+    if _file_path and _run_it:
         
-        turbolence = Turbulence(model[_model_type])
+        os.startfile(_file_path)
         
-        return turbolence
+        return "OK"
     else:
         return
 
-turbolence = main()
-if not turbolence: print("Please, connect _model_type.")
+result = main()
+if not result: print("Please, connect INX file address and _run_it to 'True'.")

@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Read and sort all binaries of an output folder of envimet
@@ -29,7 +29,7 @@ ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "3 || IO"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
-ghenv.Component.Message = "1.0.1 2.5D/3D"
+ghenv.Component.Message = "1.1.0"
 
 import os
 

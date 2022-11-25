@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Construct an Inx Building.
@@ -22,7 +22,6 @@ The component will assign automatically IDs starting from _ID connected
         _material_: Material to apply to buildings [Material]. Default material is 000000.
         -
         Use output of 'Morpho Building Material' component to change it.
-        _is_detailed_: Enable detailed model.
         _run: Set it to True to run it.
     
     Returns:
@@ -54,17 +53,14 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0 2.5|3D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
     
     if _run and _inx_grid and _inx_facegroup and _ID:
-        
-        detailed = _is_detailed_ or False
-        
         IDs = [i+_ID for i in xrange(len(_inx_facegroup))]
         
-        building = [Building(_inx_grid, mesh, index, _material_, _name_, detailed) for mesh, index in zip(_inx_facegroup, IDs)]
+        building = [Building(_inx_grid, mesh, index, _material_, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
         
         return building
     else:

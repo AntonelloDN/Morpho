@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Read Envimet materials.
@@ -27,7 +27,7 @@ You can connect 'code' to customize inx object materials.
         _keyword_: Connect a string to filter library. E.g. asphalt [string].
         systemDB_: Set it 'True' to use system database.
         If you set 'False' user or profile library will be used. Default is 'True' [bool].
-
+    
     Returns:
         read_me: Message for users.
         code: Material code to use with inx_objects.
@@ -53,26 +53,26 @@ try:
     clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Management import Workspace
     from Morpho25.IO import Library
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     if systemDB_ == None:
         systemDB = True
     else:
         systemDB = systemDB_
-
+    
     type = _type_.upper() if _type_ else Library.PROFILE
-
+    
     alternative_lib = _inx_workspace.UserDB if _inx_workspace.UserDB else _inx_workspace.ProjectDB
     lib = _inx_workspace.SystemDB if systemDB else alternative_lib
-
+    
     library = Library(lib, type, _keyword_)
-
+    
     return library.Code, library.Description, library.Detail
 
 if not _inx_workspace:

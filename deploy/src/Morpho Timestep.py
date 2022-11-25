@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Force timestep conditions.
@@ -23,7 +23,7 @@ EXPERT SETTINGS. If you exceed with it results could be inaccurate.
         _dt_step02: Time step (s) for interval 1 dt(0) [float]. Default value is 1 seconds.
         -
         You have much more radiation when the sun is high in the sky, for this reason ENVI_MET apply timestep 1 s when elevation degree is greater than 50.00 deg.
-
+        
     Returns:
         read_me: Message for users.
         timestep: Timestep settings of *.simx file.
@@ -47,22 +47,22 @@ try:
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
     from Morpho25.Settings import TimeSteps
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     timestep = TimeSteps()
-
+    
     if _sun_height_step01_: timestep.SunheightStep01 = _sun_height_step01_
     if _sun_height_step02_: timestep.SunheightStep02 = _sun_height_step02_
     if _dt_step00_: timestep.DtStep00 = _dt_step00_
     if _dt_step01_: timestep.DtStep01 = _dt_step01_
     if _dt_step02_: timestep.DtStep02 = _dt_step02_
-
+    
     return timestep
 
 timestep = main()

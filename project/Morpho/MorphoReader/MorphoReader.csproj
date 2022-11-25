@@ -10,7 +10,7 @@
 		<Product>Morpho.Envimet</Product>
 		<Version>1.1.0</Version>
 		<Title>Envimet libraries</Title>
-		<PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Antonello Di Nunzio</Copyright>
 		<PackageProjectUrl>https://github.com/AntonelloDN/Morpho</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/AntonelloDN/Morpho</RepositoryUrl>

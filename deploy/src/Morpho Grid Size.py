@@ -1,11 +1,11 @@
-# Morpho: A plugin to write Envimet 2.5D models.
+# Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2020, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
-#
-# @license GPL-3.0+ <http://spdx.org/licenses/GPL-3.0+>
+# 
+# @license AGPL-3.0-or-later <https://spdx.org/licenses/AGPL-3.0-or-later>
 
 """
 Set Inx Grid properties.
@@ -17,7 +17,7 @@ Set Inx Grid properties.
         _num_x_: Number of grid cells in X [integer].
         _num_y_: Number of grid cells in Y [integer].
         _num_y_: Number of grid cells in Z [integer].
-
+    
     Returns:
         read_me: Message for users.
         grid_size: Inx Grid attributes. Connect it to Grid component.
@@ -42,16 +42,16 @@ try:
     clr.AddReferenceToFile("MorphoRhino.dll")
     from Morpho25.Geometry import CellDimension, Size
     from MorphoRhino.RhinoAdapter import RhinoConvert
-
+    
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.0.1 2.5D"
+ghenv.Component.Message = "1.1.0"
 
 def main():
-
+    
     if _point:
-
+        
         origin = RhinoConvert.FromRhPointToVector(_point)
         dim_x = _dim_x_ if _dim_x_ else 3.0
         dim_y = _dim_y_ if _dim_y_ else 3.0
@@ -59,10 +59,10 @@ def main():
         num_x = _num_x_ if _num_x_ else 50
         num_y = _num_y_ if _num_y_ else 50
         num_z = _num_z_ if _num_z_ else 40
-
+        
         dimension = CellDimension(dim_x, dim_y, dim_z)
         size = Size(origin, dimension, num_x, num_y, num_z)
-
+        
         return size
     else:
         return
