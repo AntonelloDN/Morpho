@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.IO;
+using System.Reflection;
 
 namespace Morpho25.Management
 {
@@ -21,26 +22,40 @@ namespace Morpho25.Management
         /// Default envimet folder.
         /// </summary>
         public const string DEFAULT_FOLDER = "ENVImet5";
+        #region System details
         private const string VERSION = "7174219";
         private const string ENCRIPTION_LEVEL = "5194660";
         private const string CHECK_SUM = "18076640";
         private const string SYSTEM_FOLDER = "sys.basedata";
-        private const string USER_FOLDER = "sys.userdata";
-        private const string WORKSPACE_INFOX = "workspace.infox";
-        private const string PROJECT_INFOX = "project.infox";
+        private const string PYTHON_FOLDER = "sys.python";
+        #endregion
 
+        #region User details
+        private const string USER_FOLDER = "sys.userdata";
+        private const string USER_SETTINGS = "usersettings.setx";
+        private const string USER_DB = "userdatabase.edb";
+        public const string FOLDER_NAME = "ENVI-met";
+        #endregion
+
+        #region Project details
+        private const string PROJECT_INFOX = "project.infox";
         private const string PROJECT_DB = "projectdatabase.edb";
         private const string SYSTEM_DB = "database.edb";
-        // TODO: It will change
-        private const string USER_DB = "userdatabase.edb";
+        #endregion
 
+        #region Main paths
         private string _workspaceFolder;
         private string _projectFolder;
+        private string _pythonFolder;
+        #endregion
+
+        #region DB paths
+        private string _systemFolder;
+        private string _userFolder;
+        #endregion
 
         public string EnvimetFolder { get; set; }
 
-        private string _systemFolder;
-        private string _userFolder;
         /// <summary>
         /// Workspace folder.
         /// </summary>
@@ -92,9 +107,9 @@ namespace Morpho25.Management
 
         private string GetFolder(string folder)
         {
-            if (!(System.IO.Directory.Exists(folder)))
+            if (!(Directory.Exists(folder)))
             {
-                System.IO.Directory.CreateDirectory(folder);
+                Directory.CreateDirectory(folder);
             }
             return folder;
         }
@@ -111,21 +126,22 @@ namespace Morpho25.Management
         {
             _systemFolder = GetEnvimetSystemFolder(SYSTEM_FOLDER, envimetFolder);
             _userFolder = GetEnvimetSystemFolder(USER_FOLDER, envimetFolder);
+            _pythonFolder = GetEnvimetSystemFolder(PYTHON_FOLDER, envimetFolder);
 
             if (_systemFolder == null)
-                throw new ArgumentOutOfRangeException("Envimet not found! Check on your machine or set EnvimetFolder.");
+                throw new ArgumentOutOfRangeException("Envimet not found! " +
+                    "Check on your machine or set EnvimetFolder.");
 
             WorkspaceFolder = workspaceFolder;
             ProjectName = "Project";
             ModelName = "Model";
 
-            ProjectFolder = System.IO.Path.Combine(WorkspaceFolder, ProjectName);
-            ModelPath = System.IO.Path.Combine(ProjectFolder, ModelName + ".inx");
+            ProjectFolder = Path.Combine(WorkspaceFolder, ProjectName);
+            ModelPath = Path.Combine(ProjectFolder, ModelName + ".inx");
 
-            string workspaceInfoxAbsPath = System.IO.Path.Combine(_systemFolder, WORKSPACE_INFOX);
-            string projectInfoxAbsPath = System.IO.Path.Combine(ProjectFolder, PROJECT_INFOX);
+            string projectInfoxAbsPath = Path.Combine(ProjectFolder, PROJECT_INFOX);
 
-            SetWorkSpaceInfox(workspaceInfoxAbsPath);
+            SetUserSettings();
             SetProjectInfox(projectInfoxAbsPath, databaseSource);
 
             SetDatabase(databaseSource, _systemFolder, _userFolder);
@@ -143,14 +159,13 @@ namespace Morpho25.Management
             : this(workspaceFolder, databaseSource, envimetFolder)
         {
             ProjectName = projectName;
-            ProjectFolder = System.IO.Path.Combine(WorkspaceFolder, ProjectName);
+            ProjectFolder = Path.Combine(WorkspaceFolder, ProjectName);
             ModelName = modelName;
-            ModelPath = System.IO.Path.Combine(ProjectFolder, ModelName + ".inx");
+            ModelPath = Path.Combine(ProjectFolder, ModelName + ".inx");
 
-            string workspaceInfoxAbsPath = System.IO.Path.Combine(_systemFolder, WORKSPACE_INFOX);
-            string projectInfoxAbsPath = System.IO.Path.Combine(ProjectFolder, PROJECT_INFOX);
+            string projectInfoxAbsPath = Path.Combine(ProjectFolder, PROJECT_INFOX);
 
-            SetWorkSpaceInfox(workspaceInfoxAbsPath);
+            SetUserSettings();
             SetProjectInfox(projectInfoxAbsPath, databaseSource);
 
             SetDatabase(databaseSource, _systemFolder, _userFolder);
@@ -168,25 +183,27 @@ namespace Morpho25.Management
         private void SetDatabase(DatabaseSource databaseSource, 
             string systemFolder, string userFolder)
         {
-            SystemDB = System.IO.Path.Combine(systemFolder, SYSTEM_DB);
+            SystemDB = Path.Combine(systemFolder, SYSTEM_DB);
 
             if (databaseSource == DatabaseSource.Project)
             {
-                ProjectDB = System.IO.Path.Combine(ProjectFolder, PROJECT_DB);
-                if (!System.IO.File.Exists(ProjectDB))
+                ProjectDB = Path.Combine(ProjectFolder, PROJECT_DB);
+                if (!File.Exists(ProjectDB))
                     SetProjectDB();
             }
             else
             {
-                UserDB = System.IO.Path.Combine(userFolder, USER_DB);
+                UserDB = Path.Combine(userFolder, USER_DB);
             }
         }
 
         private string GetEnvimetSystemFolder(string folderName, 
             string envimetFolder)
         {
-            string root = System.IO.Path.GetPathRoot(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-            string directory = System.IO.Path.Combine(root, DEFAULT_FOLDER + $"\\{folderName}\\");
+            string root = System.IO.Path.GetPathRoot(Environment
+                .GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            string directory = System.IO.Path.Combine(root, 
+                DEFAULT_FOLDER + $"\\{folderName}\\");
 
             if (envimetFolder != null)
                 directory = System.IO.Path.Combine(envimetFolder, $"{folderName}\\");
@@ -197,35 +214,55 @@ namespace Morpho25.Management
                 return null;
         }
 
-        private void SetWorkSpaceInfox(string workspaceInfoxAbsPath)
+        private void SetUserSettings()
+        {
+            var folder = Environment.GetFolderPath(
+                Environment.SpecialFolder.ApplicationData);
+            var targetFolder = Path.Combine(folder, FOLDER_NAME);
+            var targetFile = Path.Combine(targetFolder, USER_SETTINGS);
+
+            if (!Directory.Exists(targetFolder))
+                Directory.CreateDirectory(targetFolder);
+
+            WriteUserSettings(targetFile);
+        }
+
+        private void WriteUserSettings(string userSettingsAbsPath)
         {
             var now = DateTime.Now;
 
-            string[] textWorkspaceInfox = {
+            string[] userSettingsData = {
                 "<ENVI-MET_Datafile>",
                 "<Header>",
-                "<filetype>workspacepointer</filetype>",
+                "<filetype>SETX ENVI-met User Settings</filetype>",
                 $"<version>{VERSION}</version>",
-                $"<revisiondate>{now.ToString("yyyy-MM-dd HH:mm:ss")}</revisiondate>",
+                $"<revisiondate>{now.ToString("yyyy-MM-dd HH:mm: ss")}</revisiondate>",
                 "<remark></remark>",
-                $"<checksum>{CHECK_SUM}</checksum>",
-                $"<encryptionlevel>{ENCRIPTION_LEVEL}</encryptionlevel>",
+                "<checksum>0</checksum>",
+                "<encryptionlevel>0</encryptionlevel>",
                 "</Header>",
                 "<current_workspace>",
                 $"<absolute_path> {WorkspaceFolder} </absolute_path>",
                 $"<last_active> {ProjectName} </last_active>",
                 "</current_workspace>",
+                "<python_settings>",
+                $"<selectedPython> {_pythonFolder} </selectedPython>",
+                "</python_settings>",
+                "<userpathinfo>",
+                "<userpathmode> 1 </userpathmode>",
+                $"<userpathinfo> {_userFolder} </userpathinfo>",
+                "</userpathinfo>",
                 "</ENVI-MET_Datafile>"
             };
 
-            System.IO.File.WriteAllLines(workspaceInfoxAbsPath, textWorkspaceInfox);
+            File.WriteAllLines(userSettingsAbsPath, userSettingsData);
         }
 
         private void SetProjectDB()
         {
             var now = DateTime.Now;
 
-            string[] dbText = {
+            string[] projectDBdata = {
                 "<ENVI-MET_Datafile>",
                 "<Header>",
                 "<filetype>DATA</filetype>",
@@ -239,14 +276,14 @@ namespace Morpho25.Management
                 "</ENVI-MET_Datafile>"
             };
 
-            System.IO.File.WriteAllLines(ProjectDB, dbText);
+            File.WriteAllLines(ProjectDB, projectDBdata);
         }
 
         private void SetProjectInfox(string projectInfoxAbsPath, DatabaseSource databaseSource)
         {
             var now = DateTime.Now;
 
-            string[] textProjectFileInfox = {
+            string[] projectInfoData = {
                 "<ENVI-MET_Datafile>",
                 "<Header>",
                 "<filetype>infoX ENVI-met Project Description File</filetype>",
@@ -264,7 +301,7 @@ namespace Morpho25.Management
                 "</ENVI-MET_Datafile>"
             };
 
-            System.IO.File.WriteAllLines(projectInfoxAbsPath, textProjectFileInfox);
+            File.WriteAllLines(projectInfoxAbsPath, projectInfoData);
         }
     }
 }
