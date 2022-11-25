@@ -80,10 +80,11 @@ namespace Morpho25.Geometry
             Grid grid, string wall, string roof)
         {
             var nullPx = new Pixel(0, 0, 0);
+            var one = 1;
 
             // Matrix with default values
-            var matrix = new Matrix3d<string[]>(grid.Size.NumX,
-                grid.Size.NumY, grid.SequenceZ.Count());
+            var matrix = new Matrix3d<string[]>(grid.Size.NumX + one,
+                grid.Size.NumY + one, grid.SequenceZ.Count() + one);
 
             for (int i = 0; i < matrix.GetLengthX(); i++)
                 for (int j = 0; j < matrix.GetLengthY(); j++)
@@ -120,24 +121,49 @@ namespace Morpho25.Geometry
             return rows;
         }
 
-        private static void ShiftPixels(List<Pixel> pixels, List<Pixel> terrainPixels)
+        private static void ShiftBuildings(Grid grid, List<Pixel> pixels,
+            List<Pixel> terrainPixels)
         {
-            if (terrainPixels != null)
+            var zLimit = grid.Size.NumZ - 1;
+            // Envimet Spaces behavior
+            if (terrainPixels.Any())
+            {
+                Parallel.For(0, pixels.Count, i =>
+                {
+                    var offset = 0;
+                    var pixel = new Pixel(0, 0, 0);
+                    var query = terrainPixels
+                        .Where(_ => _.I == pixels[i].I && _.J == pixels[i].J);
+                    if (query.Any()) offset = query.Select(_ => _.K).Max();
+                    var x = pixels[i].I;
+                    var y = pixels[i].J;
+                    var z = pixels[i].K + offset;
+
+
+                    pixel.I = x;
+                    pixel.J = y;
+                    pixel.K = (z >= zLimit) ? zLimit : z;
+                    pixels[i] = pixel;
+                });
+            }
+        }
+
+        private static void ShiftBuildings(Grid grid, List<Pixel> pixels,
+            List<Pixel> terrainPixels, int offset = 0)
+        {
+            var zLimit = grid.Size.NumZ - 1;
+            if (terrainPixels.Any())
             {
                 Parallel.For(0, pixels.Count, i =>
                 {
                     var pixel = new Pixel(0, 0, 0);
-                    var offset = (int)terrainPixels
-                            .Where(_ => _.I == pixels[i].I && _.J == pixels[i].J)?
-                            .Select(_ => _.K)?
-                            .Max();
                     var x = pixels[i].I;
                     var y = pixels[i].J;
                     var z = pixels[i].K + offset;
 
                     pixel.I = x;
                     pixel.J = y;
-                    pixel.K = z;
+                    pixel.K = (z >= zLimit) ? zLimit : z;
                     pixels[i] = pixel;
                 });
             };
@@ -159,15 +185,31 @@ namespace Morpho25.Geometry
         /// <param name="grid">Morpho Grid.</param>
         /// <param name="terrainPixels">Pixels of the terrain.</param>
         public void SetMatrix3d(Grid grid,
-            List<Pixel> terrainPixels = null)
+            List<Pixel> terrainPixels = null,
+            bool shiftEachVoxel = false)
         {
             Reset3Dmatrix();
 
             var pixels = GetPixels(grid).ToList();
-            ShiftPixels(pixels, terrainPixels);
+            if (!pixels.Any()) return;
+
+            var tPixels = FilterPixels(terrainPixels, pixels);
+            if (shiftEachVoxel)
+            {
+                ShiftBuildings(grid, pixels, tPixels);
+            }
+            else
+            {
+                var offset = 0;
+                if (tPixels.Any())
+                {
+                    var groups = tPixels.GroupBy(_ => new { I = _.I, J = _.J });
+                    offset = groups.Select(_ => _.Select(i => i.K).Max()).Min();
+                }
+                ShiftBuildings(grid, pixels, tPixels, offset);
+            }
 
             BuildingIDrows.AddRange(GetBuildingRows(pixels));
-
             var wallDB = GetBuildingRows(pixels, grid,
                 Material.IDs[0], Material.IDs[1]);
             BuildingWallRows.AddRange(wallDB);
@@ -179,6 +221,23 @@ namespace Morpho25.Geometry
                     Material.IDs[0], Material.IDs[1]);
                 BuildingGreenWallRows.AddRange(greeningsDB);
             }
+        }
+
+        private List<Pixel> FilterPixels(List<Pixel> terrainPixels, 
+            List<Pixel> pixels)
+        {
+            var allI = pixels.Select(_ => _.I).Distinct().ToList();
+            var allj = pixels.Select(_ => _.J).Distinct().ToList();
+
+            var tPixels = new List<Pixel>();
+            foreach (var pixel in terrainPixels)
+            {
+                if (!allI.Contains(pixel.I)) continue;
+                if (!allj.Contains(pixel.J)) continue;
+                tPixels.Add(pixel);
+            }
+
+            return tPixels;
         }
 
         private void Reset3Dmatrix()

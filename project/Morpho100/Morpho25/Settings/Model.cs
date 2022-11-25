@@ -22,6 +22,7 @@ namespace Morpho25.Settings
         public List<Receptor> ReceptorObjects { get; set; }
 
         public bool IsDetailed { get; set; }
+        public bool ShiftEachVoxel { get; set; }
 
         public Model(Grid grid, Location location, Workspace workspace)
         {

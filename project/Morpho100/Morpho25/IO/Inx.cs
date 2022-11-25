@@ -36,8 +36,8 @@ namespace Morpho25.IO
             if (IsASCIIcorrect(ASCIIterrain))
                 TerrainMatrix = ASCIIterrain;
             SoilMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["soilMatrix"]);
-
-            // TODO: Remove 3D calculation
+            // 2D only
+            Model.IsDetailed = false;
         }
 
         private bool IsASCIIcorrect(string ASCIImatrix)
@@ -73,6 +73,7 @@ namespace Morpho25.IO
 
             // Is 3D?
             var is3D = Model.IsDetailed;
+            var shiftVoxels = Model.ShiftEachVoxel;
 
             // get ascii matrix
             string topMatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["topMatrix"]);
@@ -253,8 +254,7 @@ namespace Morpho25.IO
 
             foreach (var building in buildings)
             {
-                // TODO: Add terrain
-                building.SetMatrix3d(grid, terrainPixels);
+                building.SetMatrix3d(grid, terrainPixels, shiftVoxels);
                 idMatrix.AddRange(building.BuildingIDrows);
                 wallMatrix.AddRange(building.BuildingWallRows);
                 greenMatrix.AddRange(building.BuildingGreenWallRows);
