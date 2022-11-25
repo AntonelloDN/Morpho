@@ -1,38 +1,47 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30128.74
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Morpho25", "Morpho25\Morpho25.csproj", "{28173BCD-CA54-4B73-88F0-6BD41D118BE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Morpho25", "Morpho25\Morpho25.csproj", "{28173BCD-CA54-4B73-88F0-6BD41D118BE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorphoRhino", "MorphoRhino\MorphoRhino.csproj", "{48188922-DF89-41D8-9A38-BC5CE6071B06}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MorphoRhino", "MorphoRhino\MorphoRhino.csproj", "{48188922-DF89-41D8-9A38-BC5CE6071B06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorphoGeometry", "MorphoGeometry\MorphoGeometry.csproj", "{E673720F-76C3-43C5-8CA0-9718C1B63265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MorphoGeometry", "MorphoGeometry\MorphoGeometry.csproj", "{E673720F-76C3-43C5-8CA0-9718C1B63265}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorphoReader", "MorphoReader\MorphoReader.csproj", "{B91050E7-AA46-4B96-8FDD-A21738A8E606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MorphoReader", "MorphoReader\MorphoReader.csproj", "{B91050E7-AA46-4B96-8FDD-A21738A8E606}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		ReleaseLoc|Any CPU = ReleaseLoc|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{28173BCD-CA54-4B73-88F0-6BD41D118BE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{28173BCD-CA54-4B73-88F0-6BD41D118BE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28173BCD-CA54-4B73-88F0-6BD41D118BE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28173BCD-CA54-4B73-88F0-6BD41D118BE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28173BCD-CA54-4B73-88F0-6BD41D118BE1}.ReleaseLoc|Any CPU.ActiveCfg = ReleaseLoc|Any CPU
+		{28173BCD-CA54-4B73-88F0-6BD41D118BE1}.ReleaseLoc|Any CPU.Build.0 = ReleaseLoc|Any CPU
 		{48188922-DF89-41D8-9A38-BC5CE6071B06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{48188922-DF89-41D8-9A38-BC5CE6071B06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48188922-DF89-41D8-9A38-BC5CE6071B06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48188922-DF89-41D8-9A38-BC5CE6071B06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48188922-DF89-41D8-9A38-BC5CE6071B06}.ReleaseLoc|Any CPU.ActiveCfg = ReleaseLoc|Any CPU
+		{48188922-DF89-41D8-9A38-BC5CE6071B06}.ReleaseLoc|Any CPU.Build.0 = ReleaseLoc|Any CPU
 		{E673720F-76C3-43C5-8CA0-9718C1B63265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E673720F-76C3-43C5-8CA0-9718C1B63265}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E673720F-76C3-43C5-8CA0-9718C1B63265}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E673720F-76C3-43C5-8CA0-9718C1B63265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E673720F-76C3-43C5-8CA0-9718C1B63265}.ReleaseLoc|Any CPU.ActiveCfg = ReleaseLoc|Any CPU
+		{E673720F-76C3-43C5-8CA0-9718C1B63265}.ReleaseLoc|Any CPU.Build.0 = ReleaseLoc|Any CPU
 		{B91050E7-AA46-4B96-8FDD-A21738A8E606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B91050E7-AA46-4B96-8FDD-A21738A8E606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B91050E7-AA46-4B96-8FDD-A21738A8E606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B91050E7-AA46-4B96-8FDD-A21738A8E606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B91050E7-AA46-4B96-8FDD-A21738A8E606}.ReleaseLoc|Any CPU.ActiveCfg = ReleaseLoc|Any CPU
+		{B91050E7-AA46-4B96-8FDD-A21738A8E606}.ReleaseLoc|Any CPU.Build.0 = ReleaseLoc|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

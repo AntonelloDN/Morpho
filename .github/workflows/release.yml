@@ -17,20 +17,14 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           submodules: true
-
-      - name: Setup MSbuild
-        uses: microsoft/setup-msbuild@v1.0.2
-
-      - name: Build
-        working-directory: project/Morpho/MorphoRhino
-        run: |
-          msbuild MorphoRhino.csproj /p:Configuration=Release /restore
+      
       - name: zip Plugin
         run: |
           echo "Check"
-          ls ..\..\..\deploy
+          ls deploy
           echo "Create zip file"
-          Compress-Archive -Path ..\..\..\deploy\* -DestinationPath Morpho.zip
+          Compress-Archive -Path deploy\* -DestinationPath Morpho.zip
+      
       - run: npx semantic-release
         if: github.ref == 'refs/heads/master'
         env:

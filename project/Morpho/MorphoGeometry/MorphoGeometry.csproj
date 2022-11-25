@@ -9,10 +9,15 @@
 		<Version>1.1.0</Version>
 		<Title>Envimet geometry library</Title>
 		<Description>Envimet geometry library</Description>
+		<Configurations>Debug;Release;ReleaseLoc</Configurations>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+	<PropertyGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='ReleaseLoc'">
 		<DebugType>none</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseLoc|net48|AnyCPU'">
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 </Project>

@@ -19,21 +19,22 @@
 			RmDir /S /Q "$(AppData)\Morpho\$(Configuration)"
 		</PostBuildEvent>
 
-		<PreBuildEvent Condition="'$(Configuration)'=='Release'">
+		<PreBuildEvent Condition="'$(Configuration)'=='ReleaseLoc'">
 			echo "Clean"
 			RmDir /S /Q "..\..\..\deploy\lib\Morpho"
 		</PreBuildEvent>
-		<AppendTargetFrameworkToOutputPath Condition="'$(Configuration)'=='Release'">false</AppendTargetFrameworkToOutputPath>
-		<AppendRuntimeIdentifierToOutputPath Condition="'$(Configuration)'=='Release'">false</AppendRuntimeIdentifierToOutputPath>
-		<BaseOutputPath Condition="'$(Configuration)'=='Release'">..\..\..\deploy\lib</BaseOutputPath>
-		<PostBuildEvent Condition="'$(Configuration)'=='Release'">
+		<AppendTargetFrameworkToOutputPath Condition="'$(Configuration)'=='ReleaseLoc'">false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath Condition="'$(Configuration)'=='ReleaseLoc'">false</AppendRuntimeIdentifierToOutputPath>
+		<BaseOutputPath Condition="'$(Configuration)'=='ReleaseLoc'">..\..\..\deploy\lib</BaseOutputPath>
+		<PostBuildEvent Condition="'$(Configuration)'=='ReleaseLoc'">
 			echo "Change dir name"
 			cd "..\..\..\deploy\lib"
 			rename $(Configuration) Morpho
 		</PostBuildEvent>
+		<Configurations>Debug;Release;ReleaseLoc</Configurations>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+	<PropertyGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='ReleaseLoc'">
 		<DebugType>none</DebugType>
 	</PropertyGroup>
 	
@@ -42,7 +43,7 @@
 		<ProjectReference Include="..\Morpho25\Morpho25.csproj" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(Configuration)'=='Release'">
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='ReleaseLoc'">
 		<PackageReference Include="Morpho.Envimet" Version="1.1.0" />
 	</ItemGroup>
 
@@ -54,6 +55,10 @@
 		<StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
 		<StartArguments>/nosplash</StartArguments>
 		<StartAction>Program</StartAction>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseLoc|net48|AnyCPU'">
+	  <Optimize>True</Optimize>
 	</PropertyGroup>
 
 </Project>
