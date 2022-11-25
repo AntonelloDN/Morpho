@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-    name: "Build and release Morpho"
+    name: Build and release Morpho
     runs-on: windows-latest
 
     steps:
-      - name: "Checkout Master Branch"
+      - name: Checkout master branch
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_TOKEN }}
@@ -22,12 +22,14 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Build
-        working-directory: project\Morpho\MorphoRhino
+        working-directory: project/Morpho/MorphoRhino
         run: |
           msbuild MorphoRhino.csproj /p:Configuration=Release /restore
       - name: zip Plugin
         run: |
+          echo "Check"
           ls ..\..\..\deploy
+          echo "Create zip file"
           Compress-Archive -Path ..\..\..\deploy\* -DestinationPath Morpho.zip
       - run: npx semantic-release
         if: github.ref == 'refs/heads/master'

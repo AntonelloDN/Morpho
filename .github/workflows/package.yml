@@ -1,0 +1,35 @@
+name: NUGET
+
+on:
+  push:
+    branches: [ package ]
+  pull_request:
+    branches: [ package ]
+
+jobs:
+  build:
+    name: Publish nuget package
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Build with dotnet
+        working-directory: project/Morpho/MorphoReader
+        run: |
+          dotnet build MorphoReader.csproj --configuration Release /nowarn:CS0472 --force --no-incremental
+      
+      - name: Deploy Morpho
+        working-directory: project/Morpho/MorphoReader
+        run: |
+          echo "Remove bin"
+          rm bin\* -Recurse -Force
+          echo "Clean"
+          dotnet clean MorphoReader.csproj -c Release
+          echo "Pack"
+          dotnet pack MorphoReader.csproj --configuration Release 
+          echo "Deploy"
+          dotnet nuget push bin\Release\*.nupkg -k ${{secrets.NUGET_API_KEY}} -s https://api.nuget.org/v3/index.json
