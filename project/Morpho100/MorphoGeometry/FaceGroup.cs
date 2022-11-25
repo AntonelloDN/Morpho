@@ -4,15 +4,29 @@ using System.Linq;
 
 namespace MorphoGeometry
 {
+    /// <summary>
+    /// Facegroup class.
+    /// </summary>
     public class FaceGroup
     {
+        /// <summary>
+        /// Faces of the facegroup.
+        /// </summary>
         public List<Face> Faces { get; }
 
+        /// <summary>
+        /// Create a new facegroup.
+        /// </summary>
+        /// <param name="faces">Faces.</param>
         public FaceGroup(List<Face> faces)
         {
             Faces = TriangulateFaces(faces);
         }
 
+        /// <summary>
+        /// Convert facegroup to array of float.
+        /// </summary>
+        /// <returns>Jagged array.</returns>
         public float[][][] ToArray()
         {
             return Faces
@@ -42,6 +56,10 @@ namespace MorphoGeometry
             return outFaces;
         }
 
+        /// <summary>
+        /// String representation of facegroup.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override String ToString()
         {
             return string.Format("FaceGroup::{0}", Faces.Count);

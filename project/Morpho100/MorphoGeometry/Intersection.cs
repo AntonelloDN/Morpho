@@ -5,10 +5,21 @@ using System.Threading.Tasks;
 
 namespace MorphoGeometry
 {
+    /// <summary>
+    /// Intersection class.
+    /// </summary>
     public class Intersection
     {
-
-        public static Vector RayFaceIntersect(Ray ray, Face face, bool reverse = false, bool project = false)
+        /// <summary>
+        /// Ray face intersection.
+        /// </summary>
+        /// <param name="ray">Ray.</param>
+        /// <param name="face">Face.</param>
+        /// <param name="reverse">Reverse the face.</param>
+        /// <param name="project">Project the intersection points.</param>
+        /// <returns>Intersection point.</returns>
+        public static Vector RayFaceIntersect(Ray ray, Face face, 
+            bool reverse = false, bool project = false)
         {
             Vector v0, v1, v2;
 
@@ -47,10 +58,14 @@ namespace MorphoGeometry
                 return null;
 
             float distance = (v0v2.Dot(qvec) * invDet);
-            float c = (float) Math.Sqrt(ray.direction.x * ray.direction.x + ray.direction.y * ray.direction.y + ray.direction.z * ray.direction.z);
+            float c = (float) Math.Sqrt(ray.direction.x * 
+                ray.direction.x + ray.direction.y * ray.direction.y +
+                ray.direction.z * ray.direction.z);
             float angle = distance / c;
 
-            Vector intersection = new Vector(ray.origin.x + ray.direction.x * angle, ray.origin.y + ray.direction.y * angle, ray.origin.z + ray.direction.z * angle);
+            Vector intersection = new Vector(ray.origin.x + 
+                ray.direction.x * angle, ray.origin.y + 
+                ray.direction.y * angle, ray.origin.z + ray.direction.z * angle);
 
             if (project)
                 intersection = new Vector(ray.origin.x, ray.origin.y, ray.origin.z);
@@ -58,6 +73,15 @@ namespace MorphoGeometry
             return intersection;
         }
 
+        /// <summary>
+        /// Rays facegroup intersection.
+        /// </summary>
+        /// <param name="rays">Rays.</param>
+        /// <param name="facegroup">Facegroup to hit.</param>
+        /// <param name="RayMethod">Intersection method.</param>
+        /// <param name="reverse">Reverse the faces.</param>
+        /// <param name="project">Project the intersection points.</param>
+        /// <returns>Intersection points.</returns>
         public static IEnumerable<Vector> RaysFaceGroupIntersect(IEnumerable<Ray> rays,
             FaceGroup facegroup,
             Func<Ray, Face, bool, bool, Vector> RayMethod,
@@ -95,7 +119,16 @@ namespace MorphoGeometry
             return intersections;
         }
 
-        public static Vector RayFaceIntersectFrontBack(Ray ray, Face face, bool reverse, bool project)
+        /// <summary>
+        /// Ray face intersection both face directions.
+        /// </summary>
+        /// <param name="ray">Ray.</param>
+        /// <param name="face">Face.</param>
+        /// <param name="reverse">Reverse the face.</param>
+        /// <param name="project">Project intersection points.</param>
+        /// <returns>Intersection point.</returns>
+        public static Vector RayFaceIntersectFrontBack(Ray ray, 
+            Face face, bool reverse, bool project)
         {
             if (face.IsPointBehind(ray.origin) < 0)
             {
@@ -107,6 +140,12 @@ namespace MorphoGeometry
             }
         }
 
+        /// <summary>
+        /// Is point inside a facegroup.
+        /// </summary>
+        /// <param name="vectors">Points to test.</param>
+        /// <param name="facegroup">Facegroup.</param>
+        /// <returns>Inside points.</returns>
         public static IEnumerable<Vector> IsPointInsideFaceGroup(List<Vector> vectors,
             FaceGroup facegroup)
         {
@@ -125,6 +164,12 @@ namespace MorphoGeometry
             return intersections;
         }
 
+        /// <summary>
+        /// Is point inside a facegroup.
+        /// </summary>
+        /// <param name="facegroup">Facegroup.</param>
+        /// <param name="point">Point to test.</param>
+        /// <returns>True or false.</returns>
         public static bool IsPointInside(FaceGroup facegroup, Vector point)
         {
             var triangles = facegroup.ToArray();

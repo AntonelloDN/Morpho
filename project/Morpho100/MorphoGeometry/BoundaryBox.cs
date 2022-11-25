@@ -6,12 +6,27 @@ using System.Threading.Tasks;
 
 namespace MorphoGeometry
 {
+    /// <summary>
+    /// Boundary box class.
+    /// </summary>
     public class BoundaryBox
     {
         private const int NUM_VERT = 3;
+        
+        /// <summary>
+        /// Lower left point.
+        /// </summary>
         public Vector MinPoint { get; }
+
+        /// <summary>
+        /// Upper right point.
+        /// </summary>
         public Vector MaxPoint { get; }
 
+        /// <summary>
+        /// Create a new boundary box.
+        /// </summary>
+        /// <param name="facegroup">Facegroup.</param>
         public BoundaryBox(FaceGroup facegroup)
         {
             float[] coordinateX = new float[facegroup.Faces.Count * NUM_VERT];

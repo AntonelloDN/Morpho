@@ -3,16 +3,37 @@ using System.Linq;
 
 namespace MorphoGeometry
 {
+    /// <summary>
+    /// Face class.
+    /// </summary>
     public class Face
     {
 
         private Vector[] _vertices;
 
+        /// <summary>
+        /// First vertex.
+        /// </summary>
         public Vector A => Vertices[0];
+
+        /// <summary>
+        /// Second vertex.
+        /// </summary>
         public Vector B => Vertices[1];
+
+        /// <summary>
+        /// Third vertex.
+        /// </summary>
         public Vector C => Vertices[2];
+
+        /// <summary>
+        /// Fourth vertex
+        /// </summary>
         public Vector D => Vertices[3];
 
+        /// <summary>
+        /// Vertices of the face.
+        /// </summary>
         public Vector[] Vertices
         {
             get { return _vertices; }
@@ -26,6 +47,12 @@ namespace MorphoGeometry
             }
         }
 
+        /// <summary>
+        /// Is point behind a Face.
+        /// </summary>
+        /// <param name="point">Point for testing.</param>
+        /// <returns>0, 1, -1. 0 onto the face. 1 in front 
+        /// of the face. -1 behind the face</returns>
         public int IsPointBehind(Vector point)
         {
             var v = Vector.VectorFrom2Points(A, point);
@@ -34,7 +61,9 @@ namespace MorphoGeometry
             else return 0;
         }
 
-
+        /// <summary>
+        /// Normal vector.
+        /// </summary>
         public Vector Normal
         {
             get
@@ -45,16 +74,28 @@ namespace MorphoGeometry
             }
         }
 
+        /// <summary>
+        /// Create a new face.
+        /// </summary>
+        /// <param name="vertices">Vertices.</param>
         public Face(Vector[] vertices)
         {
             Vertices = vertices;
         }
 
+        /// <summary>
+        /// Face with 4 vertices.
+        /// </summary>
+        /// <returns>True or false.</returns>
         public bool IsQuad()
         {
             return (Vertices.Length == 4);
         }
 
+        /// <summary>
+        /// Minimun point of the face.
+        /// </summary>
+        /// <returns>Vector.</returns>
         public Vector Min()
         {
             var x = Vertices.Select(_ => _.x).Min();
@@ -64,6 +105,10 @@ namespace MorphoGeometry
             return new Vector(x, y, z);
         }
 
+        /// <summary>
+        /// Maximum point of the face.
+        /// </summary>
+        /// <returns>Vector.</returns>
         public Vector Max()
         {
             var x = Vertices.Select(_ => _.x).Max();
@@ -73,7 +118,11 @@ namespace MorphoGeometry
             return new Vector(x, y, z);
         }
 
-
+        /// <summary>
+        /// From quadrangular face to triangular face.
+        /// </summary>
+        /// <param name="face">Face to divide.</param>
+        /// <returns>Array of triangular faces.</returns>
         public static Face[] Triangulate(Face face)
         {
             return new Face[]
@@ -83,6 +132,10 @@ namespace MorphoGeometry
             };
         }
 
+        /// <summary>
+        /// String representation of the face.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override String ToString()
         {
             return string.Format("Face::{0}", Vertices.Length);
