@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Morpho25.Geometry
 {
-    internal class Matrix3d
+    public class Matrix3d
     {
         private readonly string[,,] _values;
 

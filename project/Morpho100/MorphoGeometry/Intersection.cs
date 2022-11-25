@@ -60,6 +60,7 @@ namespace MorphoGeometry
 
         public static IEnumerable<Vector> RaysFaceGroupIntersect(IEnumerable<Ray> rays,
             FaceGroup facegroup,
+            Func<Ray, Face, bool, bool, Vector> RayMethod,
             bool reverse = false,
             bool project = false)
         {
@@ -79,7 +80,7 @@ namespace MorphoGeometry
                     if (ray.origin.x > max.x) continue;
                     if (ray.origin.y > max.y) continue;
 
-                    var intersection = RayFaceIntersect(ray, face, reverse, project);
+                    var intersection = RayMethod(ray, face, reverse, project);
                     if (intersection != null)
                     {
                         partial.Add(intersection);
@@ -89,6 +90,36 @@ namespace MorphoGeometry
             });
             var intersections = faceIntersectArr
                 .SelectMany(i => i)
+                .Where(_ => _ != null);
+
+            return intersections;
+        }
+
+        public static Vector RayFaceIntersectFrontBack(Ray ray, Face face, bool reverse, bool project)
+        {
+            if (face.IsPointBehind(ray.origin) < 0)
+            {
+                return RayFaceIntersect(ray, face, true, project);
+            }
+            else
+            {
+                return RayFaceIntersect(ray, face, reverse, project);
+            }
+        }
+
+        public static IEnumerable<Vector> IsPointInsideFaceGroup(List<Vector> vectors,
+            FaceGroup facegroup)
+        {
+            var points = new Vector[vectors.Count()];
+
+            for (int i = 0; i < vectors.Count; i++)
+            {
+                if (IsPointInside(facegroup, vectors[i]))
+                {
+                    points[i] = vectors[i];
+                }
+            }
+            var intersections = points
                 .Where(_ => _ != null);
 
             return intersections;
@@ -105,10 +136,12 @@ namespace MorphoGeometry
                         pt[i] -= P[i];
 
             var qM = new float[triangles.Length][][];
+            var Mnorm = new float[triangles.Length][];
             for (var i = 0; i < triangles.Length; i++)
             {
                 var tri = triangles[i];
                 qM[i] = new float[tri.Length][];
+                Mnorm[i] = new float[tri.Length];
                 for (var j = 0; j < tri.Length; j++)
                 {
                     var pt = tri[j];
@@ -118,18 +151,8 @@ namespace MorphoGeometry
                         qM[i][j][k] = Convert.ToSingle(Math.Pow((double)pt[k], 
                             (double)2));
                     }
-                }
-            }
-
-            var Mnorm = new float[triangles.Length][];
-            for (var i = 0; i < qM.Length; i++)
-            {
-                var tri = qM[i];
-                Mnorm[i] = new float[tri.Length];
-                for (var j = 0; j < tri.Length; j++)
-                {
                     Mnorm[i][j] = Convert.ToSingle(Math
-                        .Sqrt((double)tri[j].Sum()));
+                        .Sqrt((double)qM[i][j].Sum()));
                 }
             }
 

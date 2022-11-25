@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace Morpho25.Utility
 {
-    public class Util
+    public static class Util
     {
         public const double TO_KELVIN = 273.15;
 
@@ -17,6 +17,14 @@ namespace Morpho25.Utility
                 sum += item;
                 yield return sum;
             }
+        }
+        public static List<List<T>> ChunkBy<T>(this List<T> source, int chunkSize)
+        {
+            return source
+                .Select((x, i) => new { Index = i, Value = x })
+                .GroupBy(x => x.Index / chunkSize)
+                .Select(x => x.Select(v => v.Value).ToList())
+                .ToList();
         }
 
         public static List<double> ConvertToNumber(string cell)

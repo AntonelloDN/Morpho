@@ -4,14 +4,53 @@ using System.Collections.Generic;
 using MorphoGeometry;
 using Morpho25.Geometry;
 
-
 namespace Morpho25.Utility
 {
     public class EnvimetUtility
     {
-        public static IEnumerable<Vector> Raycasting(List<Ray> rays, FaceGroup facegroup, bool reverse = false, bool project = false)
+        public static IEnumerable<Vector> Raycasting2D(List<Ray> rays, 
+            FaceGroup facegroup, bool reverse = false, 
+            bool project = false)
         {
-            return Intersection.RaysFaceGroupIntersect(rays, facegroup, reverse, project);
+            return Intersection.RaysFaceGroupIntersect(rays, facegroup,
+                Intersection.RayFaceIntersect,
+                reverse, project);
+        }
+
+        public static IEnumerable<Vector> Raycasting3D(List<Ray> rays,
+            FaceGroup facegroup, bool reverse = false,
+            bool project = false)
+        {
+            return Intersection.RaysFaceGroupIntersect(rays, facegroup,
+                Intersection.RayFaceIntersectFrontBack,
+                reverse, project);
+        }
+
+        public static IEnumerable<Vector> GetCentroids(Grid grid, 
+            IEnumerable<Vector> intersections)
+        {
+            var groups = intersections
+                .GroupBy(_ => new { x = _.x, y = _.y, } )
+                .ToList();
+
+            var centroids = new List<Vector>();
+            foreach (var group in groups)
+            {
+                var chunks = group.ToList().ChunkBy(2);
+                foreach (var pts in chunks)
+                {
+                    var heights = pts.Select(_ => _.z);
+                    var min = heights.Min();
+                    var max = heights.Max();
+
+                    var zCoords = Util.FilterByMinMax(grid.Zaxis, max, min);
+                    var voxels = zCoords.Select(_ => new Vector(pts[0].x, pts[0].y, Convert.ToSingle(_)));
+
+                    centroids.AddRange(voxels);
+                }
+            }
+
+            return centroids;
         }
 
         public static List<Ray> GetRayFromFacegroup(Grid grid, FaceGroup facegroup)

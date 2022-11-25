@@ -26,6 +26,25 @@ namespace MorphoGeometry
             }
         }
 
+        public int IsPointBehind(Vector point)
+        {
+            var v = Vector.VectorFrom2Points(A, point);
+            if (Normal.Dot(v) > 0) return 1;
+            else if (Normal.Dot(v) < 0) return -1;
+            else return 0;
+        }
+
+
+        public Vector Normal
+        {
+            get
+            {
+                var dir = (B.Sub(A)).Cross(C.Sub(A));
+                var norm = dir.Normalize();
+                return norm;
+            }
+        }
+
         public Face(Vector[] vertices)
         {
             Vertices = vertices;

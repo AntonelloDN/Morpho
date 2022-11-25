@@ -11,6 +11,7 @@ namespace Morpho25.Geometry
         public Matrix2d TopMatrix { get; private set; }
         public Matrix2d BottomMatrix { get; private set; }
         public Matrix2d IDmatrix { get; private set; }
+        public Matrix3d VoxelMatrix { get; private set; }
 
         public override Material Material {
             get { return _material; }
@@ -34,6 +35,7 @@ namespace Morpho25.Geometry
             Name = name ?? "Building";
 
             SetMatrix(grid);
+            //SetMatrix3d(grid);
         }
 
         private void SetMatrix(Grid grid)
@@ -44,8 +46,8 @@ namespace Morpho25.Geometry
 
             List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
 
-            IEnumerable<Vector> intersectionTop = EnvimetUtility.Raycasting(rays, Geometry, true, false);
-            IEnumerable<Vector> intersectionBottom = EnvimetUtility.Raycasting(rays, Geometry, false, false);
+            IEnumerable<Vector> intersectionTop = EnvimetUtility.Raycasting2D(rays, Geometry, true, false);
+            IEnumerable<Vector> intersectionBottom = EnvimetUtility.Raycasting2D(rays, Geometry, false, false);
 
             SetMatrix(intersectionTop, grid, topMatrix, "");
             SetMatrix(intersectionBottom, grid, bottomMatrix, "");
@@ -54,6 +56,21 @@ namespace Morpho25.Geometry
             TopMatrix = topMatrix;
             BottomMatrix = bottomMatrix;
             IDmatrix = idMatrix;
+        }
+
+        public IEnumerable<Vector> SetMatrix3d(Grid grid)
+        {
+            Matrix3d matrix = new Matrix3d(grid.Size.NumX, grid.Size.NumY, grid.Size.NumZ, "0");
+
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+
+            var intersections = EnvimetUtility.Raycasting3D(rays, Geometry, false, false);
+
+            var centroids = EnvimetUtility.GetCentroids(grid, intersections);
+            SetMatrix(centroids, grid, matrix, ID.ToString());
+
+            VoxelMatrix = matrix;
+            return centroids;
         }
 
         public override string ToString()

@@ -31,7 +31,7 @@ namespace Morpho25.Geometry
 
             List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
 
-            var intersection = EnvimetUtility.Raycasting(rays, Geometry, true, false);
+            var intersection = EnvimetUtility.Raycasting2D(rays, Geometry, true, false);
             SetMatrix(intersection, grid, matrix, "");
 
             IDmatrix = matrix;

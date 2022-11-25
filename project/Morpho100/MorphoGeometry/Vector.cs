@@ -35,7 +35,7 @@ namespace MorphoGeometry
         }
 
         public float[] ToArray()
-        { 
+        {
             return new[] { x, y, z };
         }
 
@@ -60,6 +60,11 @@ namespace MorphoGeometry
                 this.z * v.x - this.x * v.z,
                 this.x * v.y - this.y * v.x
             );
+        }
+
+        public static Vector VectorFrom2Points(Vector vec1, Vector vec2)
+        {
+            return new Vector(vec2.x - vec1.x, vec2.y - vec1.y, vec2.z - vec1.z);
         }
 
         public float Length()
