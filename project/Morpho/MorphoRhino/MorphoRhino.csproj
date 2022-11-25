@@ -14,10 +14,22 @@
 		<AppendRuntimeIdentifierToOutputPath Condition="'$(Configuration)'=='Debug'">false</AppendRuntimeIdentifierToOutputPath>
 		<BaseOutputPath Condition="'$(Configuration)'=='Debug'">$(AppData)\Morpho</BaseOutputPath>
 		<PostBuildEvent Condition="'$(Configuration)'=='Debug'">
-			XCOPY "$(AppData)\Morpho\$(Configuration)\*" "$(AppData)\Morpho\" /S /Y
-			RD "$(AppData)\Morpho\$(Configuration)\" /S /Q
+			echo "Copy files"
+			XCOPY /S /Y "$(AppData)\Morpho\$(Configuration)\*" "$(AppData)\Morpho\"
+			RmDir /S /Q "$(AppData)\Morpho\$(Configuration)"
 		</PostBuildEvent>
 
+		<PreBuildEvent Condition="'$(Configuration)'=='Release'">
+			RmDir /S /Q "..\..\..\deploy\lib\Morpho"
+		</PreBuildEvent>
+		<AppendTargetFrameworkToOutputPath Condition="'$(Configuration)'=='Release'">false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath Condition="'$(Configuration)'=='Release'">false</AppendRuntimeIdentifierToOutputPath>
+		<BaseOutputPath Condition="'$(Configuration)'=='Release'">..\..\..\deploy\lib</BaseOutputPath>
+		<PostBuildEvent Condition="'$(Configuration)'=='Release'">
+			echo "Change dir name"
+			cd "..\..\..\deploy\lib"
+			rename $(Configuration) Morpho
+		</PostBuildEvent>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
