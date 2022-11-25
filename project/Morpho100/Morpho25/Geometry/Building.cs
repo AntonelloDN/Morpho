@@ -51,8 +51,8 @@ namespace Morpho25.Geometry
 
             List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
 
-            IEnumerable<Vector> intersectionTop = EnvimetUtility.Raycasting2D(rays, Geometry, true, false);
-            IEnumerable<Vector> intersectionBottom = EnvimetUtility.Raycasting2D(rays, Geometry, false, false);
+            IEnumerable<Vector> intersectionTop = EnvimetUtility.Raycasting2D(rays, Geometry, true);
+            IEnumerable<Vector> intersectionBottom = EnvimetUtility.Raycasting2D(rays, Geometry, false);
 
             SetMatrix(intersectionTop, grid, topMatrix, "");
             SetMatrix(intersectionBottom, grid, bottomMatrix, "");
@@ -65,6 +65,11 @@ namespace Morpho25.Geometry
 
         private IEnumerable<string> GetBuildingRows(List<Pixel> pixels)
         {
+            //pixels = pixels
+            //    .OrderBy(_ => _.I)
+            //    .OrderBy(_ => _.J)
+            //    .OrderBy(_ => _.K)
+            //    .ToList();
             foreach (var px in pixels)
             {
                 yield return String.Format("{0},{1},{2},{3},{4}", px.I, px.J, px.K, 1, ID);
@@ -79,6 +84,7 @@ namespace Morpho25.Geometry
             // Matrix with default values
             var matrix = new Matrix3d<string[]>(grid.Size.NumX,
                 grid.Size.NumY, grid.SequenceZ.Count());
+
             for (int i = 0; i < matrix.GetLengthX(); i++)
                 for (int j = 0; j < matrix.GetLengthY(); j++)
                     for (int k = 0; k < matrix.GetLengthZ(); k++)
@@ -99,11 +105,15 @@ namespace Morpho25.Geometry
                 var wallMat = (wall != Material.DEFAULT_GREEN_WALL) ? wall : null;
                 var roofMat = (roof != Material.DEFAULT_GREEN_ROOF) ? roof : null;
 
+                // Limits
+                var rlx = px.I + 1 < grid.Size.NumX;
+                var rly = px.J + 1 < grid.Size.NumY;
+
                 if (li == nullPx) matrix[px.I, px.J, px.K][0] = wallMat;
                 if (lj == nullPx) matrix[px.I, px.J, px.K][1] = wallMat;
                 if (bk == nullPx) matrix[px.I, px.J, px.K][2] = roofMat;
-                if (ri == nullPx) matrix[px.I + 1, px.J, px.K][0] = wallMat;
-                if (rj == nullPx) matrix[px.I, px.J + 1, px.K][1] = wallMat;
+                if (rlx && ri == nullPx) matrix[px.I + 1, px.J, px.K][0] = wallMat;
+                if (rly && rj == nullPx) matrix[px.I, px.J + 1, px.K][1] = wallMat;
                 if (tk == nullPx) matrix[px.I, px.J, px.K + 1][2] = roofMat;
             });
             var rows = EnvimetUtility.GetStringRows(matrix);

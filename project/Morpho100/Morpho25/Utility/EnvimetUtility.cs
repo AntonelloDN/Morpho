@@ -8,13 +8,32 @@ namespace Morpho25.Utility
 {
     public static class EnvimetUtility
     {
-        public static IEnumerable<Vector> Raycasting2D(List<Ray> rays, 
-            FaceGroup facegroup, bool reverse = false, 
+        public static IEnumerable<Vector> Raycasting2D(List<Ray> rays,
+            FaceGroup facegroup, bool reverse = false,
             bool project = false)
         {
-            return Intersection.RaysFaceGroupIntersect(rays, facegroup,
+            var intersections = Intersection.RaysFaceGroupIntersect(rays, facegroup,
                 Intersection.RayFaceIntersect,
                 reverse, project);
+            // Clean duplicates
+            var groups = intersections
+                .GroupBy(_ => new { x = _.x, y = _.y, })
+                .ToList();
+
+            var pts = new List<Vector>();
+            foreach (var group in groups)
+            {
+                var vectors = group.OrderBy(_ => _.z);
+                if (reverse)
+                {
+                    pts.Add(vectors.Last());
+                }
+                else
+                {
+                    pts.Add(vectors.First());
+                }
+            }
+            return pts;
         }
 
         public static IEnumerable<Vector> Raycasting3D(List<Ray> rays,
@@ -26,11 +45,11 @@ namespace Morpho25.Utility
                 reverse, project);
         }
 
-        public static IEnumerable<Vector> GetCentroids(Grid grid, 
+        public static IEnumerable<Vector> GetCentroids(Grid grid,
             IEnumerable<Vector> intersections)
         {
             var groups = intersections
-                .GroupBy(_ => new { x = _.x, y = _.y, } )
+                .GroupBy(_ => new { x = _.x, y = _.y, })
                 .ToList();
 
             var centroids = new List<Vector>();
@@ -55,9 +74,9 @@ namespace Morpho25.Utility
 
         public static IEnumerable<string> GetStringRows(Matrix3d<string[]> matrix)
         {
-            for (int i = 0; i < matrix.GetLengthX(); i++)
+            for (int k = 0; k < matrix.GetLengthZ(); k++)
                 for (int j = 0; j < matrix.GetLengthY(); j++)
-                    for (int k = 0; k < matrix.GetLengthZ(); k++)
+                    for (int i = 0; i < matrix.GetLengthX(); i++)
                     {
                         if (matrix[i, j, k].Count(_ => _ == null) < 3)
                         {

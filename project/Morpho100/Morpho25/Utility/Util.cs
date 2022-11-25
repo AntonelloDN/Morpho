@@ -43,7 +43,7 @@ namespace Morpho25.Utility
 
             foreach (double value in sequence)
             {
-                if (value < upperLimit && value >= lowerLimit)
+                if (value < upperLimit && value > lowerLimit)
                     values.Add(value);
             }
 

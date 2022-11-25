@@ -30,7 +30,10 @@ namespace Morpho25.Geometry
             foreach (Vector vec in intersection)
             {
                 var pixel = vec.ToPixel(grid);
-                matrix[pixel.I, pixel.J] = (text == String.Empty) ? Math.Round(vec.z, 0).ToString() : text;
+
+                matrix[pixel.I, pixel.J] = (text == String.Empty) 
+                    ? Math.Round(vec.z, 0).ToString() 
+                    : text;
             }
         }
 
