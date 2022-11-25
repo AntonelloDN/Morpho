@@ -9,6 +9,15 @@
 		<Version>1.0.0</Version>
 		<Title>Envimet rhino library</Title>
 		<Description>Envimet rhino library</Description>
+
+		<AppendTargetFrameworkToOutputPath Condition="'$(Configuration)'=='Debug'">false</AppendTargetFrameworkToOutputPath>
+		<AppendRuntimeIdentifierToOutputPath Condition="'$(Configuration)'=='Debug'">false</AppendRuntimeIdentifierToOutputPath>
+		<BaseOutputPath Condition="'$(Configuration)'=='Debug'">$(AppData)\Morpho</BaseOutputPath>
+		<PostBuildEvent Condition="'$(Configuration)'=='Debug'">
+			XCOPY "$(AppData)\Morpho\$(Configuration)\*" "$(AppData)\Morpho\" /S /Y
+			RD "$(AppData)\Morpho\$(Configuration)\" /S /Q
+		</PostBuildEvent>
+
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -16,11 +25,17 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\MorphoGeometry\MorphoGeometry.csproj" />
+		<ProjectReference Include="..\MorphoReader\MorphoReader.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="RhinoCommon" Version="6.23.20055.13111" IncludeAssets="compile;build" />
 	</ItemGroup>
+
+	<PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
+		<StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
+		<StartArguments>/nosplash</StartArguments>
+		<StartAction>Program</StartAction>
+	</PropertyGroup>
 
 </Project>
