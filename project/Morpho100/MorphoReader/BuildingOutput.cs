@@ -7,8 +7,15 @@ using MorphoGeometry;
 
 namespace MorphoReader
 {
+    /// <summary>
+    /// Building output of envimet.
+    /// </summary>
     public class BuildingOutput : BinaryOutput
     {
+        /// <summary>
+        /// Create a new building output object.
+        /// </summary>
+        /// <param name="edx">EDX file.</param>
         public BuildingOutput(string edx)
             : base(edx)
         {
@@ -18,13 +25,25 @@ namespace MorphoReader
             BasePoint = new Vector(0, 0, 0);
         }
 
+        /// <summary>
+        /// Create a new building output object.
+        /// </summary>
+        /// <param name="edx">EDX file.</param>
+        /// <param name="basePoint">Base point.</param>
         public BuildingOutput(string edx, Vector basePoint) 
             : this(edx)
         {
             BasePoint = basePoint;
         }
 
-        public override void SetValuesFromBinary(string edt, List<Facade> facades, int variable)
+        /// <summary>
+        /// Set values from a binary file.
+        /// </summary>
+        /// <param name="edt">EDT file.</param>
+        /// <param name="facades">Facades to map.</param>
+        /// <param name="variable">Variable to read.</param>
+        public override void SetValuesFromBinary(string edt, 
+            List<Facade> facades, int variable)
         {
             using (FileStream SourceStream = File.Open(edt, FileMode.Open))
             {

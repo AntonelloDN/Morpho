@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace MorphoReader
 {
+    /// <summary>
+    /// Direction enum.
+    /// </summary>
     public enum Direction
     {
         X,
@@ -16,6 +19,9 @@ namespace MorphoReader
         Z
     }
 
+    /// <summary>
+    /// Binary output of envimet.
+    /// </summary>
     public abstract class BinaryOutput
     {
         protected int _numX;
@@ -46,8 +52,13 @@ namespace MorphoReader
         public string SimulationDate { get; protected set; }
         public string SimulationTime { get; protected set; }
 
-        public delegate Face FaceByDirection(float spacingX, float spacingY, float spacingZ, Vector centroid);
-
+        public delegate Face FaceByDirection(float spacingX, float spacingY, 
+            float spacingZ, Vector centroid);
+        
+        /// <summary>
+        /// Create new binary output object.
+        /// </summary>
+        /// <param name="edx">EDX file.</param>
         public BinaryOutput(string edx)
         {
             Read edxFile = new Read(edx);
@@ -60,11 +71,19 @@ namespace MorphoReader
             SetGeneralInfo(outputKeys);
         }
 
+        /// <summary>
+        /// Set variable names
+        /// </summary>
+        /// <param name="outputKeys">Keys.</param>
         protected void SetVariableName(Dictionary<string, string> outputKeys)
         {
             VariableName = outputKeys["name_variables"].Split(',');
         }
 
+        /// <summary>
+        /// Set X Y Z axis.
+        /// </summary>
+        /// <param name="outputKeys">Keys.</param>
         protected void SetSpacing(Dictionary<string, string> outputKeys)
         {
             _spacingX = outputKeys["spacing_x"]
@@ -81,6 +100,10 @@ namespace MorphoReader
                 .ToList();
         }
 
+        /// <summary>
+        /// Set X Y Z sequences.
+        /// </summary>
+        /// <param name="outputKeys">Keys.</param>
         protected void Setsequence(Dictionary<string, string> outputKeys)
         {
             _sequenceX = Util.Accumulate(_spacingX).ToList();
@@ -88,6 +111,10 @@ namespace MorphoReader
             _sequenceZ = Util.Accumulate(_spacingZ).ToList();
         }
 
+        /// <summary>
+        /// Set number of cells X Y Z.
+        /// </summary>
+        /// <param name="outputKeys">Keys.</param>
         protected void SetNumberOfCells(Dictionary<string, string> outputKeys)
         {
             _numX = Convert.ToInt32(outputKeys["nr_xdata"]);
@@ -95,6 +122,10 @@ namespace MorphoReader
             _numZ = Convert.ToInt32(outputKeys["nr_zdata"]);
         }
 
+        /// <summary>
+        /// Set generic information.
+        /// </summary>
+        /// <param name="outputKeys">Keys.</param>
         protected void SetGeneralInfo(Dictionary<string, string> outputKeys)
         {
             ProjectName = outputKeys["projectname"];
@@ -104,6 +135,11 @@ namespace MorphoReader
             SimulationTime = outputKeys["simulation_time"];
         }
 
+        /// <summary>
+        /// Get building facades from EDT EDX.
+        /// </summary>
+        /// <param name="faceByDirection">Facade direction.</param>
+        /// <returns></returns>
         protected List<Facade> GetFacadesFromBinary(FaceByDirection faceByDirection)
         {
 
@@ -131,6 +167,14 @@ namespace MorphoReader
             return facades;
         }
 
+        /// <summary>
+        /// Facade in X.
+        /// </summary>
+        /// <param name="spacingX">Spacing value in X.</param>
+        /// <param name="spacingY">Spacing value in Y.</param>
+        /// <param name="spacingZ">Spacing value in Z.</param>
+        /// <param name="centroid">Centroid.</param>
+        /// <returns>Selected face.</returns>
         protected Face FaceX(float spacingX, float spacingY, float spacingZ, Vector centroid)
         {
             var points = new Vector[]
@@ -146,6 +190,14 @@ namespace MorphoReader
             return face;
         }
 
+        /// <summary>
+        /// Facade in Y.
+        /// </summary>
+        /// <param name="spacingX">Spacing value in X.</param>
+        /// <param name="spacingY">Spacing value in Y.</param>
+        /// <param name="spacingZ">Spacing value in Z.</param>
+        /// <param name="centroid">Centroid.</param>
+        /// <returns>Selected face.</returns>
         protected Face FaceY(float spacingX, float spacingY, float spacingZ, Vector centroid)
         {
 
@@ -162,6 +214,14 @@ namespace MorphoReader
             return face;
         }
 
+        /// <summary>
+        /// Facade in Z.
+        /// </summary>
+        /// <param name="spacingX">Spacing value in X.</param>
+        /// <param name="spacingY">Spacing value in Y.</param>
+        /// <param name="spacingZ">Spacing value in Z.</param>
+        /// <param name="centroid">Centroid.</param>
+        /// <returns>Selected face.</returns>
         protected Face FaceZ(float spacingX, float spacingY, float spacingZ, Vector centroid)
         {
 
@@ -178,6 +238,11 @@ namespace MorphoReader
             return face;
         }
 
+        /// <summary>
+        /// Get facades by direction.
+        /// </summary>
+        /// <param name="direction">Direction.</param>
+        /// <returns>Collection of facades.</returns>
         public List<Facade> GetFacades(Direction direction)
         {
 
@@ -196,6 +261,13 @@ namespace MorphoReader
 
         }
 
-        public abstract void SetValuesFromBinary(string edt, List<Facade> facades, int variable);
+        /// <summary>
+        /// Set values reading EDX file.
+        /// </summary>
+        /// <param name="edt">EDT file.</param>
+        /// <param name="facades">Facades.</param>
+        /// <param name="variable">Index of the variable to read.</param>
+        public abstract void SetValuesFromBinary(string edt, 
+            List<Facade> facades, int variable);
     }
 }

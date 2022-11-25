@@ -7,11 +7,20 @@ using System.Xml.Linq;
 
 namespace MorphoReader
 {
-
+    /// <summary>
+    /// Read class.
+    /// </summary>
     class Read
     {
+        /// <summary>
+        /// Binary information.
+        /// </summary>
         public Dictionary<string, string> Information { get; private set; }
 
+        /// <summary>
+        /// Create a new read object.
+        /// </summary>
+        /// <param name="path">Full path of the EDT file.</param>
         public Read(string path)
         {
             Information = GetDictionaryFromXml(path);
