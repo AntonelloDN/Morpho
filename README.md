@@ -1,7 +1,7 @@
 ![Logo](https://github.com/AntonelloDN/Morpho/blob/master/logo/logo_morpho_32.png)
 ![Example](https://github.com/AntonelloDN/Morpho/blob/master/images/morpho_read_results_00.PNG)
 # Morpho
-A plugin to create Envimet 2.5D models (INX), write configuration files (SIMX), run simulation and read results.<br>
+A plugin to create Envimet 2.5D and 3D models (INX), write configuration files (SIMX), run simulation and read results.<br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
 It contains a library of classes you can use with **Grasshopper**, **Dynamo** and other softwares.
 
@@ -35,9 +35,8 @@ This project is partially financed by ENVI_met GmbH
 * Grid settings is based on a single point, user specify how many grid cells to use in x, y and z.
 * User experiece of modeling of 3D trees. Geometries are points
 * Flexible way to read EDT files
-## Limits v.1.0.1:
+## Limits v.1.1.0:
 * 1D results reader and receptors reader need to be add
-* It is like Monde of ENVI-met: it does not use detail 3D mode
 ## Roadmap:
 - [x] Components for Grasshopper
 - [x] Solve geometry3sharp intersection performance issue with big meshes - MorphoGeometry! :muscle::
@@ -45,5 +44,5 @@ This project is partially financed by ENVI_met GmbH
 - [x] Create DEM using directly an ASCII matrix
 - [x] Added UTM for georeference.
 - [x] Add DLL and components to read EDT EDX. Almost done.
-- [ ] Add documentation string of C# library
+- [x] Add documentation string of C# library
 - [ ] Release nodes for Dynamo for geometry. Dynamo development is on pause. If you are a dynamo developer feel you free to improve Morpho
