@@ -64,7 +64,7 @@ namespace Morpho25.Geometry
         {
             Matrix2d matrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, Material.DEFAULT_SOIL);
 
-            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroupBbox(grid, Geometry);
 
             var intersection = EnvimetUtility.Raycasting2D(rays, Geometry, false, false);
             SetMatrix(intersection, grid, matrix, Material.IDs[0]);

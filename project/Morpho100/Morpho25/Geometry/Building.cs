@@ -94,7 +94,7 @@ namespace Morpho25.Geometry
             Matrix2d bottomMatrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
             Matrix2d idMatrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
 
-            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroupBbox(grid, Geometry);
 
             IEnumerable<Vector> intersectionTop = EnvimetUtility.Raycasting2D(rays, Geometry, true);
             IEnumerable<Vector> intersectionBottom = EnvimetUtility.Raycasting2D(rays, Geometry, false);
@@ -216,7 +216,7 @@ namespace Morpho25.Geometry
 
         private IEnumerable<Pixel> GetPixels(Grid grid)
         {
-            List<Ray> rays = EnvimetUtility.GetRayFromFacegroup(grid, Geometry);
+            List<Ray> rays = EnvimetUtility.GetRayFromFacegroupBbox(grid, Geometry);
             var intersections = EnvimetUtility.Raycasting3D(rays, Geometry, false, false);
             var centroids = EnvimetUtility.GetCentroids(grid, intersections);
             var pixels = centroids.Select(_ => _.ToPixel(grid)).ToList();

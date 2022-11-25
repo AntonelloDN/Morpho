@@ -5,10 +5,21 @@ using System.Xml;
 
 namespace Morpho25.Utility
 {
+    /// <summary>
+    /// Util class.
+    /// </summary>
     public static class Util
     {
+        /// <summary>
+        /// From °C to Kelvin.
+        /// </summary>
         public const double TO_KELVIN = 273.15;
 
+        /// <summary>
+        /// Accumulate list of double.
+        /// </summary>
+        /// <param name="sequence">List of double.</param>
+        /// <returns>New list of value with partial sums.</returns>
         public static IEnumerable<double> Accumulate(IEnumerable<double> sequence)
         {
             double sum = 0;
@@ -19,7 +30,15 @@ namespace Morpho25.Utility
             }
         }
 
-        public static List<List<T>> ChunkBy<T>(this List<T> source, int chunkSize)
+        /// <summary>
+        /// Divide a list into chunks.
+        /// </summary>
+        /// <typeparam name="T">Type to use</typeparam>
+        /// <param name="source">List to transform.</param>
+        /// <param name="chunkSize">Size of the chunk.</param>
+        /// <returns>List of chunks.</returns>
+        public static List<List<T>> ChunkBy<T>(this List<T> source, 
+            int chunkSize)
         {
             return source
                 .Select((x, i) => new { Index = i, Value = x })
@@ -28,6 +47,11 @@ namespace Morpho25.Utility
                 .ToList();
         }
 
+        /// <summary>
+        /// Convert a cell to number.
+        /// </summary>
+        /// <param name="cell">Cell to convert.</param>
+        /// <returns>List of values.</returns>
         public static List<double> ConvertToNumber(string cell)
         {
             var spacing = cell.Split(',')
@@ -37,7 +61,15 @@ namespace Morpho25.Utility
             return spacing;
         }
 
-        public static IEnumerable<double> FilterByMinMax(double[] sequence, double upperLimit, double lowerLimit)
+        /// <summary>
+        /// Return a sublist of an array using upper and lower limits.
+        /// </summary>
+        /// <param name="sequence">List to use.</param>
+        /// <param name="upperLimit">Upper limit.</param>
+        /// <param name="lowerLimit">Lower limit.</param>
+        /// <returns>New list of values.</returns>
+        public static IEnumerable<double> FilterByMinMax(double[] sequence, 
+            double upperLimit, double lowerLimit)
         {
             List<double> values = new List<double>();
 
@@ -50,13 +82,34 @@ namespace Morpho25.Utility
             return values;
         }
 
-        public static int ClosestValue(double[] sequence, double number)
+        /// <summary>
+        /// Using an array get the index of the closest value 
+        /// by a number.
+        /// </summary>
+        /// <param name="sequence">Array to use.</param>
+        /// <param name="number">Number to use to get the 
+        /// closest value.</param>
+        /// <returns>Return the index of the closest value.</returns>
+        public static int ClosestValue(double[] sequence, 
+            double number)
         {
-            double value = sequence.Aggregate((a, b) => Math.Abs(a - number) < Math.Abs(b - number) ? a : b);
+            double value = sequence.Aggregate((a, b) => Math.Abs(
+                a - number) < Math.Abs(b - number) ? a : b);
             return Array.IndexOf(sequence, value);
         }
 
-        public static void CreateXmlSection(XmlTextWriter w, string sectionTitle, string[] tags, string[] values, int flag, string[] attributes)
+        /// <summary>
+        /// Utility method to create envimet XML part.
+        /// </summary>
+        /// <param name="w">XML writer.</param>
+        /// <param name="sectionTitle">Title of the section.</param>
+        /// <param name="tags">Tags of the section.</param>
+        /// <param name="values">Valued of the section.</param>
+        /// <param name="flag">0, 1, 2 for section type.</param>
+        /// <param name="attributes">Attributes of the root.</param>
+        public static void CreateXmlSection(XmlTextWriter w, 
+            string sectionTitle, string[] tags, string[] values, 
+            int flag, string[] attributes)
         {
             w.WriteStartElement(sectionTitle);
             w.WriteString("\n ");
