@@ -9,35 +9,34 @@ This project is partially financed by ENVI_met GmbH
 ## Requirements
 * [ENVI-met 5](https://www.envi-met.com/buy-now/)
 ## Installation:
-1. Download Morpho.
+1. Download Morpho.zip from [Releases](https://github.com/AntonelloDN/Morpho/releases)
 2. Check if downloaded .zip file has been blocked: right click on it, and choose Properties. If there is an Unblock button click on it, otherwise it is OK. Unzip it.
 3. Follow 'README.txt' instructions.
 ## Video
 * [Playlist](https://www.youtube.com/playlist?list=PLVk71QLjaA6PES3DFI37t5iAUSC7lgIpJ)
-## Dependencies:
-* Morpho25.dll (for Rhino and Dynamo)
-* MorphoRhino.dll (for Rhino only)
-* MorphoGeometry.dll (for Rhino and Dynamo)
-* MorphoReader.dll (for Rhino and Dynamo)
+## Dependencies
+* [Morpho.Envimet](https://www.nuget.org/packages/Morpho.Envimet)
+
 ## Software tested
 * Rhino 6, Rhino 7
 * Dynamo for Revit 2021
 ## Features:
 * Settings of Workspace, project and model
-* Modeling of envimet entities for 2.5D INX. Such as Buildings, Plant2D and Soils
+* Modeling of envimet entities for 2.5D and 3D INX. Such as Buildings, Plant2D and Soils
 * Reading materials from system DB, project DB and user DB
 * Settings of simulation file (SIMX) with more than 15 advanced settings. Both Simpleforcing and Fullforcing supported.
 * Running envimet simulation
 * Reading binary output files of envimet (EDT): Atmosphere, Soil, Surface, Buildings, Vegetation, SolarAccess, Radiation
-## Improvements
+## Improvements:
 * it is possible to use class library with other softwares: only requirement is translate input geometries in Facegroup and Vector of MorphoGeometry
 * integration with ShrimpGIS and Gismo
 * Grid settings is based on a single point, user specify how many grid cells to use in x, y and z.
 * User experiece of modeling of 3D trees. Geometries are points
 * Flexible way to read EDT files
-## Limits v.1.1.0:
+* It generates 2.5D and 3D models.
+## Limits:
 * 1D results reader and receptors reader need to be add
-## Roadmap:
+## Roadmap
 - [x] Components for Grasshopper
 - [x] Solve geometry3sharp intersection performance issue with big meshes - MorphoGeometry! :muscle::
 - [x] 5 Example files for Grasshopper
