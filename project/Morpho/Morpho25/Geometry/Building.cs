@@ -16,7 +16,7 @@ namespace Morpho25.Geometry
         /// Geometry of the building.
         /// </summary>
         public FaceGroup Geometry { get; }
-        
+
         /// <summary>
         /// 2D Matrix from the top.
         /// </summary>
@@ -238,20 +238,23 @@ namespace Morpho25.Geometry
             var pixels = GetPixels(grid).ToList();
             if (!pixels.Any()) return;
 
-            var tPixels = FilterPixels(terrainPixels, pixels);
-            if (shiftEachVoxel)
+            if (terrainPixels != null)
             {
-                ShiftBuildings(grid, pixels, tPixels);
-            }
-            else
-            {
-                var offset = 0;
-                if (tPixels.Any())
+                var tPixels = FilterPixels(terrainPixels, pixels);
+                if (shiftEachVoxel)
                 {
-                    var groups = tPixels.GroupBy(_ => new { I = _.I, J = _.J });
-                    offset = groups.Select(_ => _.Select(i => i.K).Max()).Min();
+                    ShiftBuildings(grid, pixels, tPixels);
                 }
-                ShiftBuildings(grid, pixels, tPixels, offset);
+                else
+                {
+                    var offset = 0;
+                    if (tPixels.Any())
+                    {
+                        var groups = tPixels.GroupBy(_ => new { I = _.I, J = _.J });
+                        offset = groups.Select(_ => _.Select(i => i.K).Max()).Min();
+                    }
+                    ShiftBuildings(grid, pixels, tPixels, offset);
+                }
             }
 
             BuildingIDrows.AddRange(GetBuildingRows(pixels));
@@ -268,7 +271,7 @@ namespace Morpho25.Geometry
             }
         }
 
-        private List<Pixel> FilterPixels(List<Pixel> terrainPixels, 
+        private List<Pixel> FilterPixels(List<Pixel> terrainPixels,
             List<Pixel> pixels)
         {
             var allI = pixels.Select(_ => _.I).Distinct().ToList();

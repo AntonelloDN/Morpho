@@ -80,7 +80,8 @@ namespace Morpho25.Utility
             var centroids = new List<Vector>();
             foreach (var group in groups)
             {
-                var chunks = group.ToList().ChunkBy(2);
+                var sortGroup = group.OrderBy(_ => _.z);
+                var chunks = sortGroup.ToList().ChunkBy(2);
                 foreach (var pts in chunks)
                 {
                     var heights = pts.Select(_ => _.z);
