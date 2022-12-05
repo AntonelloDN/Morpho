@@ -21,6 +21,7 @@ Read and sort all binaries of an output folder of envimet
         solaraccess: Solaraccess binaries (safac).
         surface: Surface binaries (edt).
         vegetation: Vegetation binaries (edt).
+        pollutants: Pollutants binaries (edt).
 """
 
 ghenv.Component.Name = "Morpho Output Folder"
@@ -29,14 +30,15 @@ ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "3 || IO"
 try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 import os
 
 if _output_folder:
     directory = os.listdir(_output_folder)
     
-    folder_to_search = ['atmosphere', 'buildings', 'radiation', 'soil', 'solaraccess', 'surface', 'vegetation']
+    folder_to_search = ['atmosphere', 'buildings', 'radiation', 'soil', 
+        'solaraccess', 'surface', 'vegetation', 'pollutants']
     
     path = [os.path.join(_output_folder, f) for f in directory 
             if str.lower(f) in folder_to_search]
@@ -68,5 +70,7 @@ if _output_folder:
         surface = result['surface']
     if 'vegetation' in result:
         vegetation = result['vegetation']
+    if 'pollutants' in result:
+        pollutants = result['pollutants']
 else:
     print 'Please connect the full path of an envimet output folder'
