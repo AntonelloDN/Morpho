@@ -62,7 +62,7 @@ namespace Morpho25.IO
         /// <param name="file">File path of the DB to read.</param>
         /// <param name="type">Section of DB to read.</param>
         /// <param name="keyword">Filter by keyword.</param>
-        public Library(string file, 
+        public Library(string file,
             string type, string keyword)
         {
             Code = new List<string>();
@@ -75,12 +75,13 @@ namespace Morpho25.IO
         private string GetCompatibleText(string file)
         {
             string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding isoLatin1 = Encoding.GetEncoding(28591);
+            Encoding encoding = Encoding.UTF8;
 
             if (!System.IO.File.Exists(file))
-                throw new Exception ($"{file} not found.");
-            string text = System.IO.File.ReadAllText(file, isoLatin1);
+                throw new Exception($"{file} not found.");
+            string text = System.IO.File.ReadAllText(file, encoding);
 
+            text = System.Net.WebUtility.HtmlDecode(text);
             Regex.Replace(characters, "", text);
 
             return text.Replace("&", "");
@@ -107,7 +108,7 @@ namespace Morpho25.IO
 
             Code = text.Select(e => e.Item1.Replace(" ", "")).ToList();
             Description = text.Select(e => e.Item2).ToList();
-            Detail = text.Select(e => e.Item3 ).ToList();
+            Detail = text.Select(e => e.Item3).ToList();
         }
     }
 }

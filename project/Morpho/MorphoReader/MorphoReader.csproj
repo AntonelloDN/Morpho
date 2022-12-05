@@ -8,7 +8,7 @@
 		<Company>ENVI-met GmbH</Company>
 		<PackageId>Morpho.Envimet</PackageId>
 		<Product>Morpho.Envimet</Product>
-		<Version>1.1.1</Version>
+		<Version>1.1.2</Version>
 		<Title>Envimet libraries</Title>
 		<PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
 		<Copyright>Copyright © 2022 Antonello Di Nunzio</Copyright>
