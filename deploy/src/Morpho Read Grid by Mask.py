@@ -15,6 +15,7 @@ USE IT ONLY IF YOU HAVE DEM or you want to create particular visualization. Othe
 Compatible edt files come from
 . Atmosphere -> dir Z
 . Radiation -> dir Z
+. Pollutants -> dir Z
 . Comfort (UTCI, PET, SET, PMV) -> dir Z
 -
 Thanks to Graziano Marchesani for the 'follow terrain' visualization idea.
@@ -74,7 +75,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def get_file_path(path):
     
@@ -105,8 +106,8 @@ def main():
         
         print("Grid: {0}, {1}, {2}".format(output.NumX, output.NumY, output.NumZ))
         
-        if output.DataContent not in [1, 5, 11]:
-            print("Please, connect an edt file.\nYou can read Atmosphere, Radiation, Comfort.")
+        if output.DataContent not in [1, 4, 5, 11]:
+            print("Please, connect an edt file.\nYou can read Atmosphere, Radiation, Comfort, Pollutants.")
             return [None] * 7
         
         if _run_it and _z_mask:

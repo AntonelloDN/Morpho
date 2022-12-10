@@ -14,6 +14,7 @@ Compatible edt files come from
 . Atmosphere -> slice dir X, Y, Z
 . Surface -> slice dir Z only z0
 . Soil -> slice dir Z
+. Pollutants -> slice dir X, Y, Z
 . Radiation -> slice dir X, Y, Z
 . SolarAccess SA -> slice dir Z only z0
 . Comfort (UTCI, PET, SET, PMV) -> slice dir X, Y, Z
@@ -73,7 +74,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def get_file_path(path):
     
@@ -112,8 +113,8 @@ def main():
         
         print("Grid: {0}, {1}, {2}".format(output.NumX, output.NumY, output.NumZ))
         
-        if output.DataContent not in [1, 2, 3, 5, 8, 11]:
-            print("Please, connect an edt file.\nYou can read Atmosphere, Surface, Soil, Radiation, SolarAccess, Comfort")
+        if output.DataContent not in [1, 2, 3, 4, 5, 8, 11]:
+            print("Please, connect an edt file.\nYou can read Atmosphere, Surface, Soil, Pollutants, Radiation, SolarAccess, Comfort")
             return [None] * 7
         
         if _run_it:
