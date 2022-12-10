@@ -28,13 +28,9 @@ namespace MorphoReader
         private string ReadEdxFile(string path)
         {
             string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding encoding = Encoding.UTF8;
+            Encoding isoLatin1 = Encoding.GetEncoding(28591); ;
+            string text = System.IO.File.ReadAllText(path, isoLatin1);
 
-            if (!System.IO.File.Exists(path))
-                throw new Exception($"{path} not found.");
-            string text = System.IO.File.ReadAllText(path, encoding);
-
-            text = System.Net.WebUtility.HtmlDecode(text);
             Regex.Replace(characters, "", text);
 
             return text.Replace("&", "")
