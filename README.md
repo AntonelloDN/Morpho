@@ -1,5 +1,10 @@
 ![Logo](https://github.com/AntonelloDN/Morpho/blob/master/logo/logo_morpho_32.png)
+[![Version](https://img.shields.io/nuget/v/Morpho.Envimet.svg?color=royalblue)](https://www.nuget.org/packages/Morpho.Envimet)
+[![Downloads](https://img.shields.io/nuget/dt/Morpho.Envimet.svg?color=green)](https://www.nuget.org/packages/Morpho.Envimet)
+[![License](https://img.shields.io/github/license/AntonelloDN/Morpho.svg?color=blue)](https://github.com/AntonelloDN/Morpho/blob/main/LICENSE)
+[![Build](https://github.com/AntonelloDN/Morpho/workflows/NUGET/badge.svg?branch=package)](https://github.com/AntonelloDN/Morpho/actions)
 ![Example](https://github.com/AntonelloDN/Morpho/blob/master/images/morpho_read_results_00.PNG)
+
 # Morpho
 A plugin to create Envimet 2.5D and 3D models (INX), write configuration files (SIMX), run simulation and read results.<br>
 It is based on following projects: lb_envimet, df_envimet and Envimet INX.
