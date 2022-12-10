@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace Morpho25.IO
 {
@@ -55,7 +56,7 @@ namespace Morpho25.IO
         /// <summary>
         /// Collection of material's detail.
         /// </summary>
-        public List<XElement> Detail { get; private set; }
+        public List<string> Detail { get; private set; }
         /// <summary>
         /// Create a new library object.
         /// </summary>
@@ -67,7 +68,7 @@ namespace Morpho25.IO
         {
             Code = new List<string>();
             Description = new List<string>();
-            Detail = new List<XElement>();
+            Detail = new List<string>();
 
             SetLibrary(file, type, keyword);
         }
@@ -91,24 +92,32 @@ namespace Morpho25.IO
         {
             string innerText = GetCompatibleText(file);
 
-            XDocument xml = XDocument.Parse(innerText);
-
             string word = (type != GREENING) ? "Description" : "Name";
 
-            var text = (keyword != null) ?
-              from data in xml.Descendants(type)
-              from description in data.Descendants(word)
-              from id in data.Descendants("ID")
-              where description.Value.ToUpper().Contains(keyword.ToUpper())
-              select Tuple.Create(id.Value.ToUpper(), description.Value.ToUpper(), data) :
-              from data in xml.Descendants(type)
-              from description in data.Descendants(word)
-              from id in data.Descendants("ID")
-              select Tuple.Create(id.Value.ToUpper(), description.Value.ToUpper(), data);
+            XmlDocument xmlDcoument = new XmlDocument();
+            xmlDcoument.LoadXml(innerText);
+            XmlNodeList data = xmlDcoument.DocumentElement.SelectNodes(type);
 
-            Code = text.Select(e => e.Item1.Replace(" ", "")).ToList();
-            Description = text.Select(e => e.Item2).ToList();
-            Detail = text.Select(e => e.Item3).ToList();
+            var idContainer = new string[data.Count];
+            var descriptionContainer = new string[data.Count];
+            var dataContainer = new string[data.Count];
+
+            Parallel.For(0, data.Count, i =>
+            {
+                var description = data[i].SelectSingleNode(word).InnerText;
+                if (keyword != null)
+                    if (!description.ToUpper()
+                    .Contains(keyword?.ToUpper())) return;
+
+                dataContainer[i] = data[i].OuterXml;
+                descriptionContainer[i]= description;
+                var id = data[i].SelectSingleNode("ID").InnerText;
+                idContainer[i] = id.Replace(" ", "");
+            });
+
+            Code.AddRange(idContainer.Where(_ => _ != null));
+            Description.AddRange(descriptionContainer.Where(_ => _ != null));
+            Detail.AddRange(dataContainer.Where(_ => _ != null));
         }
     }
 }

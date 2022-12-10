@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
-
+using System.Xml;
 
 namespace MorphoReader
 {
@@ -29,52 +28,63 @@ namespace MorphoReader
         private string ReadEdxFile(string path)
         {
             string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding isoLatin1 = Encoding.GetEncoding(28591); ;
-            string text = System.IO.File.ReadAllText(path, isoLatin1);
+            Encoding encoding = Encoding.UTF8;
 
+            if (!System.IO.File.Exists(path))
+                throw new Exception($"{path} not found.");
+            string text = System.IO.File.ReadAllText(path, encoding);
+
+            text = System.Net.WebUtility.HtmlDecode(text);
             Regex.Replace(characters, "", text);
 
             return text.Replace("&", "")
                 .Replace("<Remark for this Source Type>", "");
         }
 
-        private static string GetValueFromXml(XDocument xml, string keyword)
+        private static string GetValueFromXml(XmlNodeList nodeList, 
+            string keyword)
         {
-            var innerText = xml.Descendants(keyword)
-              .Select(v => v.Value)
-              .ToList()[0].ToString();
-
-            return innerText;
+            // It must be just 1
+            foreach (XmlNode child in nodeList)
+            {
+                return child.SelectSingleNode(keyword).InnerText;
+            }
+            return null;
         }
 
         private Dictionary<string, string> GetDictionaryFromXml(string path)
         {
             Dictionary<string, string> values = new Dictionary<string, string>();
+            XmlDocument xml = new XmlDocument();
 
-            XDocument xml = XDocument.Parse(ReadEdxFile(path));
+            var text = ReadEdxFile(path);
+            xml.LoadXml(text);
 
-            string projectName = GetValueFromXml(xml, "projectname");
-            string simulationDate = GetValueFromXml(xml, "simulation_date")
+            XmlNodeList modeldescription = xml.DocumentElement.SelectNodes("modeldescription");
+            string projectName = GetValueFromXml(modeldescription, "projectname");
+            string simulationDate = GetValueFromXml(modeldescription, "simulation_date")
                 .Replace(" ", ""); ;
-            string simulationTime = GetValueFromXml(xml, "simulation_time")
+            string simulationTime = GetValueFromXml(modeldescription, "simulation_time")
                 .Replace(" ", ""); ;
-            string locationName = GetValueFromXml(xml, "locationname");
-            
-            string dateContent = GetValueFromXml(xml, "data_content");
-            string nameVariables = GetValueFromXml(xml, "name_variables");
+            string locationName = GetValueFromXml(modeldescription, "locationname");
+
+            XmlNodeList variables = xml.DocumentElement.SelectNodes("variables");
+            string nameVariables = GetValueFromXml(variables, "name_variables");
 
 
-            string spacingX = GetValueFromXml(xml, "spacing_x")
+            XmlNodeList datadescription = xml.DocumentElement.SelectNodes("datadescription");
+            string dateContent = GetValueFromXml(datadescription, "data_content");
+            string spacingX = GetValueFromXml(datadescription, "spacing_x")
                 .Replace(" ", "");
-            string spacingY = GetValueFromXml(xml, "spacing_y")
+            string spacingY = GetValueFromXml(datadescription, "spacing_y")
                 .Replace(" ", "");
-            string spacingZ = GetValueFromXml(xml, "spacing_z")
+            string spacingZ = GetValueFromXml(datadescription, "spacing_z")
                 .Replace(" ", "");
-            string nrXdata = GetValueFromXml(xml, "nr_xdata")
+            string nrXdata = GetValueFromXml(datadescription, "nr_xdata")
                 .Replace(" ", "");
-            string nrYdata = GetValueFromXml(xml, "nr_ydata")
+            string nrYdata = GetValueFromXml(datadescription, "nr_ydata")
                 .Replace(" ", "");
-            string nrZdata = GetValueFromXml(xml, "nr_zdata")
+            string nrZdata = GetValueFromXml(datadescription, "nr_zdata")
                 .Replace(" ", "");
 
             values.Add("projectname", projectName);
