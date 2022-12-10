@@ -1,9 +1,10 @@
 ![Logo](https://github.com/AntonelloDN/Morpho/blob/master/logo/logo_morpho_32.png)
 [![Version](https://img.shields.io/nuget/v/Morpho.Envimet.svg?color=royalblue)](https://www.nuget.org/packages/Morpho.Envimet)
-[![Downloads](https://img.shields.io/nuget/dt/Morpho.Envimet.svg?color=green)](https://www.nuget.org/packages/Morpho.Envimet)
+[![Downloads](https://img.shields.io/nuget/dt/Morpho.Envimet.svg?color=green&label=package%20downloads)](https://www.nuget.org/packages/Morpho.Envimet)
 [![License](https://img.shields.io/github/license/AntonelloDN/Morpho.svg?color=blue)](https://github.com/AntonelloDN/Morpho/blob/master/LICENSE)
 [![Build](https://github.com/AntonelloDN/Morpho/workflows/NUGET/badge.svg?branch=package)](https://github.com/AntonelloDN/Morpho/actions/workflows/package.yml)
 [![Build](https://github.com/AntonelloDN/Morpho/workflows/CD/badge.svg?branch=master)](https://github.com/AntonelloDN/Morpho/actions/workflows/release.yml)
+[![Github All Releases](https://img.shields.io/github/downloads/AntonelloDN/Morpho/total.svg?color=white&label=release%20downloads)]()
 ![Example](https://github.com/AntonelloDN/Morpho/blob/master/images/morpho_read_results_00.PNG)
 
 # Morpho
