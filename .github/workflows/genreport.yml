@@ -30,7 +30,6 @@ jobs:
         working-directory: project/Morpho/MorphoTests
         run: |
           mkdir -p .results
-          rm -r .results/*
           dotnet test --collect:"XPlat Code Coverage" -r .results/log
           file_path=$(find .results -name coverage.cobertura.xml)
           echo $file_path
