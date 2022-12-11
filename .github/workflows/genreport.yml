@@ -1,0 +1,42 @@
+name: GITHUB REPORT PAGE
+
+on:
+  push:
+    branches: [ documentation ]
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Install reportgenerator
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+
+      - name: Generate test report
+        working-directory: project/Morpho/MorphoTests
+        run: |
+          mkdir -p .results
+          rm -r -f .results/*
+          dotnet test --collect:"XPlat Code Coverage" -r .results/log
+          reportgenerator -reports:`find .results -name coverage.cobertura.xml` -targetdir:coverlet/reports -reporttypes:HtmlInline_AzurePipelines
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/documentation' }}
+        with:
+          personal_token: ${{ secrets.PER_TOKEN }}
+          publish_dir: ./project/Morpho/MorphoTests/coverlet/reports
