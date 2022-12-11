@@ -32,9 +32,6 @@ jobs:
           mkdir -p .results
           rm -r .results/*
           dotnet test --collect:"XPlat Code Coverage" -r .results/log
-
-      - name: Run bash
-        run: |
           file_path=$(find .results -name coverage.cobertura.xml)
           echo $file_path
           reportgenerator -reports:$file_path -targetdir:coverlet/reports -reporttypes:HtmlInline_AzurePipelines
