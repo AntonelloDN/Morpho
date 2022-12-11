@@ -30,7 +30,7 @@ jobs:
         working-directory: project/Morpho/MorphoTests
         run: |
           mkdir -p .results
-          rm -r -f .results/*
+          rm -r .results/*
           dotnet test --collect:"XPlat Code Coverage" -r .results/log
           reportgenerator -reports:`find .results -name coverage.cobertura.xml` -targetdir:coverlet/reports -reporttypes:HtmlInline_AzurePipelines
 
