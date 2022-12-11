@@ -29,8 +29,8 @@ jobs:
       - name: Generate test report
         working-directory: project/Morpho/MorphoTests
         run: |
-          New-Item -Path '.reports' -ItemType Directory
-          $TestOutput = dotnet test --collect "XPlat Code Coverage"
+          New-Item -Path '.results' -ItemType Directory
+          $TestOutput = dotnet test --collect "XPlat Code Coverage" -r .results/log
           $TestReports = $TestOutput | Select-String coverage.cobertura.xml | ForEach-Object { $_.Line.Trim() }
           reportgenerator -reports:$TestReports -targetdir:coverlet/reports -reporttypes:HtmlInline_AzurePipelines
         shell: powershell
