@@ -32,7 +32,8 @@ jobs:
           mkdir -p .results
           rm -r .results/*
           dotnet test --collect:"XPlat Code Coverage" -r .results/log
-          reportgenerator -reports:`find .results -name coverage.cobertura.xml` -targetdir:coverlet/reports -reporttypes:HtmlInline_AzurePipelines
+          fpa=$(find .results -name coverage.cobertura.xml)
+          reportgenerator -reports:$fpa -targetdir:coverlet/reports -reporttypes:HtmlInline_AzurePipelines
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
