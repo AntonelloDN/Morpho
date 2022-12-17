@@ -8,8 +8,8 @@
                 "assets": [
                     {
                         "path": "installer/Morpho.Rhino.Installer.exe",
-                        "name": "Morpho.Rhino.Installer-${nextRelease.version}.zip",
-                        "label": "Morpho.Rhino.Installer-${nextRelease.version}.zip"
+                        "name": "Morpho.Rhino.Installer-${nextRelease.version}.exe",
+                        "label": "Morpho.Rhino.Installer-${nextRelease.version}.exe"
                     },
                     {
                         "path": "Examples.zip",
