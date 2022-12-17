@@ -10,8 +10,12 @@
                         "path": "installer/Morpho.Rhino.Installer.exe",
                         "name": "Morpho.Rhino.Installer-${nextRelease.version}.zip",
                         "label": "Morpho.Rhino.Installer-${nextRelease.version}.zip"
+                    },
+                    {
+                        "path": "Examples.zip",
+                        "name": "Examples-${nextRelease.version}.zip",
+                        "label": "Examples-${nextRelease.version}.zip"
                     }
-
                 ]
             }
         ]
