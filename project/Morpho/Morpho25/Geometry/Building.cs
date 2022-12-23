@@ -13,6 +13,11 @@ namespace Morpho25.Geometry
     public class Building : Entity
     {
         /// <summary>
+        /// Enable Building BPS output
+        /// </summary>
+        public bool ObserveBPS { get; }
+
+        /// <summary>
         /// Geometry of the building.
         /// </summary>
         public FaceGroup Geometry { get; }
@@ -77,13 +82,19 @@ namespace Morpho25.Geometry
         /// <param name="id">Numerical ID.</param>
         /// <param name="material">Material of the building.</param>
         /// <param name="name">Optional name.</param>
-        public Building(Grid grid, FaceGroup geometry,
-            int id, Material material = null, string name = null)
+        /// <param name="observeBPS">Enable BPS calculation.</param>
+        public Building(Grid grid, 
+            FaceGroup geometry,
+            int id, 
+            Material material = null, 
+            string name = null,
+            bool observeBPS = false)
         {
             ID = id;
             Geometry = geometry;
             Material = material ?? CreateMaterial(null, null, null, null);
             Name = name ?? "Building";
+            ObserveBPS = observeBPS;
 
             SetMatrix(grid);
         }

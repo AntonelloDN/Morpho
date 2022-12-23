@@ -240,9 +240,11 @@ namespace Morpho25.IO
             {
                 foreach (Building building in buildings)
                 {
+                    string bps = building.ObserveBPS ? "1" : "0";
+
                     string buildinginfoTitle = "Buildinginfo";
-                    string[] buildinginfoTag = new string[] { "BuildingInternalNr", "BuildingName", "BuildingWallMaterial", "BuildingRoofMaterial", "BuildingFacadeGreening", "BuildingRoofGreening" };
-                    string[] buildinginfoValue = new string[] { building.ID.ToString(), building.Name, building.Material.IDs[0], building.Material.IDs[1], building.Material.IDs[2], building.Material.IDs[3] };
+                    string[] buildinginfoTag = new string[] { "BuildingInternalNr", "BuildingName", "BuildingWallMaterial", "BuildingRoofMaterial", "BuildingFacadeGreening", "BuildingRoofGreening", "ObserveBPS" };
+                    string[] buildinginfoValue = new string[] { building.ID.ToString(), building.Name, building.Material.IDs[0], building.Material.IDs[1], building.Material.IDs[2], building.Material.IDs[3], bps };
                     Util.CreateXmlSection(xWriter, buildinginfoTitle, buildinginfoTag, buildinginfoValue, 0, empty);
                 }
             }
