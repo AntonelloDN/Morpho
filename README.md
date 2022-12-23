@@ -16,9 +16,12 @@ This project is partially financed by ENVI_met GmbH
 ## Requirements
 * [ENVI-met 5](https://www.envi-met.com/buy-now/)
 ## Installation:
-1. Download Morpho.zip from [Releases](https://github.com/AntonelloDN/Morpho/releases)
-2. Check if downloaded .zip file has been blocked: right click on it, and choose Properties. If there is an Unblock button click on it, otherwise it is OK. Unzip it.
-3. Follow 'README.txt' instructions.
+1. Download and run `Morpho.Rhino.Installer.exe` from [Releases](https://github.com/AntonelloDN/Morpho/releases)
+2. Download the examples from [Releases](https://github.com/AntonelloDN/Morpho/releases)
+## Uninstall:
+1. Go to `Add or remove programs`
+2. Search for `Morpho.Rhino`
+3. Uninstall it
 ## Video
 * [Playlist](https://www.youtube.com/playlist?list=PLVk71QLjaA6PES3DFI37t5iAUSC7lgIpJ)
 ## Dependencies
