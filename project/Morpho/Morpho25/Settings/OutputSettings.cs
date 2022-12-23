@@ -15,14 +15,7 @@ namespace Morpho25.Settings
 
         private int _mainFiles;
         private int _textFiles;
-        /// <summary>
-        /// Number of buildings.
-        /// </summary>
-        public string BuildingNumbers { get; private set; }
-        /// <summary>
-        /// Building count.
-        /// </summary>
-        public int BuildingCnt { get; private set; }
+
         /// <summary>
         /// 1 to enable NetCDF output.
         /// </summary>
@@ -55,23 +48,7 @@ namespace Morpho25.Settings
                 _textFiles = value;
             }
         }
-        /// <summary>
-        /// Write BPS.
-        /// </summary>
-        public int WriteBPS { get; set; }
-        /// <summary>
-        /// Set building numbers.
-        /// </summary>
-        /// <param name="buildings">Buildings.</param>
-        public void SetBuildingNumber(IEnumerable<Building> buildings)
-        {
-            if (WriteBPS == (int) Active.YES)
-            {
-                BuildingNumbers = String.Join(",", 
-                    buildings.Select(b => b.ID).ToList());
-                BuildingCnt = buildings.Count();
-            }
-        }
+
         /// <summary>
         /// Create new OutputSettings.
         /// </summary>
@@ -81,15 +58,12 @@ namespace Morpho25.Settings
             TextFiles = 60;
             NetCDF = (int) Active.NO;
             NetCDFAllDataInOneFile = (int) Active.NO;
-            WriteBPS = (int) Active.NO;
-            BuildingCnt = 0;
-            BuildingNumbers = " ";
         }
         /// <summary>
         /// String representation of OutputSettings.
         /// </summary>
         /// <returns>String representation.</returns>
-        public override string ToString() => $"Config::OutputSettings::{BuildingCnt}";
+        public override string ToString() => $"Config::OutputSettings::{NetCDF}";
     }
 
 }
