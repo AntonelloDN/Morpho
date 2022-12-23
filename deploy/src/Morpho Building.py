@@ -22,6 +22,7 @@ The component will assign automatically IDs starting from _ID connected
         _material_: Material to apply to buildings [Material]. Default material is 000000.
         -
         Use output of 'Morpho Building Material' component to change it.
+        enable_BPS_: It enables Building Performance Simulation output [bool]. For business version only.
         _run: Set it to True to run it.
     
     Returns:
@@ -53,14 +54,15 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
     if _run and _inx_grid and _inx_facegroup and _ID:
         IDs = [i+_ID for i in xrange(len(_inx_facegroup))]
         
-        building = [Building(_inx_grid, mesh, index, _material_, _name_) for mesh, index in zip(_inx_facegroup, IDs)]
+        building = [Building(_inx_grid, mesh, index, 
+            _material_, _name_, enable_BPS_) for mesh, index in zip(_inx_facegroup, IDs)]
         
         return building
     else:

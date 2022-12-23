@@ -22,12 +22,6 @@ REMINDER: BPS is not supported in BASIC and STUDENT version.
         If you have issue with it check you have Microsoft Visual C++ 2010 SP1 Redistributable Package on your machine.
         You can download it for free.
         _netCDF_in_one_file_: Set it to 'True' if you want store output interval in a single NetCDF file [bool]. Default value is for every output inteval (e.g. every virtual hour).
-        _BPS_: Write detailed building data to use with EnergyPlus and TRNSYS. Set it to 'True' to active it.
-        -
-        It works building by building. Once you have activated you must connect inx building you want to calculate.
-        -
-        REMINDER It is not supported in LITE and STUDENT version. 
-        inx_building_: Connect inx buildings to calculate with BPS.
         
     Returns:
         read_me: Message for users.
@@ -58,7 +52,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
@@ -66,17 +60,8 @@ def main():
     
     if _netCDF_: ouput_setting.NetCDF = int(Active.YES)
     if _netCDF_in_one_file_: ouput_setting.NetCDFAllDataInOneFile = int(Active.YES)
-    if _BPS_: ouput_setting.WriteBPS = int(Active.YES)
     if _interval_main_file_: ouput_setting.MainFiles = _interval_main_file_
     if _interval_receptor_building_: ouput_setting.TextFiles = _interval_receptor_building_
-    if inx_building_ and _BPS_:
-        buildings = List[Building](inx_building_)
-        ouput_setting.SetBuildingNumber(buildings)
-    
-    if (ouput_setting.BuildingCnt == 0 and _BPS_):
-        w = gh.GH_RuntimeMessageLevel.Warning
-        message = "Please provide inx_building_."
-        ghenv.Component.AddRuntimeMessage(w, message)
     
     return ouput_setting
 
