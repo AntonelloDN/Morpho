@@ -290,16 +290,13 @@ namespace Morpho25.IO
                 string parallelTitle = "OutputSettings";
                 string[] parallelTag = new string[] { "mainFiles", 
                     "textFiles", "netCDF", "netCDFAllDataInOneFile", 
-                    "inclNestingGrids", "writeBPS", "buildingCnt", 
-                    "buildingNumbers" };
+                    "inclNestingGrids"};
                 string[] parallelValue = new string[] { 
                     OutputSettings.MainFiles.ToString(), 
                     OutputSettings.TextFiles.ToString(), 
                     OutputSettings.NetCDF.ToString(), 
                     OutputSettings.NetCDFAllDataInOneFile.ToString(), 
-                    "0", OutputSettings.WriteBPS.ToString(), 
-                    OutputSettings.BuildingCnt.ToString(), 
-                    OutputSettings.BuildingNumbers.ToString() };
+                    "0" };
 
                 Util.CreateXmlSection(xWriter, parallelTitle, 
                     parallelTag, parallelValue, 0, empty);
