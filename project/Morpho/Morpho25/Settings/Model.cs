@@ -98,7 +98,8 @@ namespace Morpho25.Settings
 
         public override string ToString()
         {
-            return String.Format("EnvimetINX::2.5D::{0}", Workspace.ModelName);
+            var label = IsDetailed ? "3D" : "2.5D";
+            return String.Format($"EnvimetINX::{0}::{1}", Workspace.ModelName, label);
         }
 
         private void SetBuilding()
