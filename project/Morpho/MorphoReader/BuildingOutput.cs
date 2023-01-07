@@ -43,7 +43,7 @@ namespace MorphoReader
         /// <param name="facades">Facades to map.</param>
         /// <param name="variable">Variable to read.</param>
         public override void SetValuesFromBinary(string edt, 
-            List<Facade> facades, int variable)
+            List<Voxel> facades, int variable)
         {
             using (FileStream SourceStream = File.Open(edt, FileMode.Open))
             {

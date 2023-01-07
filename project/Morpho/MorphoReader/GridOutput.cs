@@ -40,10 +40,10 @@ namespace MorphoReader
         /// Set values from a binary file.
         /// </summary>
         /// <param name="edt">EDT file.</param>
-        /// <param name="facades">Facades to map.</param>
+        /// <param name="voxels">Voxels to map.</param>
         /// <param name="variable">Variable to read.</param>
         public override void SetValuesFromBinary(string edt, 
-            List<Facade> facades, int variable)
+            List<Voxel> voxels, int variable)
         {
             using (FileStream SourceStream = File.Open(edt, FileMode.Open))
             {
@@ -61,7 +61,7 @@ namespace MorphoReader
                 for (int i = 0; i < dateArray.Length; i += 4)
                 {
                     number = BitConverter.ToSingle(dateArray, i);
-                    facades[count].ValueZ = number;
+                    voxels[count].ValueZ = number;
                     count++;
                 }
             }

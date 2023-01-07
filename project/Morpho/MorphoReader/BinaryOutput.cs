@@ -136,18 +136,18 @@ namespace MorphoReader
         }
 
         /// <summary>
-        /// Get building facades from EDT EDX.
+        /// Get building voxels from EDT EDX.
         /// </summary>
         /// <param name="faceByDirection">Facade direction.</param>
         /// <returns></returns>
-        protected List<Facade> GetFacadesFromBinary(FaceByDirection faceByDirection)
+        protected List<Voxel> GetFacadesFromBinary(FaceByDirection faceByDirection)
         {
 
-            List<Facade> facades = new List<Facade>();
+            List<Voxel> voxels = new List<Voxel>();
 
             Vector vector;
             Face face;
-            Facade facade;
+            Voxel facade;
 
             for (int k = 0; k < _numZ; k++)
             {
@@ -158,13 +158,13 @@ namespace MorphoReader
                         vector = new Vector((float)_sequenceX[i] + BasePoint.x - (float)_spacingX[i], (float)_sequenceY[j] + BasePoint.y - (float)_spacingY[j], (float)_sequenceZ[k] + BasePoint.z);
                         face = faceByDirection((float)_spacingX[i], (float)_spacingY[j], (float)_spacingZ[k], vector);
 
-                        facade = new Facade(new Pixel(i, j, k), face);
-                        facades.Add(facade);
+                        facade = new Voxel(new Pixel(i, j, k), face);
+                        voxels.Add(facade);
                     }
                 }
             }
 
-            return facades;
+            return voxels;
         }
 
         /// <summary>
@@ -239,11 +239,11 @@ namespace MorphoReader
         }
 
         /// <summary>
-        /// Get facades by direction.
+        /// Get voxels by direction.
         /// </summary>
         /// <param name="direction">Direction.</param>
-        /// <returns>Collection of facades.</returns>
-        public List<Facade> GetFacades(Direction direction)
+        /// <returns>Collection of voxels.</returns>
+        public List<Voxel> GetVoxels(Direction direction)
         {
 
             if (direction == Direction.X)
@@ -265,9 +265,9 @@ namespace MorphoReader
         /// Set values reading EDX file.
         /// </summary>
         /// <param name="edt">EDT file.</param>
-        /// <param name="facades">Facades.</param>
+        /// <param name="voxels">Facades.</param>
         /// <param name="variable">Index of the variable to read.</param>
         public abstract void SetValuesFromBinary(string edt, 
-            List<Facade> facades, int variable);
+            List<Voxel> voxels, int variable);
     }
 }
