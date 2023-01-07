@@ -218,14 +218,14 @@ namespace MorphoReader
         }
 
         /// <summary>
-        /// Get Facades by threshold.
+        /// Get voxels by threshold.
         /// </summary>
         /// <param name="voxels">Voxels.</param>
         /// <param name="min">Minimum value.</param>
         /// <param name="max">Maximum value.</param>
         /// <param name="direction">Direction.</param>
         /// <returns>Collection of facades.</returns>
-        public static List<Voxel> GetFacadesByThreshold(List<Voxel> voxels, 
+        public static List<Voxel> GetVoxelsByThreshold(List<Voxel> voxels, 
             double min, double max, 
             Direction direction = Direction.Z)
         {
