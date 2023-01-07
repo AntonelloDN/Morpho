@@ -24,15 +24,18 @@ namespace MorphoTests.Reader
         [Test]
         public void GridOutputInit()
         {
-            const int AIR_TEMPERATURE = 8;
+            const int POT_AIR_TEMPERATURE = 8;
 
             var output = new GridOutput(_edx);
             // Get voxels
             var voxels = output.GetVoxels(Direction.Z);
+
+            Assert.IsTrue(output.VariableName[POT_AIR_TEMPERATURE] == "Potential Air Temperature (°C)");
+
             // Set values. 8 is Air Temperature
-            output.SetValuesFromBinary(_edt, voxels, AIR_TEMPERATURE);
+            output.SetValuesFromBinary(_edt, voxels, POT_AIR_TEMPERATURE);
             // Filter
-            voxels = Voxel.GetSliceByPixelCoordinate(voxels, AIR_TEMPERATURE, Direction.Z);
+            voxels = Voxel.GetSliceByPixelCoordinate(voxels, POT_AIR_TEMPERATURE, Direction.Z);
 
             // Values
             var values = Voxel.GetValueZFromVoxels(voxels);
