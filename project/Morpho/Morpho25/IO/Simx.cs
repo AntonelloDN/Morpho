@@ -70,9 +70,9 @@ namespace Morpho25.IO
         /// </summary>
         public BuildingSettings BuildingSettings { get; set; }
         /// <summary>
-        /// IVS settings.
+        /// Radiation settings.
         /// </summary>
-        public IVS IVS { get; set; }
+        public RadScheme RadScheme { get; set; }
         /// <summary>
         /// Parallel CPU settings.
         /// </summary>
@@ -120,7 +120,7 @@ namespace Morpho25.IO
             Background = null;
             SolarAdjust = null;
             BuildingSettings = null;
-            IVS = null;
+            RadScheme = null;
             SOR = null;
             InflowAvg = null;
             Facades = null;
@@ -158,7 +158,7 @@ namespace Morpho25.IO
             string[] mainTag = new string[] { "simName", 
                 "INXFile", "filebaseName", "outDir", 
                 "startDate", "startTime", "simDuration", 
-                "windSpeed", "windDir", "z0", "T_H", "Q_H", "Q_2m" };
+                "windSpeed", "windDir", "z0", "T_H", "Q_H", "Q_2m", "windLimit", "windAccuracy" };
             string[] mainValue = new string[]
               { MainSettings.Name,
                     MainSettings.Inx.Workspace.ModelName + ".inx",
@@ -172,7 +172,9 @@ namespace Morpho25.IO
                     MainSettings.Roughness.ToString(),
                     MainSettings.InitialTemperature.ToString(),
                     MainSettings.SpecificHumidity.ToString(),
-                    MainSettings.RelativeHumidity.ToString()
+                    MainSettings.RelativeHumidity.ToString(),
+                    MainSettings.WindLimit.ToString(),
+                    MainSettings.WindAccuracy.ToString(),
               };
 
             Util.CreateXmlSection(xWriter, mainTitle, 
@@ -180,54 +182,54 @@ namespace Morpho25.IO
 
             if (SimpleForcing != null && FullForcing == null)
             {
-                string sfTitle = "SimpleForcing";
-                string[] sfTag = new string[] { "TAir", "Qrel" };
-                string[] sfValue = new string[] { SimpleForcing
+                string title = "SimpleForcing";
+                string[] tags = new string[] { "TAir", "Qrel" };
+                string[] values = new string[] { SimpleForcing
                     .Temperature, SimpleForcing.RelativeHumidity };
 
-                Util.CreateXmlSection(xWriter, sfTitle, sfTag, 
-                    sfValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, tags, 
+                    values, 0, empty);
             }
 
             if (TThread != null)
             {
-                string parallelTitle = "TThread";
-                string[] parallelTag = new string[] { 
+                string title = "TThread";
+                string[] tags = new string[] { 
                     "UseTThread_CallMain", "TThreadPRIO" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     TThread.UseTreading.ToString(), 
                     TThread.TThreadpriority.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (ModelTiming != null)
             {
-                string parallelTitle = "ModelTiming";
-                string[] parallelTag = new string[] { "surfaceSteps", 
+                string title = "ModelTiming";
+                string[] tags = new string[] { "surfaceSteps", 
                     "flowSteps", "radiationSteps", "plantSteps", 
                     "sourcesSteps" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     ModelTiming.SurfaceSteps.ToString(), 
                     ModelTiming.FlowSteps.ToString(), 
                     ModelTiming.RadiationSteps.ToString(), 
                     ModelTiming.PlantSteps.ToString(), 
                     ModelTiming.SourcesSteps.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (SoilSettings != null)
             {
-                string parallelTitle = "Soil";
-                string[] parallelTag = new string[] { 
+                string title = "Soil";
+                string[] tags = new string[] { 
                     "tempUpperlayer", "tempMiddlelayer", 
                     "tempDeeplayer", "tempBedrockLayer", 
                     "waterUpperlayer", "waterMiddlelayer", 
                     "waterDeeplayer", "waterBedrockLayer" };
-                string[] parallelValue = new string[] { SoilSettings.TempUpperlayer.ToString("n6"), SoilSettings.TempMiddlelayer.ToString("n6"), 
+                string[] values = new string[] { SoilSettings.TempUpperlayer.ToString("n6"), SoilSettings.TempMiddlelayer.ToString("n6"), 
                     SoilSettings.TempDeeplayer.ToString("n6"), 
                     SoilSettings.TempBedrockLayer.ToString("n6"), 
                     SoilSettings.WaterUpperlayer.ToString("n6"), 
@@ -235,93 +237,120 @@ namespace Morpho25.IO
                     SoilSettings.WaterDeeplayer.ToString("n6"), 
                     SoilSettings.WaterBedrockLayer.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (Sources != null)
             {
-                string parallelTitle = "Sources";
-                string[] parallelTag = new string[] { "userPolluName", 
+                string title = "Sources";
+                string[] tags = new string[] { "userPolluName", 
                     "userPolluType", "userPartDiameter", 
                     "userPartDensity", "multipleSources", 
                     "activeChem", "isoprene" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     Sources.UserPolluName, Sources.UserPolluType.ToString(), 
                     Sources.UserPartDiameter.ToString(),
                     Sources.UserPartDensity.ToString(), 
                     Sources.MultipleSources.ToString(), 
                     Sources.ActiveChem.ToString(), Sources.ISOPRENE };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (Turbulence != null)
             {
-                string parallelTitle = "Turbulence";
-                string[] parallelTag = new string[] { "turbulenceModel" };
-                string[] parallelValue = new string[] { 
+                string title = "Turbulence";
+                string[] tags = new string[] { "turbulenceModel" };
+                string[] values = new string[] { 
                     Turbulence.TurbulenceModel.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (TimeSteps != null)
             {
-                string parallelTitle = "TimeSteps";
-                string[] parallelTag = new string[] { "sunheight_step01", 
+                string title = "TimeSteps";
+                string[] tags = new string[] { "sunheight_step01", 
                     "sunheight_step02", "dt_step00", 
                     "dt_step01", "dt_step02" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     TimeSteps.SunheightStep01.ToString("n6"), 
                     TimeSteps.SunheightStep02.ToString("n6"), 
                     TimeSteps.DtStep00.ToString("n6"), 
                     TimeSteps.DtStep01.ToString("n6"), 
                     TimeSteps.DtStep02.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (OutputSettings != null)
             {
-                string parallelTitle = "OutputSettings";
-                string[] parallelTag = new string[] { "mainFiles", 
-                    "textFiles", "netCDF", "netCDFAllDataInOneFile", 
-                    "inclNestingGrids"};
-                string[] parallelValue = new string[] { 
+                string title = "OutputSettings";
+                string[] tags = new string[] { 
+                    "mainFiles", 
+                    "textFiles", 
+                    "netCDF", 
+                    "netCDFAllDataInOneFile", 
+                    "inclNestingGrids",
+                    "writeAgents", 
+                    "writeAtmosphere",
+                    "writeBuildings",
+                    "writeObjects",
+                    "writeGreenpass",
+                    "writeNesting",
+                    "writeRadiation",
+                    "writeSoil",
+                    "writeSolarAccess",
+                    "writeSurface",
+                    "writeVegetation" 
+                };
+                string[] values = new string[] { 
                     OutputSettings.MainFiles.ToString(), 
                     OutputSettings.TextFiles.ToString(), 
                     OutputSettings.NetCDF.ToString(), 
                     OutputSettings.NetCDFAllDataInOneFile.ToString(), 
-                    "0" };
+                    "0",
+                    OutputSettings.WriteAgents.ToString(),
+                    OutputSettings.WriteAtmosphere.ToString(),
+                    OutputSettings.WriteBuildings.ToString(),
+                    OutputSettings.WriteObjects.ToString(),
+                    OutputSettings.WriteGreenpass.ToString(),
+                    OutputSettings.WriteNesting.ToString(),
+                    OutputSettings.WriteRadiation.ToString(),
+                    OutputSettings.WriteSoil.ToString(),
+                    OutputSettings.WriteSolarAccess.ToString(),
+                    OutputSettings.WriteSurface.ToString(),
+                    OutputSettings.WriteVegetation.ToString(),
+                };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (Cloud != null && FullForcing == null)
             {
-                string parallelTitle = "Clouds";
-                string[] parallelTag = new string[] { "lowClouds", 
+                string title = "Clouds";
+                string[] tags = new string[] { "lowClouds", 
                     "middleClouds", "highClouds" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     Cloud.LowClouds.ToString("n6"), 
                     Cloud.MiddleClouds.ToString("n6"), 
                     Cloud.HighClouds.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (Background != null)
             {
-                string parallelTitle = "Background";
-                string[] parallelTag = new string[] { "userSpec", "NO", 
+                string title = "Background";
+                string[] tags = new string[] { "userSpec", "NO", 
                     "NO2", "O3", "PM_10", "PM_2_5" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     Background.UserSpec.ToString("n6"), 
                     Background.No.ToString("n6"), 
                     Background.No2.ToString("n6"), 
@@ -329,123 +358,140 @@ namespace Morpho25.IO
                     Background.Pm10.ToString("n6"), 
                     Background.Pm25.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (SolarAdjust != null && FullForcing == null)
             {
-                string parallelTitle = "SolarAdjust";
-                string[] parallelTag = new string[] { "SWFactor" };
-                string[] parallelValue = new string[] { 
+                string title = "SolarAdjust";
+                string[] tags = new string[] { "SWFactor" };
+                string[] values = new string[] { 
                     SolarAdjust.SWfactor.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (BuildingSettings != null)
             {
-                string parallelTitle = "Building";
-                string[] parallelTag = new string[] { 
-                    "indoorTemp", "indoorConst" };
-                string[] parallelValue = new string[] { 
+                string title = "Building";
+                string[] tags = new string[] { 
+                    "indoorTemp", 
+                    "indoorConst",
+                    "surfaceTemp",
+                    "airConHeat",
+                };
+                string[] values = new string[] 
+                { 
                     BuildingSettings.IndoorTemp.ToString("n6"), 
-                    BuildingSettings.IndoorConst.ToString() };
+                    BuildingSettings.IndoorConst.ToString(),
+                    BuildingSettings.SurfaceTemp.ToString("n6"),
+                    BuildingSettings.AirCondHeat.ToString(),
+                };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
-            if (IVS != null)
+            if (RadScheme != null)
             {
-                string parallelTitle = "IVS";
-                string[] parallelTag = new string[] { "IVSOn", 
+                string title = "IVS";
+                string[] tags = new string[] { "IVSOn", 
                     "IVSMem" };
-                string[] parallelValue = new string[] { IVS.IVSOn.ToString(), 
-                    IVS.IVSMem.ToString() };
+                string[] values = new string[] { RadScheme.IVSOn.ToString(), 
+                    RadScheme.IVSMem.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (ParallelCPU != null)
             {
-                string parallelTitle = "Parallel";
-                string[] parallelTag = new string[] { "CPUdemand" };
-                string[] parallelValue = new string[] { ParallelCPU.CPU };
+                string title = "Parallel";
+                string[] tags = new string[] { "CPUdemand" };
+                string[] values = new string[] { ParallelCPU.CPU };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (SOR != null)
             {
-                string parallelTitle = "SOR";
-                string[] parallelTag = new string[] { "SORMode" };
-                string[] parallelValue = new string[] { SOR.SORMode.ToString() };
+                string title = "SOR";
+                string[] tags = new string[] { "SORMode" };
+                string[] values = new string[] { SOR.SORMode.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (InflowAvg != null)
             {
-                string parallelTitle = "InflowAvg";
-                string[] parallelTag = new string[] { "inflowAvg" };
-                string[] parallelValue = new string[] { 
+                string title = "InflowAvg";
+                string[] tags = new string[] { "inflowAvg" };
+                string[] values = new string[] { 
                     InflowAvg.Avg.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (PlantSetting != null)
             {
-                string parallelTitle = "PlantModel";
-                string[] parallelTag = new string[] { "CO2BackgroundPPM", 
+                string title = "PlantModel";
+                string[] tags = new string[] { "CO2BackgroundPPM", 
                     "LeafTransmittance", "TreeCalendar" };
-                string[] parallelValue = new string[] { 
+                string[] values = new string[] { 
                     PlantSetting.CO2.ToString(), 
                     PlantSetting.LeafTransmittance.ToString(), 
                     PlantSetting.TreeCalendar.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (Facades != null)
             {
-                string parallelTitle = "Facades";
-                string[] parallelTag = new string[] { "FacadeMode" };
-                string[] parallelValue = new string[] { 
+                string title = "Facades";
+                string[] tags = new string[] { "FacadeMode" };
+                string[] values = new string[] { 
                     Facades.FacadeMode.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (LBC != null && (SimpleForcing == null || FullForcing == null))
             {
-                string parallelTitle = "LBC";
-                string[] parallelTag = new string[] { "LBC_TQ", "LBC_TKE" };
-                string[] parallelValue = new string[] { 
+                string title = "LBC";
+                string[] tags = new string[] { "LBC_TQ", "LBC_TKE" };
+                string[] values = new string[] { 
                     LBC.TemperatureHumidity.ToString(), 
                     LBC.Turbolence.ToString() };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, values, 0, empty);
             }
 
             if (FullForcing != null)
             {
-                string parallelTitle = "FullForcing";
-                string[] parallelTag = new string[] { "fileName", 
-                    "forceT", "forceQ", "forceWind", "forcePrecip", 
-                    "forceRadClouds", "interpolationMethod", 
-                    "nudging", "nudgingFactor", "minFlowsteps", 
-                    "limitWind2500", "maxWind2500", "z_0" };
-                string[] parallelValue = new string[] { 
+                string title = "FullForcing";
+                string[] tags = new string[] { 
+                    "fileName", 
+                    "forceT", 
+                    "forceQ", 
+                    "forceWind", 
+                    "forcePrecip", 
+                    "forceRadClouds", 
+                    "interpolationMethod", 
+                    "nudging", 
+                    "nudgingFactor", 
+                    "minFlowsteps", 
+                    "limitWind2500", 
+                    "maxWind2500", 
+                    "z_0" };
+                string[] vaues = new string[] { 
                     FullForcing.FileName, 
                     FullForcing.ForceTemperature.ToString(), 
                     FullForcing.ForceRelativeHumidity.ToString(), 
@@ -458,8 +504,8 @@ namespace Morpho25.IO
                     FullForcing.LimitWind2500.ToString(), 
                     FullForcing.MaxWind2500.ToString(), FullForcing.Z_0 };
 
-                Util.CreateXmlSection(xWriter, parallelTitle, 
-                    parallelTag, parallelValue, 0, empty);
+                Util.CreateXmlSection(xWriter, title, 
+                    tags, vaues, 0, empty);
             }
 
             xWriter.WriteEndElement();

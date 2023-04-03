@@ -16,6 +16,8 @@ namespace Morpho25.Settings
         private string _startDate;
         private string _startTime;
         private double _windDir;
+        private double _windLimit;
+
         /// <summary>
         /// Name of simulation file (*.simx).
         /// </summary>
@@ -123,6 +125,25 @@ namespace Morpho25.Settings
             }
         }
 
+        /// <summary>
+        /// Wind limit m/s
+        /// </summary>
+        public double WindLimit
+        {
+            get
+            { return _windLimit; }
+            set
+            {
+                ItIsPositive(value);
+                _windLimit = value;
+            }
+        }
+
+        /// <summary>
+        /// Wind accuracy WIP
+        /// </summary>
+        public string WindAccuracy => "standard";
+
         private void DateValidation(string value)
         {
             var pattern = @"^[0-9]{2}.[0-9]{2}.[0-9]{4}";
@@ -156,6 +177,7 @@ namespace Morpho25.Settings
             SimDuration = 24;
             SpecificHumidity = 7.00;
             RelativeHumidity = 50;
+            WindLimit = 5.0;
         }
         /// <summary>
         /// String representation of main settings.
