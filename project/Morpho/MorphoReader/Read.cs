@@ -29,9 +29,10 @@ namespace MorphoReader
         {
             string characters = @"[^\s()_<>/,\.A-Za-z0-9=""\P{IsBasicLatin}\p{IsLatin-1Supplement}]+";
 
+            var isoLatin1 = Encoding.GetEncoding(28591);
             if (!System.IO.File.Exists(path))
                 throw new Exception($"{path} not found.");
-            string text = System.IO.File.ReadAllText(path);
+            string text = System.IO.File.ReadAllText(path, isoLatin1);
             string res = Regex.Replace(text, characters, "");
 
             return res.Replace("<Remark for this Source Type>", "");
