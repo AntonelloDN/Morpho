@@ -75,17 +75,14 @@ namespace Morpho25.IO
 
         private string GetCompatibleText(string file)
         {
-            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding encoding = Encoding.UTF8;
+            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""\P{IsBasicLatin}]+";
 
             if (!System.IO.File.Exists(file))
                 throw new Exception($"{file} not found.");
-            string text = System.IO.File.ReadAllText(file, encoding);
+            string text = System.IO.File.ReadAllText(file);
+            string res = Regex.Replace(text, characters, "");
 
-            text = System.Net.WebUtility.HtmlDecode(text);
-            Regex.Replace(characters, "", text);
-
-            return text.Replace("&", "");
+            return res;
         }
 
         private void SetLibrary(string file, string type, string keyword)

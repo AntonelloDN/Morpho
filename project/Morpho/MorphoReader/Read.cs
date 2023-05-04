@@ -27,14 +27,14 @@ namespace MorphoReader
 
         private string ReadEdxFile(string path)
         {
-            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
-            Encoding isoLatin1 = Encoding.GetEncoding(28591); ;
-            string text = System.IO.File.ReadAllText(path, isoLatin1);
+            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""\P{IsBasicLatin}\p{IsLatin-1Supplement}]+";
 
-            Regex.Replace(characters, "", text);
+            if (!System.IO.File.Exists(path))
+                throw new Exception($"{path} not found.");
+            string text = System.IO.File.ReadAllText(path);
+            string res = Regex.Replace(text, characters, "");
 
-            return text.Replace("&", "")
-                .Replace("<Remark for this Source Type>", "");
+            return res.Replace("<Remark for this Source Type>", "");
         }
 
         private static string GetValueFromXml(XmlNodeList nodeList, 

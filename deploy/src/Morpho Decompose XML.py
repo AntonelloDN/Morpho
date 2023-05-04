@@ -28,32 +28,26 @@ try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
 
 import System
-import xml.etree.ElementTree as ET
 from Grasshopper.Kernel.Data import GH_Path
 from Grasshopper import DataTree
 import re
+import clr
+clr.AddReference("System.Linq")
+clr.AddReference("System.XML.Linq")
+from System.Xml.Linq import XDocument
 
 ghenv.Component.Message = "1.1.0"
-
-
-
-def get_clean_xml(text):
-    
-    characters = '[^\s()_<>/,\.A-Za-z0-9=""]+'
-    text = re.sub(characters, '', text)
-    return text
-
 
 def main():
     
     if _XML and _keyword:
         
-        roots = [ET.fromstring(get_clean_xml(el)) for el in _XML]
+        xdocs = [XDocument.Parse(el) for el in _XML]
         results = DataTree[System.Object]()
         
         for i, key in enumerate(_keyword):
             path = GH_Path(0, i)
-            results.AddRange( [root.find(key).text for root in roots if root.find(key) != None] ,path )
+            results.AddRange( [element.Value for xdoc in xdocs for element in xdoc.Descendants(key) ] ,path )
         
         return results
     else:
