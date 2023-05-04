@@ -44,7 +44,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='ReleaseLoc'">
-		<PackageReference Include="Morpho.Envimet" Version="1.1.5" />
+		<PackageReference Include="Morpho.Envimet" Version="1.1.6" />
 	</ItemGroup>
 
 	<ItemGroup>
