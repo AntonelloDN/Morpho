@@ -173,17 +173,8 @@ namespace Morpho25.IO
 
             if (TThread != null)
             {
-                string title = "TThread";
-                string[] tags = new string[] {
-                    "UseTThread_CallMain", 
-                    "TThreadPRIO"
-                };
-                string[] values = new string[] {
-                    TThread.UseTreading.ToString(),
-                    TThread.TThreadpriority.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, TThread.Title,
+                    TThread.Tags, TThread.Values, 0, empty);
             }
 
             if (ModelTiming != null)
