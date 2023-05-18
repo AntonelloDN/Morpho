@@ -154,44 +154,8 @@ namespace Morpho25.IO
                 headerTag, headerValue, 0, empty);
 
             // Main section
-            string mainTitle = "mainData";
-            string[] mainTag = new string[] { 
-                "simName",
-                "INXFile", 
-                "filebaseName", 
-                "outDir",
-                "startDate", 
-                "startTime", 
-                "simDuration",
-                "windSpeed", 
-                "windDir", 
-                "z0", 
-                "T_H", 
-                "Q_H", 
-                "Q_2m", 
-                "windLimit", 
-                "windAccuracy" 
-            };
-            string[] mainValue = new string[]
-              { MainSettings.Name,
-                    MainSettings.Inx.Workspace.ModelName + ".inx",
-                    MainSettings.Name,
-                    " ",
-                    MainSettings.StartDate,
-                    MainSettings.StartTime,
-                    MainSettings.SimDuration.ToString(),
-                    MainSettings.WindSpeed.ToString(),
-                    MainSettings.WindDir.ToString(),
-                    MainSettings.Roughness.ToString(),
-                    MainSettings.InitialTemperature.ToString(),
-                    MainSettings.SpecificHumidity.ToString(),
-                    MainSettings.RelativeHumidity.ToString(),
-                    MainSettings.WindLimit.ToString(),
-                    MainSettings.WindAccuracy.ToString(),
-              };
-
-            Util.CreateXmlSection(xWriter, mainTitle,
-                mainTag, mainValue, 0, empty);
+            Util.CreateXmlSection(xWriter, MainSettings.Title,
+                MainSettings.Tags, MainSettings.Values, 0, empty);
 
             if (SimpleForcing != null && FullForcing == null)
             {

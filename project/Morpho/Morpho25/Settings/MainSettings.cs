@@ -4,6 +4,12 @@ using System;
 
 namespace Morpho25.Settings
 {
+    public enum WindAccuracy
+    { 
+        standard,
+        quick
+    }
+
     /// <summary>
     /// Main settings class.
     /// </summary>
@@ -134,15 +140,14 @@ namespace Morpho25.Settings
             { return _windLimit; }
             set
             {
-                ItIsPositive(value);
                 _windLimit = value;
             }
         }
 
         /// <summary>
-        /// Wind accuracy WIP
+        /// Wind accuracy
         /// </summary>
-        public string WindAccuracy => "standard";
+        public WindAccuracy WindAccuracy { get; set; }
 
         private void DateValidation(string value)
         {
@@ -159,11 +164,12 @@ namespace Morpho25.Settings
             if (!regexp.IsMatch(value))
                 throw new ArgumentException("Format must to be HH:MM:SS");
         }
+
         /// <summary>
-        /// Create a new main settings.
+        /// Main configuration of the SIMX file.
         /// </summary>
-        /// <param name="name">Name of the simulation file.</param>
-        /// <param name="inx">Model.</param>
+        /// <param name="name">Name of the simulation file</param>
+        /// <param name="inx">Model</param>
         public MainSettings(string name, Model inx)
         {
             Name = name;
@@ -178,7 +184,56 @@ namespace Morpho25.Settings
             SpecificHumidity = 7.00;
             RelativeHumidity = 50;
             WindLimit = 5.0;
+            WindAccuracy = WindAccuracy.standard;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "mainData";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            Name,
+            Inx.Workspace.ModelName + ".inx",
+            Name,
+            " ",
+            StartDate,
+            StartTime,
+            SimDuration.ToString(),
+            WindSpeed.ToString("n5"),
+            WindDir.ToString("n5"),
+            Roughness.ToString("n5"),
+            InitialTemperature.ToString("n5"),
+            SpecificHumidity.ToString("n5"),
+            RelativeHumidity.ToString("n5"),
+            WindLimit.ToString("n5"),
+            WindAccuracy.ToString(),
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "simName",
+            "INXFile",
+            "filebaseName",
+            "outDir",
+            "startDate",
+            "startTime",
+            "simDuration",
+            "windSpeed",
+            "windDir",
+            "z0",
+            "T_H",
+            "Q_H",
+            "Q_2m",
+            "windLimit",
+            "windAccuracy"
+        };
+
         /// <summary>
         /// String representation of main settings.
         /// </summary>
