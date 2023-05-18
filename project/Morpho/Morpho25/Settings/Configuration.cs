@@ -35,8 +35,8 @@ namespace Morpho25.Settings
     /// </summary>
     public enum Active
     {
-        NO,
-        YES
+        NO = 0,
+        YES = 1
     }
     /// <summary>
     /// Pollutant enum.

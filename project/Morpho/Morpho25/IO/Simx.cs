@@ -145,20 +145,33 @@ namespace Morpho25.IO
 
             // Header section
             string headerTitle = "Header";
-            string[] headerTag = new string[] { "filetype", "version", 
+            string[] headerTag = new string[] { "filetype", "version",
                 "revisiondate", "remark", "encryptionlevel" };
-            string[] headerValue = new string[] { "SIMX", "2", 
+            string[] headerValue = new string[] { "SIMX", "2",
                 revisionDate, "Created with lb_envimet", "0" };
 
-            Util.CreateXmlSection(xWriter, headerTitle, 
+            Util.CreateXmlSection(xWriter, headerTitle,
                 headerTag, headerValue, 0, empty);
 
             // Main section
             string mainTitle = "mainData";
-            string[] mainTag = new string[] { "simName", 
-                "INXFile", "filebaseName", "outDir", 
-                "startDate", "startTime", "simDuration", 
-                "windSpeed", "windDir", "z0", "T_H", "Q_H", "Q_2m", "windLimit", "windAccuracy" };
+            string[] mainTag = new string[] { 
+                "simName",
+                "INXFile", 
+                "filebaseName", 
+                "outDir",
+                "startDate", 
+                "startTime", 
+                "simDuration",
+                "windSpeed", 
+                "windDir", 
+                "z0", 
+                "T_H", 
+                "Q_H", 
+                "Q_2m", 
+                "windLimit", 
+                "windAccuracy" 
+            };
             string[] mainValue = new string[]
               { MainSettings.Name,
                     MainSettings.Inx.Workspace.ModelName + ".inx",
@@ -177,126 +190,151 @@ namespace Morpho25.IO
                     MainSettings.WindAccuracy.ToString(),
               };
 
-            Util.CreateXmlSection(xWriter, mainTitle, 
+            Util.CreateXmlSection(xWriter, mainTitle,
                 mainTag, mainValue, 0, empty);
 
             if (SimpleForcing != null && FullForcing == null)
             {
                 string title = "SimpleForcing";
-                string[] tags = new string[] { "TAir", "Qrel" };
+                string[] tags = new string[] { 
+                    "TAir", 
+                    "Qrel" 
+                };
                 string[] values = new string[] { SimpleForcing
                     .Temperature, SimpleForcing.RelativeHumidity };
 
-                Util.CreateXmlSection(xWriter, title, tags, 
+                Util.CreateXmlSection(xWriter, title, tags,
                     values, 0, empty);
             }
 
             if (TThread != null)
             {
                 string title = "TThread";
-                string[] tags = new string[] { 
-                    "UseTThread_CallMain", "TThreadPRIO" };
-                string[] values = new string[] { 
-                    TThread.UseTreading.ToString(), 
+                string[] tags = new string[] {
+                    "UseTThread_CallMain", 
+                    "TThreadPRIO"
+                };
+                string[] values = new string[] {
+                    TThread.UseTreading.ToString(),
                     TThread.TThreadpriority.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (ModelTiming != null)
             {
                 string title = "ModelTiming";
-                string[] tags = new string[] { "surfaceSteps", 
-                    "flowSteps", "radiationSteps", "plantSteps", 
-                    "sourcesSteps" };
-                string[] values = new string[] { 
-                    ModelTiming.SurfaceSteps.ToString(), 
-                    ModelTiming.FlowSteps.ToString(), 
-                    ModelTiming.RadiationSteps.ToString(), 
-                    ModelTiming.PlantSteps.ToString(), 
+                string[] tags = new string[] { 
+                    "surfaceSteps",
+                    "flowSteps", 
+                    "radiationSteps", 
+                    "plantSteps",
+                    "sourcesSteps"
+                };
+                string[] values = new string[] {
+                    ModelTiming.SurfaceSteps.ToString(),
+                    ModelTiming.FlowSteps.ToString(),
+                    ModelTiming.RadiationSteps.ToString(),
+                    ModelTiming.PlantSteps.ToString(),
                     ModelTiming.SourcesSteps.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (SoilSettings != null)
             {
                 string title = "Soil";
-                string[] tags = new string[] { 
-                    "tempUpperlayer", "tempMiddlelayer", 
-                    "tempDeeplayer", "tempBedrockLayer", 
-                    "waterUpperlayer", "waterMiddlelayer", 
-                    "waterDeeplayer", "waterBedrockLayer" };
-                string[] values = new string[] { SoilSettings.TempUpperlayer.ToString("n6"), SoilSettings.TempMiddlelayer.ToString("n6"), 
-                    SoilSettings.TempDeeplayer.ToString("n6"), 
-                    SoilSettings.TempBedrockLayer.ToString("n6"), 
-                    SoilSettings.WaterUpperlayer.ToString("n6"), 
-                    SoilSettings.WaterMiddlelayer.ToString("n6"), 
-                    SoilSettings.WaterDeeplayer.ToString("n6"), 
+                string[] tags = new string[] {
+                    "tempUpperlayer", 
+                    "tempMiddlelayer",
+                    "tempDeeplayer", 
+                    "tempBedrockLayer",
+                    "waterUpperlayer", 
+                    "waterMiddlelayer",
+                    "waterDeeplayer", 
+                    "waterBedrockLayer" 
+                };
+                string[] values = new string[] { SoilSettings.TempUpperlayer.ToString("n6"), SoilSettings.TempMiddlelayer.ToString("n6"),
+                    SoilSettings.TempDeeplayer.ToString("n6"),
+                    SoilSettings.TempBedrockLayer.ToString("n6"),
+                    SoilSettings.WaterUpperlayer.ToString("n6"),
+                    SoilSettings.WaterMiddlelayer.ToString("n6"),
+                    SoilSettings.WaterDeeplayer.ToString("n6"),
                     SoilSettings.WaterBedrockLayer.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (Sources != null)
             {
                 string title = "Sources";
-                string[] tags = new string[] { "userPolluName", 
-                    "userPolluType", "userPartDiameter", 
-                    "userPartDensity", "multipleSources", 
-                    "activeChem", "isoprene" };
-                string[] values = new string[] { 
-                    Sources.UserPolluName, Sources.UserPolluType.ToString(), 
+                string[] tags = new string[] { 
+                    "userPolluName",
+                    "userPolluType", 
+                    "userPartDiameter",
+                    "userPartDensity", 
+                    "multipleSources",
+                    "activeChem", 
+                    "isoprene" 
+                };
+                string[] values = new string[] {
+                    Sources.UserPolluName, Sources.UserPolluType.ToString(),
                     Sources.UserPartDiameter.ToString(),
-                    Sources.UserPartDensity.ToString(), 
-                    Sources.MultipleSources.ToString(), 
+                    Sources.UserPartDensity.ToString(),
+                    Sources.MultipleSources.ToString(),
                     Sources.ActiveChem.ToString(), Sources.ISOPRENE };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (Turbulence != null)
             {
                 string title = "Turbulence";
-                string[] tags = new string[] { "turbulenceModel" };
-                string[] values = new string[] { 
+                string[] tags = new string[] { 
+                    "turbulenceModel"
+                };
+                string[] values = new string[] {
                     Turbulence.TurbulenceModel.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (TimeSteps != null)
             {
                 string title = "TimeSteps";
-                string[] tags = new string[] { "sunheight_step01", 
-                    "sunheight_step02", "dt_step00", 
-                    "dt_step01", "dt_step02" };
-                string[] values = new string[] { 
-                    TimeSteps.SunheightStep01.ToString("n6"), 
-                    TimeSteps.SunheightStep02.ToString("n6"), 
-                    TimeSteps.DtStep00.ToString("n6"), 
-                    TimeSteps.DtStep01.ToString("n6"), 
+                string[] tags = new string[] { 
+                    "sunheight_step01",
+                    "sunheight_step02", 
+                    "dt_step00",
+                    "dt_step01", 
+                    "dt_step02"
+                };
+                string[] values = new string[] {
+                    TimeSteps.SunheightStep01.ToString("n6"),
+                    TimeSteps.SunheightStep02.ToString("n6"),
+                    TimeSteps.DtStep00.ToString("n6"),
+                    TimeSteps.DtStep01.ToString("n6"),
                     TimeSteps.DtStep02.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (OutputSettings != null)
             {
                 string title = "OutputSettings";
-                string[] tags = new string[] { 
-                    "mainFiles", 
-                    "textFiles", 
-                    "netCDF", 
-                    "netCDFAllDataInOneFile", 
+                string[] tags = new string[] {
+                    "mainFiles",
+                    "textFiles",
+                    "netCDF",
+                    "netCDFAllDataInOneFile",
                     "inclNestingGrids",
-                    "writeAgents", 
+                    "writeAgents",
                     "writeAtmosphere",
                     "writeBuildings",
                     "writeObjects",
@@ -306,13 +344,13 @@ namespace Morpho25.IO
                     "writeSoil",
                     "writeSolarAccess",
                     "writeSurface",
-                    "writeVegetation" 
+                    "writeVegetation"
                 };
-                string[] values = new string[] { 
-                    OutputSettings.MainFiles.ToString(), 
-                    OutputSettings.TextFiles.ToString(), 
-                    OutputSettings.NetCDF.ToString(), 
-                    OutputSettings.NetCDFAllDataInOneFile.ToString(), 
+                string[] values = new string[] {
+                    OutputSettings.MainFiles.ToString(),
+                    OutputSettings.TextFiles.ToString(),
+                    OutputSettings.NetCDF.ToString(),
+                    OutputSettings.NetCDFAllDataInOneFile.ToString(),
                     "0",
                     OutputSettings.WriteAgents.ToString(),
                     OutputSettings.WriteAtmosphere.ToString(),
@@ -327,83 +365,85 @@ namespace Morpho25.IO
                     OutputSettings.WriteVegetation.ToString(),
                 };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (Cloud != null && FullForcing == null)
             {
                 string title = "Clouds";
-                string[] tags = new string[] { "lowClouds", 
+                string[] tags = new string[] { "lowClouds",
                     "middleClouds", "highClouds" };
-                string[] values = new string[] { 
-                    Cloud.LowClouds.ToString("n6"), 
-                    Cloud.MiddleClouds.ToString("n6"), 
+                string[] values = new string[] {
+                    Cloud.LowClouds.ToString("n6"),
+                    Cloud.MiddleClouds.ToString("n6"),
                     Cloud.HighClouds.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (Background != null)
             {
                 string title = "Background";
-                string[] tags = new string[] { "userSpec", "NO", 
-                    "NO2", "O3", "PM_10", "PM_2_5" };
-                string[] values = new string[] { 
-                    Background.UserSpec.ToString("n6"), 
-                    Background.No.ToString("n6"), 
-                    Background.No2.ToString("n6"), 
-                    Background.O3.ToString("n6"), 
-                    Background.Pm10.ToString("n6"), 
+                string[] tags = new string[] { 
+                    "userSpec",
+                    "NO",
+                    "NO2", 
+                    "O3", 
+                    "PM_10", 
+                    "PM_2_5"
+                };
+                string[] values = new string[] {
+                    Background.UserSpec.ToString("n6"),
+                    Background.No.ToString("n6"),
+                    Background.No2.ToString("n6"),
+                    Background.O3.ToString("n6"),
+                    Background.Pm10.ToString("n6"),
                     Background.Pm25.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (SolarAdjust != null && FullForcing == null)
             {
                 string title = "SolarAdjust";
-                string[] tags = new string[] { "SWFactor" };
-                string[] values = new string[] { 
+                string[] tags = new string[] { 
+                    "SWFactor"
+                };
+                string[] values = new string[] {
                     SolarAdjust.SWfactor.ToString("n6") };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (BuildingSettings != null)
             {
                 string title = "Building";
-                string[] tags = new string[] { 
-                    "indoorTemp", 
+                string[] tags = new string[] {
+                    "indoorTemp",
                     "indoorConst",
                     "surfaceTemp",
                     "airConHeat",
                 };
-                string[] values = new string[] 
-                { 
-                    BuildingSettings.IndoorTemp.ToString("n6"), 
+                string[] values = new string[]
+                {
+                    BuildingSettings.IndoorTemp.ToString("n6"),
                     BuildingSettings.IndoorConst.ToString(),
                     BuildingSettings.SurfaceTemp.ToString("n6"),
                     BuildingSettings.AirCondHeat.ToString(),
                 };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (RadScheme != null)
             {
-                string title = "IVS";
-                string[] tags = new string[] { "IVSOn", 
-                    "IVSMem" };
-                string[] values = new string[] { RadScheme.IVSOn.ToString(), 
-                    RadScheme.IVSMem.ToString() };
-
-                Util.CreateXmlSection(xWriter, title, 
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, RadScheme.Title,
+                    RadScheme.Tags, RadScheme.Values, 0, empty);
             }
 
             if (ParallelCPU != null)
@@ -412,7 +452,7 @@ namespace Morpho25.IO
                 string[] tags = new string[] { "CPUdemand" };
                 string[] values = new string[] { ParallelCPU.CPU };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
@@ -422,7 +462,7 @@ namespace Morpho25.IO
                 string[] tags = new string[] { "SORMode" };
                 string[] values = new string[] { SOR.SORMode.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
@@ -430,24 +470,24 @@ namespace Morpho25.IO
             {
                 string title = "InflowAvg";
                 string[] tags = new string[] { "inflowAvg" };
-                string[] values = new string[] { 
+                string[] values = new string[] {
                     InflowAvg.Avg.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (PlantSetting != null)
             {
                 string title = "PlantModel";
-                string[] tags = new string[] { "CO2BackgroundPPM", 
+                string[] tags = new string[] { "CO2BackgroundPPM",
                     "LeafTransmittance", "TreeCalendar" };
-                string[] values = new string[] { 
-                    PlantSetting.CO2.ToString(), 
-                    PlantSetting.LeafTransmittance.ToString(), 
+                string[] values = new string[] {
+                    PlantSetting.CO2.ToString(),
+                    PlantSetting.LeafTransmittance.ToString(),
                     PlantSetting.TreeCalendar.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
@@ -455,10 +495,10 @@ namespace Morpho25.IO
             {
                 string title = "Facades";
                 string[] tags = new string[] { "FacadeMode" };
-                string[] values = new string[] { 
+                string[] values = new string[] {
                     Facades.FacadeMode.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
@@ -466,45 +506,45 @@ namespace Morpho25.IO
             {
                 string title = "LBC";
                 string[] tags = new string[] { "LBC_TQ", "LBC_TKE" };
-                string[] values = new string[] { 
-                    LBC.TemperatureHumidity.ToString(), 
+                string[] values = new string[] {
+                    LBC.TemperatureHumidity.ToString(),
                     LBC.Turbolence.ToString() };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, values, 0, empty);
             }
 
             if (FullForcing != null)
             {
                 string title = "FullForcing";
-                string[] tags = new string[] { 
-                    "fileName", 
-                    "forceT", 
-                    "forceQ", 
-                    "forceWind", 
-                    "forcePrecip", 
-                    "forceRadClouds", 
-                    "interpolationMethod", 
-                    "nudging", 
-                    "nudgingFactor", 
-                    "minFlowsteps", 
-                    "limitWind2500", 
-                    "maxWind2500", 
+                string[] tags = new string[] {
+                    "fileName",
+                    "forceT",
+                    "forceQ",
+                    "forceWind",
+                    "forcePrecip",
+                    "forceRadClouds",
+                    "interpolationMethod",
+                    "nudging",
+                    "nudgingFactor",
+                    "minFlowsteps",
+                    "limitWind2500",
+                    "maxWind2500",
                     "z_0" };
-                string[] vaues = new string[] { 
-                    FullForcing.FileName, 
-                    FullForcing.ForceTemperature.ToString(), 
-                    FullForcing.ForceRelativeHumidity.ToString(), 
-                    FullForcing.ForceWind.ToString(), 
-                    FullForcing.ForcePrecipitation.ToString(), 
-                    FullForcing.ForceRadClouds.ToString(), 
-                    FullForcing.INTERPOLATION_METHOD, 
-                    FullForcing.NUDGING, FullForcing.NUNDGING_FACTOR, 
-                    FullForcing.MinFlowsteps.ToString(), 
-                    FullForcing.LimitWind2500.ToString(), 
+                string[] vaues = new string[] {
+                    FullForcing.FileName,
+                    FullForcing.ForceTemperature.ToString(),
+                    FullForcing.ForceRelativeHumidity.ToString(),
+                    FullForcing.ForceWind.ToString(),
+                    FullForcing.ForcePrecipitation.ToString(),
+                    FullForcing.ForceRadClouds.ToString(),
+                    FullForcing.INTERPOLATION_METHOD,
+                    FullForcing.NUDGING, FullForcing.NUNDGING_FACTOR,
+                    FullForcing.MinFlowsteps.ToString(),
+                    FullForcing.LimitWind2500.ToString(),
                     FullForcing.MaxWind2500.ToString(), FullForcing.Z_0 };
 
-                Util.CreateXmlSection(xWriter, title, 
+                Util.CreateXmlSection(xWriter, title,
                     tags, vaues, 0, empty);
             }
 
