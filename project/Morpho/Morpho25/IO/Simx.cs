@@ -159,16 +159,8 @@ namespace Morpho25.IO
 
             if (SimpleForcing != null && FullForcing == null)
             {
-                string title = "SimpleForcing";
-                string[] tags = new string[] { 
-                    "TAir", 
-                    "Qrel" 
-                };
-                string[] values = new string[] { SimpleForcing
-                    .Temperature, SimpleForcing.RelativeHumidity };
-
-                Util.CreateXmlSection(xWriter, title, tags,
-                    values, 0, empty);
+                Util.CreateXmlSection(xWriter, SimpleForcing.Title, 
+                    SimpleForcing.Tags, SimpleForcing.Values, 0, empty);
             }
 
             if (TThread != null)
