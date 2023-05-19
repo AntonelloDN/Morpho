@@ -221,25 +221,8 @@ namespace Morpho25.IO
 
             if (Background != null)
             {
-                string title = "Background";
-                string[] tags = new string[] { 
-                    "userSpec",
-                    "NO",
-                    "NO2", 
-                    "O3", 
-                    "PM_10", 
-                    "PM_2_5"
-                };
-                string[] values = new string[] {
-                    Background.UserSpec.ToString("n6"),
-                    Background.No.ToString("n6"),
-                    Background.No2.ToString("n6"),
-                    Background.O3.ToString("n6"),
-                    Background.Pm10.ToString("n6"),
-                    Background.Pm25.ToString("n6") };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, Background.Title,
+                    Background.Tags, Background.Values, 0, empty);
             }
 
             if (SolarAdjust != null && FullForcing == null)

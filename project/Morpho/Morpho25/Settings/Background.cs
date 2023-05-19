@@ -11,6 +11,7 @@
         private double _o3;
         private double _pm10;
         private double _pm25;
+
         /// <summary>
         /// User pollutant.
         /// </summary>
@@ -95,6 +96,37 @@
             Pm10 = 0;
             Pm25 = 0;
         }
+
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Background";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            UserSpec.ToString("n5"),
+            No.ToString("n5"),
+            No2.ToString("n5"),
+            O3.ToString("n5"),
+            Pm10.ToString("n5"),
+            Pm25.ToString("n5")
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "userSpec",
+            "NO",
+            "NO2",
+            "O3",
+            "PM_10",
+            "PM_2_5"
+        };
+
         /// <summary>
         /// String representation of BackGround object.
         /// </summary>
