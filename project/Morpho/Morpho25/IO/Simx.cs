@@ -245,12 +245,8 @@ namespace Morpho25.IO
 
             if (ParallelCPU != null)
             {
-                string title = "Parallel";
-                string[] tags = new string[] { "CPUdemand" };
-                string[] values = new string[] { ParallelCPU.CPU };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, ParallelCPU.Title,
+                    ParallelCPU.Tags, ParallelCPU.Values, 0, empty);
             }
 
             if (SOR != null)

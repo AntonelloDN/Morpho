@@ -8,7 +8,26 @@
         /// <summary>
         /// Run parallel calculation.
         /// </summary>
-        public const string CPU = "ALL";
+        public string CPUDemand => "ALL";
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Parallel";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            CPUDemand
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "CPUdemand",
+        };
 
         /// <summary>
         /// String representation of ParallelCPU.
