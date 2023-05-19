@@ -43,15 +43,15 @@ namespace Morpho25.Settings
     /// </summary>
     public enum Pollutant
     {
-        PM,
-        CO,
-        CO2,
-        NO,
-        NO2,
-        SO2,
-        NH3,
-        H2O2,
-        SPRAY
+        PM = 0,
+        CO = 1,
+        CO2 = 2,
+        NO = 3,
+        NO2 = 4,
+        SO2 = 5,
+        NH3 = 6,
+        H2O2 = 7,
+        SPRAY = 8,
     }
     /// <summary>
     /// Turbulence enum.

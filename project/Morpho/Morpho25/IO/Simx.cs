@@ -191,25 +191,8 @@ namespace Morpho25.IO
 
             if (Sources != null)
             {
-                string title = "Sources";
-                string[] tags = new string[] { 
-                    "userPolluName",
-                    "userPolluType", 
-                    "userPartDiameter",
-                    "userPartDensity", 
-                    "multipleSources",
-                    "activeChem", 
-                    "isoprene" 
-                };
-                string[] values = new string[] {
-                    Sources.UserPolluName, Sources.UserPolluType.ToString(),
-                    Sources.UserPartDiameter.ToString(),
-                    Sources.UserPartDensity.ToString(),
-                    Sources.MultipleSources.ToString(),
-                    Sources.ActiveChem.ToString(), Sources.ISOPRENE };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, Sources.Title,
+                    Sources.Tags, Sources.Values, 0, empty);
             }
 
             if (Turbulence != null)
