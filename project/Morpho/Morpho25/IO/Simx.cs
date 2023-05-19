@@ -195,23 +195,8 @@ namespace Morpho25.IO
 
             if (TimeSteps != null)
             {
-                string title = "TimeSteps";
-                string[] tags = new string[] { 
-                    "sunheight_step01",
-                    "sunheight_step02", 
-                    "dt_step00",
-                    "dt_step01", 
-                    "dt_step02"
-                };
-                string[] values = new string[] {
-                    TimeSteps.SunheightStep01.ToString("n6"),
-                    TimeSteps.SunheightStep02.ToString("n6"),
-                    TimeSteps.DtStep00.ToString("n6"),
-                    TimeSteps.DtStep01.ToString("n6"),
-                    TimeSteps.DtStep02.ToString("n6") };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, TimeSteps.Title,
+                    TimeSteps.Tags, TimeSteps.Values, 0, empty);
             }
 
             if (OutputSettings != null)

@@ -80,6 +80,34 @@
             DtStep01 = 2.00000;
             DtStep02 = 1.00000;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "TimeSteps";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            SunheightStep01.ToString("n5"),
+            SunheightStep02.ToString("n5"),
+            DtStep00.ToString("n5"),
+            DtStep01.ToString("n5"),
+            DtStep02.ToString("n5")
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "sunheight_step01",
+            "sunheight_step02",
+            "dt_step00",
+            "dt_step01",
+            "dt_step02"
+        };
+
         /// <summary>
         /// String representation of TimeSteps object.
         /// </summary>
