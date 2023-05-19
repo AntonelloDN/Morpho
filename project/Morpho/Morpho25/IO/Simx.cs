@@ -233,23 +233,8 @@ namespace Morpho25.IO
 
             if (BuildingSettings != null)
             {
-                string title = "Building";
-                string[] tags = new string[] {
-                    "indoorTemp",
-                    "indoorConst",
-                    "surfaceTemp",
-                    "airConHeat",
-                };
-                string[] values = new string[]
-                {
-                    BuildingSettings.IndoorTemp.ToString("n6"),
-                    BuildingSettings.IndoorConst.ToString(),
-                    BuildingSettings.SurfaceTemp.ToString("n6"),
-                    BuildingSettings.AirCondHeat.ToString(),
-                };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, BuildingSettings.Title,
+                    BuildingSettings.Tags, BuildingSettings.Values, 0, empty);
             }
 
             if (RadScheme != null)

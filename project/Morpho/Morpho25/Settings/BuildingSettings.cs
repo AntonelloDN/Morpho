@@ -11,9 +11,6 @@ namespace Morpho25.Settings
         private double _indoorTemp;
         private double _surfaceTemp;
 
-        private uint _indoorConst;
-        private uint _airCondHeat;
-
         /// <summary>
         /// Indoor temperature [°C].
         /// </summary>
@@ -39,57 +36,54 @@ namespace Morpho25.Settings
         }
 
         /// <summary>
-        /// 1 to active the setpoint.
+        /// Active the setpoint.
         /// </summary>
-        public uint IndoorConst
-        {
-            get
-            {
-                return _indoorConst;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _indoorConst = value;
-            }
-        }
+        public Active IndoorConst { get; set; }
 
         /// <summary>
-        /// 1 to active the air conditioning.
+        /// Active the air conditioning.
         /// </summary>
-        public uint AirCondHeat
-        {
-            get
-            {
-                return _airCondHeat;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _airCondHeat = value;
-            }
-        }
-
+        public Active AirCondHeat { get; set; }
 
         /// <summary>
         /// Create a new BuildingSettings object.
         /// </summary>
         /// <param name="indoorTemp">Indoor temperature [°C].</param>
         /// <param name="indoorConst">Active the setpoint.</param>
-        public BuildingSettings(
-            double indoorTemp, 
-            Active indoorConst,
-            double surfaceTemp,
-            Active airCondHeat)
+        public BuildingSettings()
         {
-            IndoorTemp = indoorTemp;
-            IndoorConst = (uint) indoorConst;
+            IndoorTemp = 19.85;
+            IndoorConst = Active.YES;
 
-            SurfaceTemp = surfaceTemp;
-            AirCondHeat = (uint) airCondHeat;
+            SurfaceTemp = 19.85;
+            AirCondHeat = Active.NO;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Building";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            SurfaceTemp.ToString("n5"),
+            IndoorTemp.ToString("n5"),
+            ((int)IndoorConst).ToString(),
+            ((int)AirCondHeat).ToString(),
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "surfaceTemp",
+            "indoorTemp",
+            "indoorConst",
+            "airConHeat",
+        };
+
         /// <summary>
         /// String representation of building settings.
         /// </summary>
