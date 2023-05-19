@@ -9,6 +9,7 @@ namespace Morpho25.Settings
     public class SolarAdjust
     {
         private double _sWfactor;
+
         /// <summary>
         /// Solar adjustment factor.
         /// </summary>
@@ -22,14 +23,35 @@ namespace Morpho25.Settings
                 _sWfactor = value;
             }
         }
+
         /// <summary>
         /// Create a new SolarAdjust object.
         /// </summary>
         /// <param name="sWfactor">Solar adjustment factor to apply. double in range (0.5, 1.50).</param>
-        public SolarAdjust(double sWfactor)
+        public SolarAdjust()
         {
-            SWfactor = sWfactor;
+            SWfactor = 1.0;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "SolarAdjust";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            SWfactor.ToString("n5")
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "SWFactor"
+        };
+
         /// <summary>
         /// String representation of solar adjust object.
         /// </summary>

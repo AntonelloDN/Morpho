@@ -227,15 +227,8 @@ namespace Morpho25.IO
 
             if (SolarAdjust != null && FullForcing == null)
             {
-                string title = "SolarAdjust";
-                string[] tags = new string[] { 
-                    "SWFactor"
-                };
-                string[] values = new string[] {
-                    SolarAdjust.SWfactor.ToString("n6") };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, SolarAdjust.Title,
+                    SolarAdjust.Tags, SolarAdjust.Values, 0, empty);
             }
 
             if (BuildingSettings != null)
