@@ -22,7 +22,7 @@ namespace MorphoTests.Reader
         }
 
         [Test]
-        public void GridOutputInit()
+        public void InitTest()
         {
             const int POT_AIR_TEMPERATURE = 8;
 

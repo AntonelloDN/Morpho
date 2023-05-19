@@ -127,6 +127,40 @@ namespace Morpho25.Settings
             WaterDeeplayer = 75.0;
             WaterBedrockLayer = 75.0;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Soil";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            TempUpperlayer.ToString("n5"),
+            TempMiddlelayer.ToString("n5"),
+            TempDeeplayer.ToString("n5"),
+            TempBedrockLayer.ToString("n5"),
+            WaterUpperlayer.ToString("n5"),
+            WaterMiddlelayer.ToString("n5"),
+            WaterDeeplayer.ToString("n5"),
+            WaterBedrockLayer.ToString("n5")
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "tempUpperlayer",
+            "tempMiddlelayer",
+            "tempDeeplayer",
+            "tempBedrockLayer",
+            "waterUpperlayer",
+            "waterMiddlelayer",
+            "waterDeeplayer",
+            "waterBedrockLayer"
+        };
+
         /// <summary>
         /// String representation of SoilSettings object.
         /// </summary>

@@ -185,27 +185,8 @@ namespace Morpho25.IO
 
             if (SoilSettings != null)
             {
-                string title = "Soil";
-                string[] tags = new string[] {
-                    "tempUpperlayer", 
-                    "tempMiddlelayer",
-                    "tempDeeplayer", 
-                    "tempBedrockLayer",
-                    "waterUpperlayer", 
-                    "waterMiddlelayer",
-                    "waterDeeplayer", 
-                    "waterBedrockLayer" 
-                };
-                string[] values = new string[] { SoilSettings.TempUpperlayer.ToString("n6"), SoilSettings.TempMiddlelayer.ToString("n6"),
-                    SoilSettings.TempDeeplayer.ToString("n6"),
-                    SoilSettings.TempBedrockLayer.ToString("n6"),
-                    SoilSettings.WaterUpperlayer.ToString("n6"),
-                    SoilSettings.WaterMiddlelayer.ToString("n6"),
-                    SoilSettings.WaterDeeplayer.ToString("n6"),
-                    SoilSettings.WaterBedrockLayer.ToString("n6") };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, SoilSettings.Title,
+                    SoilSettings.Tags, SoilSettings.Values, 0, empty);
             }
 
             if (Sources != null)

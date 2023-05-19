@@ -22,7 +22,7 @@ namespace MorphoTests.Simx
         }
 
         [Test]
-        public void MainSettingsInitTest()
+        public void InitTest()
         {
             Assert.IsTrue(MainSettings.Inx.Plant2dObjects.Count == 0);
             Assert.IsTrue(MainSettings.SimDuration == 24);

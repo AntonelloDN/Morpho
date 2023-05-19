@@ -6,7 +6,7 @@ namespace MorphoTests.Simx
     internal class TThreadTest
     {
         [Test]
-        public void RadSchemeInitTest()
+        public void InitTest()
         {
             var tthread = new TThread();
 
@@ -39,6 +39,5 @@ namespace MorphoTests.Simx
 
             Assert.IsTrue(tthread.Title == "TThread");
         }
-
     }
 }

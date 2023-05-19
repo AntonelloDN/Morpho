@@ -6,7 +6,7 @@ namespace MorphoTests.Simx
     internal class ModelTimingTest
     {
         [Test]
-        public void ModelTimingInitTest()
+        public void InitTest()
         {
             var modelTiming = new ModelTiming();
             Assert.IsTrue(modelTiming.FlowSteps == 900);

@@ -14,7 +14,7 @@ namespace MorphoTests.Simx
         }
 
         [Test]
-        public void RadSchemeInitTest()
+        public void InitTest()
         {
             Assert.IsTrue(RadScheme.MRTCalculationMethod == MRTCalculationMethod.TwoDirectional);
 
