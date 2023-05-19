@@ -58,10 +58,10 @@ namespace Morpho25.Settings
     /// </summary>
     public enum TurbolenceType
     {
-        MellorAndYamada,
-        KatoAndLaunder,
-        Lopez,
-        Bruse
+        MellorAndYamada = 0,
+        KatoAndLaunder = 1,
+        Lopez = 2,
+        Bruse = 3,
     }
 
     /// <summary>

@@ -197,15 +197,8 @@ namespace Morpho25.IO
 
             if (Turbulence != null)
             {
-                string title = "Turbulence";
-                string[] tags = new string[] { 
-                    "turbulenceModel"
-                };
-                string[] values = new string[] {
-                    Turbulence.TurbulenceModel.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, Turbulence.Title,
+                    Turbulence.Tags, Turbulence.Values, 0, empty);
             }
 
             if (TimeSteps != null)

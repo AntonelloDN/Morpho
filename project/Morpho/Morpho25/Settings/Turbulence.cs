@@ -8,15 +8,35 @@
         /// <summary>
         /// Turbulence model index.
         /// </summary>
-        public int TurbulenceModel { get; }
+        public TurbolenceType TurbulenceModel { get; set; }
+
         /// <summary>
         /// Create new Turbulence object.
         /// </summary>
-        /// <param name="turbulenceModel">Turbulence type.</param>
-        public Turbulence(TurbolenceType turbulenceModel)
+        public Turbulence()
         {
-            TurbulenceModel = (int) turbulenceModel;
+            TurbulenceModel = TurbolenceType.Bruse;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Turbulence";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            ((int)TurbulenceModel).ToString()
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "turbulenceModel"
+        };
+
         /// <summary>
         /// String representation of the Turbulence object.
         /// </summary>
