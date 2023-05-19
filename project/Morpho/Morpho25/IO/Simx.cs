@@ -201,46 +201,8 @@ namespace Morpho25.IO
 
             if (OutputSettings != null)
             {
-                string title = "OutputSettings";
-                string[] tags = new string[] {
-                    "mainFiles",
-                    "textFiles",
-                    "netCDF",
-                    "netCDFAllDataInOneFile",
-                    "inclNestingGrids",
-                    "writeAgents",
-                    "writeAtmosphere",
-                    "writeBuildings",
-                    "writeObjects",
-                    "writeGreenpass",
-                    "writeNesting",
-                    "writeRadiation",
-                    "writeSoil",
-                    "writeSolarAccess",
-                    "writeSurface",
-                    "writeVegetation"
-                };
-                string[] values = new string[] {
-                    OutputSettings.MainFiles.ToString(),
-                    OutputSettings.TextFiles.ToString(),
-                    OutputSettings.NetCDF.ToString(),
-                    OutputSettings.NetCDFAllDataInOneFile.ToString(),
-                    "0",
-                    OutputSettings.WriteAgents.ToString(),
-                    OutputSettings.WriteAtmosphere.ToString(),
-                    OutputSettings.WriteBuildings.ToString(),
-                    OutputSettings.WriteObjects.ToString(),
-                    OutputSettings.WriteGreenpass.ToString(),
-                    OutputSettings.WriteNesting.ToString(),
-                    OutputSettings.WriteRadiation.ToString(),
-                    OutputSettings.WriteSoil.ToString(),
-                    OutputSettings.WriteSolarAccess.ToString(),
-                    OutputSettings.WriteSurface.ToString(),
-                    OutputSettings.WriteVegetation.ToString(),
-                };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, OutputSettings.Title,
+                    OutputSettings.Tags, OutputSettings.Values, 0, empty);
             }
 
             if (Cloud != null && FullForcing == null)

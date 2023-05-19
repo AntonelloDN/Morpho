@@ -16,26 +16,26 @@ namespace Morpho25.Settings
         private int _mainFiles;
         private int _textFiles;
 
-        private uint _writeAgents;
-        private uint _writeAtmosphere;
-        private uint _writeBuildings;
-        private uint _writeObjects;
-        private uint _writeGreenpass;
-        private uint _writeNesting;
-        private uint _writeRadiation;
-        private uint _writeSoil;
-        private uint _writeSolarAccess;
-        private uint _writeSurface;
-        private uint _writeVegetation;
+        /// </summary>
+        /// Enable NetCDF output.
+        /// </summary>
+        public Active NetCDF { get; set; }
 
-        /// </summary>
-        /// 1 to enable NetCDF output.
-        /// </summary>
-        public int NetCDF { get; set; }
         /// <summary>
         /// Merge NetCDF files.
         /// </summary>
-        public int NetCDFAllDataInOneFile { get; set; }
+        public Active NetCDFAllDataInOneFile { get; set; }
+
+        /// <summary>
+        /// NetCDF small size.
+        /// </summary>
+        public Active NetCDFWriteOnlySmallFiles { get; set; }
+
+        /// <summary>
+        /// Include nesting grid.
+        /// </summary>
+        public Active IncludeNestingGrid { get; set; }
+
         /// <summary>
         /// Decide in which output interval save output files.
         /// </summary>
@@ -62,191 +62,60 @@ namespace Morpho25.Settings
         }
 
         /// </summary>
-        /// 1 to enable Agent output.
+        /// Enable Agent output.
         /// </summary>
-        public uint WriteAgents
-        {
-            get
-            {
-                return _writeAgents;
-            }
-            set 
-            {
-                if (value > 1)
-                    value = 1;
-                _writeAgents = value;
-            }
-        }
+        public Active WriteAgents { get; set; }
+
 
         /// </summary>
-        /// 1 to enable Atmosphere output.
+        /// Enable Atmosphere output.
         /// </summary>
-        public uint WriteAtmosphere
-        {
-            get
-            {
-                return _writeAtmosphere;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeAtmosphere = value;
-            }
-        }
+        public Active WriteAtmosphere { get; set; }
 
         /// </summary>
-        /// 1 to enable Buildings output.
+        /// Enable Buildings output.
         /// </summary>
-        public uint WriteBuildings
-        {
-            get
-            {
-                return _writeBuildings;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeBuildings = value;
-            }
-        }
+        public Active WriteBuildings { get; set; }
 
         /// </summary>
-        /// 1 to enable Objects output.
+        /// Enable Objects output.
         /// </summary>
-        public uint WriteObjects
-        {
-            get
-            {
-                return _writeObjects;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeObjects = value;
-            }
-        }
+        public Active WriteObjects { get; set; }
 
         /// </summary>
-        /// 1 to enable Greenpass output.
+        /// Enable Greenpass output.
         /// </summary>
-        public uint WriteGreenpass
-        {
-            get
-            {
-                return _writeGreenpass;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeGreenpass = value;
-            }
-        }
+        public Active WriteGreenpass { get; set; }
 
         /// </summary>
-        /// 1 to enable Nesting output.
+        /// Enable Nesting output.
         /// </summary>
-        public uint WriteNesting
-        {
-            get
-            {
-                return _writeNesting;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeNesting = value;
-            }
-        }
+        public Active WriteNesting { get; set; }
 
         /// </summary>
-        /// 1 to enable Radiation output.
+        /// Enable Radiation output.
         /// </summary>
-        public uint WriteRadiation
-        {
-            get
-            {
-                return _writeRadiation;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeRadiation = value;
-            }
-        }
+        public Active WriteRadiation { get; set; }
 
         /// </summary>
-        /// 1 to enable Soil output.
+        /// Enable Soil output.
         /// </summary>
-        public uint WriteSoil
-        {
-            get
-            {
-                return _writeSoil;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeSoil = value;
-            }
-        }
+        public Active WriteSoil { get; set; }
 
         /// </summary>
-        /// 1 to enable SolarAccess output.
+        /// Enable SolarAccess output.
         /// </summary>
-        public uint WriteSolarAccess
-        {
-            get
-            {
-                return _writeSolarAccess;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeSolarAccess = value;
-            }
-        }
+        public Active WriteSolarAccess { get; set; }
 
         /// </summary>
-        /// 1 to enable Surface output.
+        /// Enable Surface output.
         /// </summary>
-        public uint WriteSurface
-        {
-            get
-            {
-                return _writeSurface;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeSurface = value;
-            }
-        }
+        public Active WriteSurface { get; set; }
 
         /// </summary>
-        /// 1 to enable Buildings output.
+        /// Enable Buildings output.
         /// </summary>
-        public uint WriteVegetation
-        {
-            get
-            {
-                return _writeVegetation;
-            }
-            set
-            {
-                if (value > 1)
-                    value = 1;
-                _writeVegetation = value;
-            }
-        }
+        public Active WriteVegetation { get; set; }
 
         /// <summary>
         /// Create new OutputSettings.
@@ -255,20 +124,72 @@ namespace Morpho25.Settings
         {
             MainFiles = 60;
             TextFiles = 60;
-            NetCDF = (int) Active.NO;
-            NetCDFAllDataInOneFile = (int) Active.NO;
-            WriteAgents = 0;
-            WriteAtmosphere = 1;
-            WriteBuildings = 1;
-            WriteObjects = 0;
-            WriteGreenpass = 0;
-            WriteNesting = 0;
-            WriteRadiation = 1;
-            WriteSoil = 1;
-            WriteSolarAccess = 1;
-            WriteSurface = 1;
-            WriteVegetation = 1;
+            NetCDF = Active.NO;
+            NetCDFAllDataInOneFile = Active.NO;
+            NetCDFWriteOnlySmallFiles = Active.NO;
+            WriteAgents = Active.NO;
+            WriteAtmosphere = Active.YES;
+            WriteBuildings = Active.YES;
+            WriteObjects = Active.NO;
+            WriteGreenpass = Active.NO;
+            WriteNesting = Active.NO;
+            WriteRadiation = Active.YES;
+            WriteSoil = Active.YES;
+            WriteSolarAccess = Active.YES;
+            WriteSurface = Active.YES;
+            WriteVegetation = Active.YES;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "OutputSettings";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            MainFiles.ToString(),
+            TextFiles.ToString(),
+            ((int)NetCDF).ToString(),
+            ((int)NetCDFAllDataInOneFile).ToString(),
+            ((int)NetCDFWriteOnlySmallFiles).ToString(),
+            ((int)IncludeNestingGrid).ToString(),
+            ((int)WriteAgents).ToString(),
+            ((int)WriteAtmosphere).ToString(),
+            ((int)WriteBuildings).ToString(),
+            ((int)WriteObjects).ToString(),
+            ((int)WriteGreenpass).ToString(),
+            ((int)WriteNesting).ToString(),
+            ((int)WriteRadiation).ToString(),
+            ((int)WriteSoil).ToString(),
+            ((int)WriteSolarAccess).ToString(),
+            ((int)WriteSurface).ToString(),
+            ((int)WriteVegetation).ToString(),
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "mainFiles",
+            "textFiles",
+            "netCDF",
+            "netCDFAllDataInOneFile",
+            "netCDFWriteOnlySmallFile",
+            "inclNestingGrids",
+            "writeAgents",
+            "writeAtmosphere",
+            "writeBuildings",
+            "writeObjects",
+            "writeGreenpass",
+            "writeNesting",
+            "writeRadiation",
+            "writeSoil",
+            "writeSolarAccess",
+            "writeSurface",
+            "writeVegetation"
+        };
 
         /// <summary>
         /// String representation of OutputSettings.
