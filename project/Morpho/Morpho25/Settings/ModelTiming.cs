@@ -5,68 +5,63 @@
     /// </summary>
     public class ModelTiming : Configuration
     {
-        private int _surfaceSteps;
-        private int _flowSteps;
-        private int _radiationSteps;
-        private int _plantSteps;
-        private int _sourcesSteps;
+        private uint _surfaceSteps;
+        private uint _flowSteps;
+        private uint _radiationSteps;
+        private uint _plantSteps;
+        private uint _sourcesSteps;
         /// <summary>
         /// Update Surface Data each ? sec.
         /// </summary>
-        public int SurfaceSteps
+        public uint SurfaceSteps
         {
             get { return _surfaceSteps; }
             set
             {
-                ItIsPositive(value);
                 _surfaceSteps = value;
             }
         }
         /// <summary>
         /// Update Wind field each ? sec.
         /// </summary>
-        public int FlowSteps
+        public uint FlowSteps
         {
             get { return _flowSteps; }
             set
             {
-                ItIsPositive(value);
                 _flowSteps = value;
             }
         }
         /// <summary>
         /// Update Radiation and Shadows each ? sec.
         /// </summary>
-        public int RadiationSteps
+        public uint RadiationSteps
         {
             get { return _radiationSteps; }
             set
             {
-                ItIsPositive(value);
                 _radiationSteps = value;
             }
         }
         /// <summary>
         /// Update Plant Data each ? sec.
         /// </summary>
-        public int PlantSteps
+        public uint PlantSteps
         {
             get { return _plantSteps; }
             set
             {
-                ItIsPositive(value);
                 _plantSteps = value;
             }
         }
         /// <summary>
         /// Update Emmission Data each ? sec.
         /// </summary>
-        public int SourcesSteps
+        public uint SourcesSteps
         {
             get { return _sourcesSteps; }
             set
             {
-                ItIsPositive(value);
                 _sourcesSteps = value;
             }
         }
@@ -81,6 +76,34 @@
             PlantSteps = 600;
             SourcesSteps = 600;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "ModelTiming";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            SurfaceSteps.ToString(),
+            FlowSteps.ToString(),
+            RadiationSteps.ToString(),
+            PlantSteps.ToString(),
+            SourcesSteps.ToString()
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "surfaceSteps",
+            "flowSteps",
+            "radiationSteps",
+            "plantSteps",
+            "sourcesSteps"
+        };
+
         /// <summary>
         /// String representation of ModelTiming object.
         /// </summary>

@@ -179,23 +179,8 @@ namespace Morpho25.IO
 
             if (ModelTiming != null)
             {
-                string title = "ModelTiming";
-                string[] tags = new string[] { 
-                    "surfaceSteps",
-                    "flowSteps", 
-                    "radiationSteps", 
-                    "plantSteps",
-                    "sourcesSteps"
-                };
-                string[] values = new string[] {
-                    ModelTiming.SurfaceSteps.ToString(),
-                    ModelTiming.FlowSteps.ToString(),
-                    ModelTiming.RadiationSteps.ToString(),
-                    ModelTiming.PlantSteps.ToString(),
-                    ModelTiming.SourcesSteps.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, ModelTiming.Title,
+                    ModelTiming.Tags, ModelTiming.Values, 0, empty);
             }
 
             if (SoilSettings != null)
