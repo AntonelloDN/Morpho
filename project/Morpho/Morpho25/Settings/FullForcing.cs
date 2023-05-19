@@ -32,36 +32,36 @@ namespace Morpho25.Settings
         /// Adjust the minimum interal for updating 
         /// the Full Forcing inflow.
         /// </summary>
-        public int MinFlowsteps { get; set; }
+        public uint MinFlowsteps { get; set; }
 
         /// <summary>
         /// Use temperature values of EPW as boundary condition.
         /// </summary>
-        public int ForceTemperature { get; set; }
+        public Active ForceTemperature { get; set; }
 
         /// <summary>
         /// Use wind speed and direction values of EPW 
         /// as boundary condition.
         /// </summary>
-        public int ForceWind { get; set; }
+        public Active ForceWind { get; set; }
 
         /// <summary>
         /// Use relative humidity values 
         /// of EPW as boundary condition.
         /// </summary>
-        public int ForceRelativeHumidity { get; set; }
+        public Active ForceRelativeHumidity { get; set; }
 
         /// <summary>
         /// Use precipitation values 
         /// of EPW as boundary condition.
         /// </summary>
-        public int ForcePrecipitation { get; set; }
+        public Active ForcePrecipitation { get; set; }
 
         /// <summary>
         /// Use radiation and cloudiness 
         /// values of EPW as boundary condition.
         /// </summary>
-        public int ForceRadClouds { get; set; }
+        public Active ForceRadClouds { get; set; }
 
         /// <summary>
         /// Create a new FullForcing settings.
@@ -73,14 +73,64 @@ namespace Morpho25.Settings
         {
             FileName = FoxBatch.GetFoxFile(epw, workspace);
             LimitWind2500 = 0;
-            MaxWind2500 = 20.0;
-            MinFlowsteps = 50;
-            ForceTemperature = (int)Active.YES;
-            ForceWind = (int)Active.YES;
-            ForceRelativeHumidity = (int)Active.YES;
-            ForcePrecipitation = (int)Active.NO;
-            ForceRadClouds = (int)Active.YES;
+            MaxWind2500 = 999.00000;
+            MinFlowsteps = 30;
+            ForceTemperature = Active.YES;
+            ForceWind = Active.YES;
+            ForceRelativeHumidity = Active.YES;
+            ForcePrecipitation = Active.NO;
+            ForceRadClouds = Active.YES;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "FullForcing";
+
+        /// <summary>
+        /// Values of the XML section
+        /// TODO: It will be updated soon
+        /// </summary>
+        public string[] Values => new[] {
+            FileName,
+            ((int)ForceTemperature).ToString(),
+            ((int)ForceRelativeHumidity).ToString(),
+            ((int)ForceWind).ToString(),
+            ((int)ForcePrecipitation).ToString(),
+            ((int)ForceRadClouds).ToString(),
+            INTERPOLATION_METHOD,
+            NUDGING, 
+            FullForcing.NUNDGING_FACTOR,
+            MinFlowsteps.ToString(),
+            LimitWind2500.ToString(),
+            MaxWind2500.ToString("n5"),
+            Z_0
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "fileName",
+            "forceT",
+            "forceQ",
+            "forceWind",
+            "forcePrecip",
+            "forceRadClouds",
+            "interpolationMethod",
+            "nudging",
+            "nudgingFactor",
+            "minFlowsteps",
+            "limitWind2500",
+            "maxWind2500",
+            "z_0" 
+        };
+
+        /// <summary>
+        /// String representation of tthread object.
+        /// </summary>
+        /// <returns>String representation.</returns>
+        public override string ToString() => $"Config::FullForcing::{FileName}";
     }
 
 }

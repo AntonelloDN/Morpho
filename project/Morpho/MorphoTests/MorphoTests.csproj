@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\ITA_Campobasso.162520_IGDG.epw" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\ITA_Campobasso.162520_IGDG.epw">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\Larino_sim_AT_2018-06-23_12.00.01.EDT">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

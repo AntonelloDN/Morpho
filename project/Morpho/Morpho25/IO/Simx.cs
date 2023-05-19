@@ -413,36 +413,8 @@ namespace Morpho25.IO
 
             if (FullForcing != null)
             {
-                string title = "FullForcing";
-                string[] tags = new string[] {
-                    "fileName",
-                    "forceT",
-                    "forceQ",
-                    "forceWind",
-                    "forcePrecip",
-                    "forceRadClouds",
-                    "interpolationMethod",
-                    "nudging",
-                    "nudgingFactor",
-                    "minFlowsteps",
-                    "limitWind2500",
-                    "maxWind2500",
-                    "z_0" };
-                string[] vaues = new string[] {
-                    FullForcing.FileName,
-                    FullForcing.ForceTemperature.ToString(),
-                    FullForcing.ForceRelativeHumidity.ToString(),
-                    FullForcing.ForceWind.ToString(),
-                    FullForcing.ForcePrecipitation.ToString(),
-                    FullForcing.ForceRadClouds.ToString(),
-                    FullForcing.INTERPOLATION_METHOD,
-                    FullForcing.NUDGING, FullForcing.NUNDGING_FACTOR,
-                    FullForcing.MinFlowsteps.ToString(),
-                    FullForcing.LimitWind2500.ToString(),
-                    FullForcing.MaxWind2500.ToString(), FullForcing.Z_0 };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, vaues, 0, empty);
+                Util.CreateXmlSection(xWriter, FullForcing.Title,
+                    FullForcing.Tags, FullForcing.Values, 0, empty);
             }
 
             xWriter.WriteEndElement();
