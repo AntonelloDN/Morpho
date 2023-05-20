@@ -263,16 +263,8 @@ namespace Morpho25.IO
 
             if (PlantSetting != null)
             {
-                string title = "PlantModel";
-                string[] tags = new string[] { "CO2BackgroundPPM",
-                    "LeafTransmittance", "TreeCalendar" };
-                string[] values = new string[] {
-                    PlantSetting.CO2.ToString(),
-                    PlantSetting.LeafTransmittance.ToString(),
-                    PlantSetting.TreeCalendar.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, PlantSetting.Title,
+                    PlantSetting.Tags, PlantSetting.Values, 0, empty);
             }
 
             if (Facades != null)
