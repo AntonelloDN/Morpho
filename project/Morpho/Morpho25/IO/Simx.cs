@@ -157,6 +157,7 @@ namespace Morpho25.IO
             Util.CreateXmlSection(xWriter, MainSettings.Title,
                 MainSettings.Tags, MainSettings.Values, 0, empty);
 
+            // First Meteorology
             if (SimpleForcing != null && FullForcing == null)
             {
                 Util.CreateXmlSection(xWriter, SimpleForcing.Title, 
@@ -265,18 +266,14 @@ namespace Morpho25.IO
                     Facades.Tags, Facades.Values, 0, empty);
             }
 
+            // Third Meteorology
             if (LBC != null && (SimpleForcing == null || FullForcing == null))
             {
-                string title = "LBC";
-                string[] tags = new string[] { "LBC_TQ", "LBC_TKE" };
-                string[] values = new string[] {
-                    LBC.TemperatureHumidity.ToString(),
-                    LBC.Turbolence.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, LBC.Title,
+                    LBC.Tags, LBC.Values, 0, empty);
             }
 
+            // Second Meteorology
             if (FullForcing != null)
             {
                 Util.CreateXmlSection(xWriter, FullForcing.Title,

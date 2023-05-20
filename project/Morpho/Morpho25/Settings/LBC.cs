@@ -8,12 +8,12 @@
         /// <summary>
         /// Force temperature and humidity
         /// </summary>
-        public int TemperatureHumidity { get; }
+        public BoundaryCondition TemperatureHumidity { get; set; }
 
         /// <summary>
         /// Force turbolence.
         /// </summary>
-        public int Turbolence { get; }
+        public BoundaryCondition Turbolence { get; set; }
 
         /// <summary>
         /// Create Lateral Boundary Condition.
@@ -24,14 +24,32 @@
         /// 'Cyclic' describes the process of copying values 
         /// of the downstream boarder to the upstream boarder.
         /// </summary>
-        /// <param name="temperatureHumidity">Force temperature and humidity.</param>
-        /// <param name="turbolence">Force turbolence.</param>
-        public LBC(BoundaryCondition temperatureHumidity, 
-            BoundaryCondition turbolence)
+        public LBC()
         {
-            TemperatureHumidity = (int) temperatureHumidity;
-            Turbolence = (int)turbolence;
+            TemperatureHumidity = BoundaryCondition.Open;
+            Turbolence = BoundaryCondition.Open;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "LBC";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            ((int)TemperatureHumidity).ToString(),
+            ((int)Turbolence).ToString()
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "LBC_TQ",
+            "LBC_TKE"
+        };
 
         /// <summary>
         /// String representation of LBC object.

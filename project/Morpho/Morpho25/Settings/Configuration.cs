@@ -79,7 +79,7 @@ namespace Morpho25.Settings
     public enum BoundaryCondition
     {
         Open = 1,
-        Forced,
-        Cyclic
+        Forced = 2,
+        Cyclic = 3,
     }
 }
