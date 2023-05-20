@@ -69,8 +69,8 @@ namespace Morpho25.Settings
     /// </summary>
     public enum FacadeMod
     {
-        MO,
-        DIN6946
+        MO = 0,
+        DIN6946 = 1,
     }
 
     /// <summary>

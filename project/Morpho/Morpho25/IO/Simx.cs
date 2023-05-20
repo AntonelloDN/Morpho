@@ -261,13 +261,8 @@ namespace Morpho25.IO
 
             if (Facades != null)
             {
-                string title = "Facades";
-                string[] tags = new string[] { "FacadeMode" };
-                string[] values = new string[] {
-                    Facades.FacadeMode.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, Facades.Title,
+                    Facades.Tags, Facades.Values, 0, empty);
             }
 
             if (LBC != null && (SimpleForcing == null || FullForcing == null))

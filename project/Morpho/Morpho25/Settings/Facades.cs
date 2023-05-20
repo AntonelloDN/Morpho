@@ -8,17 +8,36 @@
         /// <summary>
         /// FacadeMode for wind resistance model at facede.
         /// </summary>
-        public int FacadeMode { get; }
+        public FacadeMod FacadeMode { get; set; }
 
         /// <summary>
         /// Create new Facade settings.
         /// </summary>
         /// <param name="facadeMode"> FacadeMode for 
         /// wind resistance model at facede.</param>
-        public Facades(FacadeMod facadeMode)
+        public Facades()
         {
-            FacadeMode = (int) facadeMode;
+            FacadeMode = FacadeMod.DIN6946;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Facades";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            ((int) FacadeMode).ToString()
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "FacadeMode"
+        };
 
         /// <summary>
         /// String representation of the Facades settings.
