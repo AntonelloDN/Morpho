@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -43,17 +43,12 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
+    sor = SOR()
+    sor.SORMode = Active.YES if _active else Active.NO 
     
-    if _active:
-        
-        sor = SOR(Active.YES)
-        
-        return sor
-    else:
-        return
+    return sor
 
 SOR = main()
-if not SOR: print("Please, connect _active.")

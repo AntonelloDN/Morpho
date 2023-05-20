@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -15,7 +15,6 @@ EXPERT SETTINGS.
 Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
 See license for more details.
     Args:
-        _active: Run parallel calculation [bool].
         
     Returns:
         read_me: Message for users.
@@ -43,17 +42,11 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
+    parallel = ParallelCPU()
     
-    if _active:
-        
-        parallel = ParallelCPU()
-        
-        return parallel
-    else:
-        return
+    return parallel
 
 parallel_cpu = main()
-if not parallel_cpu: print("Please, connect _active.")

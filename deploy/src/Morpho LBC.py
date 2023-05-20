@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -34,7 +34,7 @@ ghenv.Component.Name = "Morpho LBC"
 ghenv.Component.NickName = "morpho_LBC"
 ghenv.Component.Category = "Morpho"
 ghenv.Component.SubCategory = "4 || Simulation"
-try: ghenv.Component.AdditionalHelpFromDocStrings = "2"
+try: ghenv.Component.AdditionalHelpFromDocStrings = "1"
 except: pass
 
 
@@ -52,7 +52,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
@@ -62,13 +62,11 @@ def main():
         2:BoundaryCondition.Cyclic
     }
     
-    if _LBC_temperature_humidity >= 0 and _LBC_turbolence >= 0:
-        
-        lbc = LBC(model[_LBC_temperature_humidity], model[_LBC_turbolence])
-        
-        return lbc
-    else:
-        return
+    lbc = LBC()
+    if _LBC_temperature_humidity: lbc.TemperatureHumidity = model[_LBC_temperature_humidity]
+    if _LBC_turbolence: lbc.Turbolence = model[_LBC_turbolence]
+    
+    return lbc
+
 
 LBC = main()
-if not LBC: print("Please, connect _LBC_temperature_humidity and _LBC_turbolence.")

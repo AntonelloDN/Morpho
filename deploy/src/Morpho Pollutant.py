@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -61,7 +61,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
@@ -77,19 +77,16 @@ def main():
         8:Pollutant.SPRAY
     }
     
-    if _pollutant_name and _pollutant_type >= 0:
-        
-        multiple = Active.YES if _multiple_sources_ else Active.NO
-        chemistry = Active.YES if _active_chemistry_ else Active.NO
-        
-        source = Sources(_pollutant_name, pollutant[_pollutant_type], multiple, chemistry)
-        
-        if _diameter_: source.UserPartDiameter = _diameter_
-        if _density_: source.UserPartDensity = _density_
-        
-        return source
-    else:
-        return
+
+    
+    source = Sources()
+    if _pollutant_name: source.UserPolluName = _pollutant_name
+    if _diameter_: source.UserPartDiameter = _diameter_
+    if _density_: source.UserPartDensity = _density_
+    source.MultipleSources = Active.YES if _multiple_sources_ else Active.NO
+    source.ActiveChem = Active.YES if _active_chemistry_ else Active.NO
+    if _pollutant_type != None: source.UserPolluType = pollutant[_pollutant_type]
+    
+    return source
 
 source_settings = main()
-if not source_settings: print("Please, connect _pollutant_name and _pollutant_type.")

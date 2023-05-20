@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -49,7 +49,8 @@ def main():
     
     if _active:
         
-        avg_inflow = InflowAvg(Active.YES)
+        avg_inflow = InflowAvg()
+        avg_inflow.Avg = Active.YES
         
         return avg_inflow
     else:

@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -45,17 +45,12 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
+    solar_adjust = SolarAdjust()
+    if _sw_factor: solar_adjust.SWfactor = _sw_factor
     
-    if _sw_factor:
-        
-        solar_adjust = SolarAdjust(_sw_factor)
-        
-        return solar_adjust
-    else:
-        return
+    return solar_adjust
 
 solar_adjust = main()
-if not solar_adjust: print("Please, connect _sw_factor.")

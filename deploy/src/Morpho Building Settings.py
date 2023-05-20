@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -12,6 +12,8 @@ Set indoor building temperature to use for simulation. Unit is °C.
     Args:
         _indoor_temperature: Indoor temperature to apply to buildings (°C) [float].
         _constant_temperature: Set it to 'True' to use constant temperature or 'False' to keep it variable.
+        _surface_temperature: Indoor surface temperature to apply to buildings (°C) [float].
+        _air_conditioning: Set it to 'True' to use air conditioning or 'False' to keep it variable.
         
     Returns:
         read_me: Message for users.
@@ -39,19 +41,19 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
+    building_settings = BuildingSettings()
     
-    if _indoor_temperature:
-        
-        constant = Active.YES if _constant_temperature else Active.NO
-        
-        building_settings = BuildingSettings(_indoor_temperature, constant)
-        
-        return building_settings
-    else:
-        return
+    indoor_const = Active.YES if _constant_temperature else Active.NO
+    air_cond = Active.YES if _air_conditioning else Active.NO
+    building_settings.AirCondHeat = air_cond
+    building_settings.IndoorConst = indoor_const
+    
+    if _indoor_temperature: building_settings.IndoorTemp = _indoor_temperature
+    if _surface_temperature: building_settings.SurfaceTemp = _surface_temperature
+    
+    return building_settings
 
 building_settings = main()
-if not building_settings: print("Please, connect _indoor_temperature.")

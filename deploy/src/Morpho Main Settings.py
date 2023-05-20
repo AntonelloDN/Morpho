@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -27,6 +27,10 @@ Use this component to set basic properties of the simulation file.
         initial_temperature_: Initial temperature of the air (°C) [float]. Default value is 19.
         specific_humidity_: Initial specific humidity of the air in 2500 m (g Water/kg air). Default value is 7.0.
         relative_humidity_: Initial relative humidity of the air in 2m (%) [float]. Default value is 50%.
+        _wind_limit_: Max speed of the wind to use. If -1 is unlimited. Default value is 5.0 m/s [int].
+        _wind_accuracy_: Accuracy of the wind calculation.
+        0 - standard
+        1 - quick
         
     Returns:
         read_me: Message for users.
@@ -49,14 +53,18 @@ try:
     user_path = os.getenv("APPDATA")
     sys.path.append(os.path.join(user_path, "Morpho"))
     clr.AddReferenceToFile("Morpho25.dll")
-    from Morpho25.Settings import MainSettings
+    from Morpho25.Settings import MainSettings, WindAccuracy
     
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
+    wind_accuracy_mod = [
+        WindAccuracy.standard,
+        WindAccuracy.quick
+    ]
     
     if _inx_model and _sim_name:
         
@@ -70,6 +78,8 @@ def main():
         if initial_temperature_: main_settings.InitialTemperature = initial_temperature_
         if specific_humidity_: main_settings.SpecificHumidity = specific_humidity_
         if relative_humidity_: main_settings.RelativeHumidity = relative_humidity_
+        if _wind_limit_ != None: main_settings.WindLimit = _wind_limit_
+        if _wind_accuracy_: main_settings.WindAccuracy = wind_accuracy_mod[_wind_accuracy_]
         
         return main_settings
     else:

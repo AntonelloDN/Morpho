@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -15,11 +15,10 @@ EXPERT SETTINGS. It can cause instabilities.
 Icon made by Freepik <https://www.flaticon.com/authors/freepik>.
 See license for more details.
     Args:
-        _active: Run Threaded. If it is 'True' simulation will stay responsive [bool].
+        _thread_priority_: A number from 1 to 31 [int].
         -
         Warning.
         It can cause instabilities in case of many simulations.
-        
     Returns:
         read_me: Message for users.
         t_thread: Threading settings of *.simx file.
@@ -46,17 +45,13 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
+    t_thread = TThread()
+    t_thread.UseTreading = Active.YES
+    if _thread_priority_: t_thread.TThreadpriority = _thread_priority_
     
-    if _active:
-        
-        t_thread = TThread(Active.YES)
-        
-        return t_thread
-    else:
-        return
+    return t_thread
 
 t_thread = main()
-if not t_thread: print("Please, connect _active.")

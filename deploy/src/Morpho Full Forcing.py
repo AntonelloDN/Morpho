@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -51,7 +51,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
@@ -60,15 +60,15 @@ def main():
         full_forcing = FullForcing(_epw, _inx_workspace)
         
         if _force_temperature_ != None: 
-            full_forcing.ForceTemperature = int(Active.YES) if _force_temperature_ == True else int(Active.NO)
+            full_forcing.ForceTemperature = Active.YES if _force_temperature_ else Active.NO
         if _force_wind_ != None: 
-            full_forcing.ForceWind = int(Active.YES) if _force_wind_ == True else int(Active.NO)
+            full_forcing.ForceWind = Active.YES if _force_wind_ else Active.NO
         if _force_relative_humidity_ != None: 
-            full_forcing.ForceRelativeHumidity = int(Active.YES) if _force_relative_humidity_ == True else int(Active.NO)
+            full_forcing.ForceRelativeHumidity = Active.YES if _force_relative_humidity_ else Active.NO
         if _force_precipitation_ != None: 
-            full_forcing.ForcePrecipitation = int(Active.YES) if _force_precipitation_ == True else int(Active.NO)
+            full_forcing.ForcePrecipitation = Active.YES if _force_precipitation_ else Active.NO
         if _force_radiation_clouds_ != None: 
-            full_forcing.ForceRadClouds = int(Active.YES) if _force_radiation_clouds_ == True else int(Active.NO)
+            full_forcing.ForceRadClouds = Active.YES if _force_radiation_clouds_ else Active.NO
         if min_flow_steps_: full_forcing.MinFlowsteps = min_flow_steps_
         if limit_wind_2500_: full_forcing.LimitWind2500 = limit_wind_2500_
         if max_wind_2500_: full_forcing.MaxWind2500 = max_wind_2500_

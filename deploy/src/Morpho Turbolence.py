@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -48,7 +48,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
@@ -59,13 +59,8 @@ def main():
         3:TurbolenceType.Bruse
     }
     
-    if _model_type >= 0:
-        
-        turbolence = Turbulence(model[_model_type])
-        
-        return turbolence
-    else:
-        return
+    turbolence = Turbulence()
+    if _model_type != None: turbolence.TurbulenceModel = model[_model_type]
+    return turbolence
 
 turbolence = main()
-if not turbolence: print("Please, connect _model_type.")
