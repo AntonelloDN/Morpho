@@ -20,7 +20,7 @@
         /// parallel computation of pressure field.</param>
         public SOR ()
         {
-            SORMode = Active.NO;
+            SORMode = Active.YES;
         }
 
         /// <summary>

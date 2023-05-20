@@ -9,10 +9,10 @@ namespace MorphoTests.Simx
         public void InitTest()
         {
             var sor = new SOR();
-            Assert.IsTrue(sor.SORMode == Active.NO);
-
-            sor.SORMode = Active.YES;
             Assert.IsTrue(sor.SORMode == Active.YES);
+
+            sor.SORMode = Active.NO;
+            Assert.IsTrue(sor.SORMode == Active.NO);
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace MorphoTests.Simx
             var values = sor.Values;
 
             Assert.IsTrue(values.Length == 1);
-            Assert.IsTrue(values[0] == "0");
+            Assert.IsTrue(values[0] == "1");
 
             var tags = sor.Tags;
 

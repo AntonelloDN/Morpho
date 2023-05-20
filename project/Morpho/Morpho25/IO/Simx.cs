@@ -257,13 +257,8 @@ namespace Morpho25.IO
 
             if (InflowAvg != null)
             {
-                string title = "InflowAvg";
-                string[] tags = new string[] { "inflowAvg" };
-                string[] values = new string[] {
-                    InflowAvg.Avg.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, InflowAvg.Title,
+                    InflowAvg.Tags, InflowAvg.Values, 0, empty);
             }
 
             if (PlantSetting != null)

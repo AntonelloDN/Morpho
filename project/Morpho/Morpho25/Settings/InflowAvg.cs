@@ -8,16 +8,34 @@
         /// <summary>
         /// Enable Avg inflow.
         /// </summary>
-        public int Avg { get; }
+        public Active Avg { get; set; }
 
         /// <summary>
         /// Create a new Active averaged inflow object.
         /// </summary>
-        /// <param name="mode"></param>
-        public InflowAvg(Active mode)
+        public InflowAvg()
         {
-            Avg = (int) mode;
+            Avg = Active.YES;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "InflowAvg";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            ((int)Avg).ToString()
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "inflowAvg"
+        };
 
         /// <summary>
         /// String representation of the Avg inflow.
