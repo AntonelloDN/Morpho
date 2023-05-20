@@ -251,12 +251,8 @@ namespace Morpho25.IO
 
             if (SOR != null)
             {
-                string title = "SOR";
-                string[] tags = new string[] { "SORMode" };
-                string[] values = new string[] { SOR.SORMode.ToString() };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, SOR.Title,
+                    SOR.Tags, SOR.Values, 0, empty);
             }
 
             if (InflowAvg != null)

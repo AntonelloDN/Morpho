@@ -10,7 +10,7 @@
         /// red-black-tree algorithm which allows 
         /// parallel computation of pressure field.
         /// </summary>
-        public int SORMode { get; }
+        public Active SORMode { get; set; }
 
         /// <summary>
         /// Create a new SOR object.
@@ -18,10 +18,29 @@
         /// <param name="mode">If you active it pressure field is calculated via 
         /// red-black-tree algorithm which allows 
         /// parallel computation of pressure field.</param>
-        public SOR (Active mode)
+        public SOR ()
         {
-            SORMode = (int) mode;
+            SORMode = Active.NO;
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "SOR";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            ((int)SORMode).ToString()
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "SORMode"
+        };
 
         /// <summary>
         /// String representation of SOR object.
