@@ -8,9 +8,9 @@ namespace Morpho25.Settings
     /// </summary>
     public class Cloud
     {
-        private double _lowClouds;
-        private double _middleClouds;
-        private double _highClouds;
+        private uint _lowClouds;
+        private uint _middleClouds;
+        private uint _highClouds;
 
         private void IsMoreThanEight(double value)
         {
@@ -20,7 +20,7 @@ namespace Morpho25.Settings
         /// <summary>
         /// Fraction of LOW clouds (x/8).
         /// </summary>
-        public double LowClouds
+        public uint LowClouds
         {
             get { return _lowClouds; }
             set
@@ -32,7 +32,7 @@ namespace Morpho25.Settings
         /// <summary>
         /// Fraction of MIDDLE clouds (x/8).
         /// </summary>
-        public double MiddleClouds
+        public uint MiddleClouds
         {
             get { return _middleClouds; }
             set
@@ -44,7 +44,7 @@ namespace Morpho25.Settings
         /// <summary>
         /// Fraction of HIGH clouds (x/8).
         /// </summary>
-        public double HighClouds
+        public uint HighClouds
         {
             get { return _highClouds; }
             set
@@ -63,6 +63,30 @@ namespace Morpho25.Settings
             HighClouds = 0;
 
         }
+
+        /// <summary>
+        /// Title of the XML section
+        /// </summary>
+        public string Title => "Clouds";
+
+        /// <summary>
+        /// Values of the XML section
+        /// </summary>
+        public string[] Values => new[] {
+            LowClouds.ToString("n5"),
+            MiddleClouds.ToString("n5"),
+            HighClouds.ToString("n5")
+        };
+
+        /// <summary>
+        /// Tags of the XML section
+        /// </summary>
+        public string[] Tags => new[] {
+            "lowClouds",
+            "middleClouds",
+            "highClouds"
+        };
+
         /// <summary>
         /// String representation of Cloud object.
         /// </summary>

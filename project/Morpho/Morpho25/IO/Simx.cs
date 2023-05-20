@@ -207,16 +207,8 @@ namespace Morpho25.IO
 
             if (Cloud != null && FullForcing == null)
             {
-                string title = "Clouds";
-                string[] tags = new string[] { "lowClouds",
-                    "middleClouds", "highClouds" };
-                string[] values = new string[] {
-                    Cloud.LowClouds.ToString("n6"),
-                    Cloud.MiddleClouds.ToString("n6"),
-                    Cloud.HighClouds.ToString("n6") };
-
-                Util.CreateXmlSection(xWriter, title,
-                    tags, values, 0, empty);
+                Util.CreateXmlSection(xWriter, Cloud.Title,
+                    Cloud.Tags, Cloud.Values, 0, empty);
             }
 
             if (Background != null)
