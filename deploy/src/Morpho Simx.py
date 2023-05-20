@@ -1,7 +1,7 @@
 # Morpho: A plugin to write Envimet models.
 # This file is part of Morpho project.
 #
-# Copyright (c) 2022, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
+# Copyright (c) 2023, Antonello Di Nunzio <antonellodinunzio@gmail.com>.
 # You should have received a copy of the GNU General Public License
 # along with Morpho project; If not, see <http://www.gnu.org/licenses/>.
 # 
@@ -27,7 +27,7 @@ You cannot use SimpleForcing and FullForcing at same time.
         . "Morpho Pollutant Concentration"
         . "Morpho SolarAdjust"
         . "Morpho Building Settings"
-        . "Morpho IVS"
+        . "Morpho Radiation"
         . "Morpho Parallel Calculation"
         . "Morpho SOR"
         . "Morpho Averaged Inflow"
@@ -65,7 +65,7 @@ try:
 except ImportError as e:
     raise ImportError("\nFailed to import Morpho: {0}\n\nCheck your 'Morpho' folder in {1}".format(e, os.getenv("APPDATA")))
 ################################################
-ghenv.Component.Message = "1.1.0"
+ghenv.Component.Message = "1.1.1"
 
 def main():
     
@@ -101,8 +101,8 @@ def main():
                     simx.SolarAdjust = obj
                 if (type(obj) == BuildingSettings):
                     simx.BuildingSettings = obj
-                if (type(obj) == IVS):
-                    simx.IVS = obj
+                if (type(obj) == RadScheme):
+                    simx.RadScheme = obj
                 if (type(obj) == ParallelCPU):
                     simx.ParallelCPU = obj
                 if (type(obj) == SOR):
