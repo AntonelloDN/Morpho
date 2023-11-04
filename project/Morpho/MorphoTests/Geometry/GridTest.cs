@@ -1,5 +1,7 @@
 using Morpho25.Geometry;
 using Morpho25.Utility;
+using Newtonsoft.Json.Schema.Generation;
+using Newtonsoft.Json.Schema;
 using NUnit.Framework;
 using System;
 using System.Linq;
