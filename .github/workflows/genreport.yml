@@ -18,11 +18,9 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: |
-            6.0.5
-            6.0.2X
+          dotnet-version: 6.0.X
 
       - name: Install reportgenerator
         run: |
