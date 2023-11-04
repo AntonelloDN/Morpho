@@ -102,11 +102,11 @@ namespace MorphoGeometry
             if (obj == null)
                 return false;
 
-            var faceObj = obj as FaceGroup;
-            if (faceObj == null)
+            var fgObj = obj as FaceGroup;
+            if (fgObj == null)
                 return false;
             else
-                return Equals(faceObj);
+                return Equals(fgObj);
         }
 
         public override int GetHashCode()

@@ -1,32 +1,64 @@
 using Morpho25.Geometry;
 using Morpho25.Utility;
 using NUnit.Framework;
+using System;
 using System.Linq;
 
 namespace MorphoTests.Geometry
 {
     public class GridTest
     {
+        private readonly string _eqJson = "{\"size\":{\"numX\":100,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numY\":100,\"numZ\":25,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":0.0,\"startTelescopeHeight\":0.0,\"combineGridType\":false}";
+        private readonly string _eqErrJson = "{\"size\":{\"numX\":100,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":0.0,\"startTelescopeHeight\":0.0,\"combineGridType\":false}";
+        private readonly string _telJson = "{\"size\":{\"numX\":100,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numY\":100,\"numZ\":25,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":8.0,\"startTelescopeHeight\":5.0,\"combineGridType\":true}";
+
         private NestingGrids _nestingGrids;
+        private Size _size;
+        private Grid _eqGrid;
+        private Grid _telGrid;
 
         [SetUp]
         public void Setup()
         {
             _nestingGrids = new NestingGrids(3, "000000", "000000");
+            _size = new Size(new MorphoGeometry.Vector(0, 0, 0),
+                new CellDimension(3, 3, 3), 100, 100, 25);
+            _eqGrid = new Grid(_size, _nestingGrids);
+            _telGrid = new Grid(_size, 8.0, 5.0, true, _nestingGrids);
+        }
+
+        [Test]
+        public void SerializeTest()
+        {
+            var jsonEqOuput = _eqGrid.Serialize();
+            var jsonTelOutput = _telGrid.Serialize();
+
+            Assert.That(jsonEqOuput, Is.EqualTo(_eqJson));
+            Assert.That(jsonTelOutput, Is.EqualTo(_telJson));
+        }
+
+        [Test]
+        public void DeserializeTest()
+        {
+            var eqOut = Grid.Deserialize(_eqJson);
+            Assert.That(eqOut, Is.EqualTo(_eqGrid));
+
+            var telOut = Grid.Deserialize(_telJson);
+            Assert.That(telOut, Is.EqualTo(_telGrid));
+
+            Assert.Throws<Exception>(() => Grid.Deserialize(_eqErrJson));
         }
 
         [Test]
         public void CreateEquidistantGridTest()
         {
-            var size = new Size(new MorphoGeometry.Vector(0, 0, 0),
-                new CellDimension(3, 3, 3), 100, 100, 25);
-
-            var grid = new Grid(size, _nestingGrids);
-
-            Assert.IsTrue(grid.Xaxis.Count() == size.NumX);
-            Assert.IsTrue(grid.Yaxis.Count() == size.NumY);
-            Assert.IsTrue(grid.Zaxis.Count() == size.NumZ);
-            Assert.IsTrue(grid.SequenceZ.Count() == size.NumZ);
+            Assert.Multiple(() =>
+            {
+                Assert.That(_eqGrid.Xaxis.Count(), Is.EqualTo(100));
+                Assert.That(_eqGrid.Yaxis.Count(), Is.EqualTo(100));
+                Assert.That(_eqGrid.Zaxis.Count(), Is.EqualTo(25));
+                Assert.That(_eqGrid.SequenceZ.Count(), Is.EqualTo(25));
+            });
         }
 
         [Test]
@@ -35,23 +67,25 @@ namespace MorphoTests.Geometry
         [TestCase(false, false)]
         public void CreateTelescopicGridTest(bool isSplitted, bool hasNestings)
         {
-            var size = new Size(new MorphoGeometry.Vector(0, 0, 0),
-                new CellDimension(3, 3, 3), 100, 100, 25);
-
-            var grid = new Grid(size, 8.0, 5.0, isSplitted, hasNestings 
+            var grid = new Grid(_size, 8.0, 5.0, isSplitted, hasNestings 
                 ? _nestingGrids
                 : null);
+            
+            Assert.Multiple(() =>
+            {
+                Assert.That(grid.Xaxis.Count() == 100, Is.True);
+                Assert.That(grid.Yaxis.Count() == 100, Is.True);
+                Assert.That(grid.Zaxis.Count() == 25, Is.True);
+                Assert.That(grid.SequenceZ.Count() == 25, Is.True);
+            });
 
-            Assert.IsTrue(grid.Xaxis.Count() == size.NumX);
-            Assert.IsTrue(grid.Yaxis.Count() == size.NumY);
-            Assert.IsTrue(grid.Zaxis.Count() == size.NumZ);
-            Assert.IsTrue(grid.SequenceZ.Count() == size.NumZ);
             if (isSplitted)
             {
-                Assert.IsTrue(grid.IsSplitted);
+                Assert.That(grid.IsSplitted, Is.True);
             }
-            else { 
-                Assert.IsFalse(grid.IsSplitted); 
+            else 
+            {
+                Assert.That(grid.IsSplitted, Is.False);
             }
         }
     }

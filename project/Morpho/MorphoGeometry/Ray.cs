@@ -77,11 +77,11 @@ namespace MorphoGeometry
             if (obj == null)
                 return false;
 
-            var vecObj = obj as Ray;
-            if (vecObj == null)
+            var rayObj = obj as Ray;
+            if (rayObj == null)
                 return false;
             else
-                return Equals(vecObj);
+                return Equals(rayObj);
         }
 
         public override int GetHashCode()
