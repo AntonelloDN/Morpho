@@ -1,27 +1,43 @@
 ﻿using Morpho25.Utility;
 using MorphoGeometry;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Morpho25.Geometry
 {
+    [DisplayName("Simple Plant")]
     /// <summary>
     /// Plant 2D class.
     /// </summary>
-    public class Plant2d : Entity
+    public class Plant2d : Entity, IEquatable<Plant2d>
     {
-        /// <summary>
-        /// Geometry of the plant 2D.
-        /// </summary>
-        public FaceGroup Geometry { get; }
+        [DisplayName("Name")]
+        [Description("Name of the simple plant group")]
+        [JsonProperty("name")]
         /// <summary>
         /// Name of the plant 2D.
         /// </summary>
         public override string Name { get; }
+
+        [DisplayName("Geometry")]
+        [Description("Flat or solid geometry")]
+        [JsonProperty("geometry", Required = Required.Always)]
+        /// <summary>
+        /// Geometry of the plant 2D.
+        /// </summary>
+        public FaceGroup Geometry { get; }
+
+        [JsonIgnore]
         /// <summary>
         /// Matrix 2D of the plant 2D.
         /// </summary>
         public Matrix2d IDmatrix { get; private set; }
+
+        [DisplayName("Material")]
+        [Description("Simple plant type")]
+        [JsonProperty("material")]
         /// <summary>
         /// Material of the plant 2D.
         /// </summary>
@@ -38,15 +54,16 @@ namespace Morpho25.Geometry
             }
 
         }
+
+        [JsonConstructor]
         /// <summary>
         /// Create a new plant 2D.
         /// </summary>
-        /// <param name="grid">Grid object.</param>
         /// <param name="geometry">Geometry of the plant 2D.</param>
         /// <param name="id">Numerical ID.</param>
         /// <param name="code">Code of the material.</param>
         /// <param name="name">Name of the plant 2D.</param>
-        public Plant2d(Grid grid, FaceGroup geometry, 
+        public Plant2d(FaceGroup geometry, 
             int id, string code = null, string name = null)
         {
             ID = id;
@@ -55,11 +72,9 @@ namespace Morpho25.Geometry
                 ? CreateMaterial(Material.DEFAULT_PLANT_2D, code) 
                 : CreateMaterial(Material.DEFAULT_PLANT_2D);
             Name = name ?? "PlantGroup";
-
-            SetMatrix(grid);
         }
 
-        private void SetMatrix(Grid grid)
+        public void SetMatrix(Grid grid)
         {
             Matrix2d matrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "");
 
@@ -81,5 +96,74 @@ namespace Morpho25.Geometry
                 Name, ID, Material.IDs[0]);
         }
 
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Plant2d Deserialize(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Plant2d>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool Equals(Plant2d other)
+        {
+            if (other == null)
+                return false;
+
+            if (other != null
+                && other.ID == this.ID
+                && other.Name == this.Name
+                && other.Material == this.Material
+                && other.Geometry == this.Geometry)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var plantObj = obj as Plant2d;
+            if (plantObj == null)
+                return false;
+            else
+                return Equals(plantObj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + ID.GetHashCode();
+                hash = hash * 23 + Name.GetHashCode();
+                hash = hash * 23 + Material.GetHashCode();
+                hash = hash * 23 + Geometry.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(Plant2d plant1, Plant2d plant2)
+        {
+            if (((object)plant1) == null || ((object)plant2) == null)
+                return Object.Equals(plant1, plant2);
+
+            return plant1.Equals(plant2);
+        }
+
+        public static bool operator !=(Plant2d plant1, Plant2d plant2)
+        {
+            return !(plant1 == plant2);
+        }
     }
 }

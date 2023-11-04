@@ -3,23 +3,30 @@ using MorphoGeometry;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Morpho25.Geometry
 {
+    [DisplayName("Building")]
     /// <summary>
     /// Building class.
     /// </summary>
     public class Building : Entity, IEquatable<Building>
     {
-        [JsonProperty("observeBPS")]
+        [DisplayName("Name")]
+        [Description("Name of the building group")]
+        [JsonProperty("name")]
         /// <summary>
-        /// Enable Building BPS output
+        /// Name of the building.
         /// </summary>
-        public bool ObserveBPS { get; }
+        public override string Name { get; }
 
-        [JsonProperty("geometry")]
+        [DisplayName("Geometry")]
+        [Description("Solid geometry")]
+        [JsonProperty("geometry", Required = Required.Always)]
         /// <summary>
         /// Geometry of the building.
         /// </summary>
@@ -56,6 +63,8 @@ namespace Morpho25.Geometry
         /// </summary>
         public List<string> BuildingGreenWallRows { get; private set; }
 
+        [DisplayName("Material")]
+        [Description("Facade and roof materials")]
         [JsonProperty("material")]
         /// <summary>
         /// Material of the building.
@@ -74,11 +83,13 @@ namespace Morpho25.Geometry
 
         }
 
-        [JsonProperty("name")]
+        [DisplayName("Observe BPS")]
+        [Description("Export BPS output")]
+        [JsonProperty("observeBPS")]
         /// <summary>
-        /// Name of the building.
+        /// Enable Building BPS output
         /// </summary>
-        public override string Name { get; }
+        public bool ObserveBPS { get; }
 
         [JsonConstructor]
         /// <summary>

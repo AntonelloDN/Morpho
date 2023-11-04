@@ -3,6 +3,7 @@ using MorphoGeometry;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Morpho25.Geometry
 {
@@ -25,6 +26,8 @@ namespace Morpho25.Geometry
         /// </summary>
         public abstract string Name { get; }
 
+        [DisplayName("ID")]
+        [Description("Numeric ID of the entity")]
         [JsonProperty("id")]
         /// <summary>
         /// ID of the entity.

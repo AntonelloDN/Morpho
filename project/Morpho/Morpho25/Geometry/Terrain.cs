@@ -1,36 +1,54 @@
 ﻿using Morpho25.Utility;
 using MorphoGeometry;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 
 namespace Morpho25.Geometry
 {
+    [DisplayName("Terrain")]
     /// <summary>
     /// Terrain class.
     /// </summary>
-    public class Terrain : Entity
+    public class Terrain : Entity, IEquatable<Terrain>
     {
-        /// <summary>
-        /// Geometry of the terrain.
-        /// </summary>
-        public FaceGroup Geometry { get; }
+        [DisplayName("Name")]
+        [Description("Name of the terrain group")]
+        [JsonProperty("name")]
         /// <summary>
         /// Name of the terrain.
         /// </summary>
         public override string Name { get; }
+
+        [DisplayName("Geometry")]
+        [Description("Flat or solid geometry")]
+        [JsonProperty("geometry", Required = Required.Always)]
+        /// <summary>
+        /// Geometry of the terrain.
+        /// </summary>
+        public FaceGroup Geometry { get; }
+
+        [JsonIgnore]
         /// <summary>
         /// Matrix 2D of the terrain.
         /// </summary>
         public Matrix2d IDmatrix { get; private set; }
+
+        [JsonIgnore]
         /// <summary>
         /// Collection of string based on Pixel and ID.
         /// </summary>
         public List<string> TerrainIDrows { get; private set; }
+
+        [JsonIgnore]
         /// <summary>
         /// Location of the terrain in the grid.
         /// </summary>
         public List<Pixel> Pixels { get; private set; }
+
+        [JsonIgnore]
         /// <summary>
         /// Material of the terrain.
         /// </summary>
@@ -42,11 +60,10 @@ namespace Morpho25.Geometry
         /// <summary>
         /// Create a new terrain.
         /// </summary>
-        /// <param name="grid">Grid object.</param>
         /// <param name="geometry">Geometry of the terrain.</param>
         /// <param name="id">Numerical ID.</param>
         /// <param name="name">Name of the terrain.</param>
-        public Terrain(Grid grid, FaceGroup geometry,
+        public Terrain(FaceGroup geometry,
             int id, string name = null)
         {
             ID = id;
@@ -54,11 +71,9 @@ namespace Morpho25.Geometry
             Name = name ?? "TerrainGroup";
             TerrainIDrows = new List<string>();
             Pixels = new List<Pixel>();
-
-            SetMatrix(grid);
         }
 
-        private void SetMatrix(Grid grid)
+        public void SetMatrix(Grid grid)
         {
             Matrix2d matrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
 
@@ -109,6 +124,74 @@ namespace Morpho25.Geometry
         public override string ToString()
         {
             return String.Format("Terrain::{0}::{1}", Name, ID);
+        }
+
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Terrain Deserialize(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Terrain>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool Equals(Terrain other)
+        {
+            if (other == null)
+                return false;
+
+            if (other != null
+                && other.ID == this.ID
+                && other.Name == this.Name
+                && other.Geometry == this.Geometry)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var terrainObj = obj as Terrain;
+            if (terrainObj == null)
+                return false;
+            else
+                return Equals(terrainObj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + ID.GetHashCode();
+                hash = hash * 23 + Name.GetHashCode();
+                hash = hash * 23 + Geometry.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(Terrain terrain1, Terrain terrain2)
+        {
+            if (((object)terrain1) == null || ((object)terrain2) == null)
+                return Object.Equals(terrain1, terrain2);
+
+            return terrain1.Equals(terrain2);
+        }
+
+        public static bool operator !=(Terrain terrain1, Terrain terrain2)
+        {
+            return !(terrain1 == terrain2);
         }
     }
 }

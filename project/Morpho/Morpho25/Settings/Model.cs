@@ -39,7 +39,7 @@ namespace Morpho25.Settings
             ReceptorObjects = new List<Receptor>();
         }
 
-        public Model(Grid grid, Location location, Workspace workspace, 
+        public Model(Grid grid, Location location, Workspace workspace,
             List<Building> buildingObjects)
         {
             Workspace = workspace;
@@ -79,17 +79,23 @@ namespace Morpho25.Settings
         {
             SetDefaultMatrix(Grid);
 
-            if (BuildingObjects.Count > 0)
-                SetBuilding();
+            if (TerrainObjects.Count > 0)
+                SetTerrain();
 
             if (Plant2dObjects.Count > 0)
                 SetPlant2d();
 
+            if (BuildingObjects.Count > 0)
+                SetBuilding();
+
+            if (Plant3dObjects.Count > 0)
+                SetPlant3d();
+
+            if (ReceptorObjects.Count > 0)
+                SetReceptor();
+
             if (SoilObjects.Count > 0)
                 SetSoil();
-
-            if (TerrainObjects.Count > 0)
-                SetTerrain();
 
             if (SourceObjects.Count > 0)
                 SetSource();
@@ -122,6 +128,8 @@ namespace Morpho25.Settings
 
         private void SetSoil()
         {
+            SoilObjects.ForEach(_ => _.SetMatrix(Grid));
+
             List<Soil> soils = SoilObjects.OrderBy(e => e.ID).ToList();
             List<Matrix2d> matrixList = soils.Select(e => e.IDmatrix).ToList();
             Matrix2d soilMatrix = Matrix2d.MergeMatrix(matrixList, Material.DEFAULT_SOIL);
@@ -130,14 +138,28 @@ namespace Morpho25.Settings
 
         private void SetPlant2d()
         {
+            Plant2dObjects.ForEach(_ => _.SetMatrix(Grid));
+
             List<Plant2d> plants = Plant2dObjects.OrderBy(e => e.ID).ToList();
             List<Matrix2d> matrixList = plants.Select(e => e.IDmatrix).ToList();
             Matrix2d plantMatrix = Matrix2d.MergeMatrix(matrixList, "");
             EnvimetMatrix.Add("plantMatrix", plantMatrix);
         }
 
+        private void SetPlant3d()
+        {
+            Plant3dObjects.ForEach(_ => _.SetPixel(Grid));
+        }
+
+        private void SetReceptor()
+        {
+            ReceptorObjects.ForEach(_ => _.SetPixel(Grid));
+        }
+
         private void SetTerrain()
         {
+            TerrainObjects.ForEach(_ => _.SetMatrix(Grid));
+
             List<Terrain> terrain = TerrainObjects.OrderBy(e => e.ID).ToList();
             List<Matrix2d> matrixList = terrain.Select(e => e.IDmatrix).ToList();
             Matrix2d terrainMatrix = Matrix2d.MergeMatrix(matrixList, "0");
@@ -146,6 +168,8 @@ namespace Morpho25.Settings
 
         private void SetSource()
         {
+            SourceObjects.ForEach(_ => _.SetMatrix(Grid));
+
             List<Source> sources = SourceObjects.OrderBy(e => e.ID).ToList();
             List<Matrix2d> matrixList = sources.Select(e => e.IDmatrix).ToList();
             Matrix2d sourceMatrix = Matrix2d.MergeMatrix(matrixList, "");

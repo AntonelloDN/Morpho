@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 
 namespace Morpho25.Geometry
 {
+    [DisplayName("Grid")]
     /// <summary>
     /// Grid class.
     /// </summary>

@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Morpho25.Utility;
+using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Morpho25.Geometry
@@ -50,6 +53,8 @@ namespace Morpho25.Geometry
         /// </summary>
         public const string DEFAULT_PLANT_3D = "0000C2";
 
+        [MinLength(1)]
+        [MaxLength(4)]
         [JsonProperty("ids", Required = Required.Always)]
         /// <summary>
         /// Material array of ID.

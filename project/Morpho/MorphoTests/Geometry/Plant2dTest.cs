@@ -10,9 +10,9 @@ using System.Collections.Generic;
 
 namespace MorphoTests.Geometry
 {
-    public class BuildingTest
+    public class Plant2dTest
     {
-        private Building _building;
+        private Plant2d _plant2D;
 
         [SetUp]
         public void Setup()
@@ -36,27 +36,27 @@ namespace MorphoTests.Geometry
             var face2 = new Face(pts2);
             var facegroup = new FaceGroup(new List<Face> { face1, face2 });
 
-            _building = new Building(facegroup, 1);
+            _plant2D = new Plant2d(facegroup, 1);
         }
 
         [Test]
         public void SerializeTest()
         {
-            var jsonOuput = _building.Serialize();
-            var jsonInput = "{\"name\":\"Building\",\"geometry\":{\"faces\":[{\"vertices\":[{\"x\":0.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]},{\"vertices\":[{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":5.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]}]},\"material\":{\"ids\":[\"000000\",\"000000\",\" \",\" \"]},\"observeBPS\":false,\"id\":1}";
+            var jsonOuput = _plant2D.Serialize();
+            var jsonInput = "{\"name\":\"PlantGroup\",\"geometry\":{\"faces\":[{\"vertices\":[{\"x\":0.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]},{\"vertices\":[{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":5.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]}]},\"material\":{\"ids\":[\"0000XX\"]},\"id\":1}";
 
             Assert.That(jsonOuput, Is.EqualTo(jsonInput));
 
             JSchemaGenerator generator = new JSchemaGenerator();
-            JSchema schema = generator.Generate(typeof(Building));
+            JSchema schema = generator.Generate(typeof(Plant2d));
         }
 
         [Test]
         public void DeserializeTest()
         {
-            var jsonInput = "{\"name\":\"Building\",\"geometry\":{\"faces\":[{\"vertices\":[{\"x\":0.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]},{\"vertices\":[{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":5.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]}]},\"material\":{\"ids\":[\"000000\",\"000000\",\" \",\" \"]},\"observeBPS\":false,\"id\":1}";
-            var matOutput = Building.Deserialize(jsonInput);
-            Assert.That(matOutput, Is.EqualTo(_building));
+            var jsonInput = "{\"name\":\"PlantGroup\",\"geometry\":{\"faces\":[{\"vertices\":[{\"x\":0.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]},{\"vertices\":[{\"x\":5.0,\"y\":0.0,\"z\":0.0},{\"x\":5.0,\"y\":5.0,\"z\":0.0},{\"x\":0.0,\"y\":5.0,\"z\":0.0}]}]},\"material\":{\"ids\":[\"0000XX\"]},\"id\":1}";
+            var matOutput = Plant2d.Deserialize(jsonInput);
+            Assert.That(matOutput, Is.EqualTo(_plant2D));
 
             jsonInput = "{\"ids\":\"0000AA\"}";
             Assert.Throws<Exception>(() => Material.Deserialize(jsonInput));
