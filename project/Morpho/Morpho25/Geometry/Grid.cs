@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Morpho25.Utility;
 using Newtonsoft.Json;
@@ -68,18 +70,26 @@ namespace Morpho25.Geometry
         private double _telescope;
         private double _startTelescopeHeight;
 
+        [DisplayName("Grid size")]
+        [Description("Settings of the grid unit")]
         [JsonProperty("size", Required = Required.Always)]
         /// <summary>
         /// Grid size.
         /// </summary>
         public Size Size { get; }
 
+
+        [DisplayName("Nesting grids")]
+        [Description("Addictional grids for calculation scope.")]
         [JsonProperty("nestingGrids")]
         /// <summary>
         /// Nesting grids.
         /// </summary>
         public NestingGrids NestingGrids { get; set; }
 
+        [DisplayName("Telescope Factor")]
+        [Description("Set a telescopic grid.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("telescope")]
         /// <summary>
         /// Telescope value.
@@ -97,6 +107,9 @@ namespace Morpho25.Geometry
             }
         }
 
+        [DisplayName("Start height")]
+        [Description("Set a telescopic grid at.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("startTelescopeHeight")]
         /// <summary>
         /// Start telescopic grid at.
@@ -131,6 +144,8 @@ namespace Morpho25.Geometry
             return list;
         }
 
+        [DisplayName("Split First Cell")]
+        [Description("If telescopic grid split first cell.")]
         [JsonProperty("combineGridType")]
         /// <summary>
         /// Is telescopic grid + first cell splitted?

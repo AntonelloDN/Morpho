@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using MorphoGeometry;
 using Newtonsoft.Json;
 
@@ -54,24 +56,35 @@ namespace Morpho25.Geometry
             MaxY = Origin.y + (NumY * CellDimension.Y);
         }
 
-        [JsonProperty("numX")]
-        /// <summary>
-        /// Number of X cells.
-        /// </summary>
-        public int NumX { get; }
-
+        [DisplayName("Cell Dimension")]
+        [Description("Size of the cell.")]
         [JsonProperty("cellDimension")]
         /// <summary>
         /// Number of X cells.
         /// </summary>
         public CellDimension CellDimension { get; }
 
+        [DisplayName("Num X")]
+        [Description("Number of cells in X.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Only positive number allowed.")]
+        [JsonProperty("numX")]
+        /// <summary>
+        /// Number of X cells.
+        /// </summary>
+        public int NumX { get; }
+
+        [DisplayName("Num Y")]
+        [Description("Number of cells in Y.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("numY")]
         /// <summary>
         /// Number of Y cells.
         /// </summary>
         public int NumY { get; }
 
+        [DisplayName("Num Z")]
+        [Description("Number of cells in Z.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("numZ")]
         /// <summary>
         /// Number of Z cells.
@@ -120,6 +133,8 @@ namespace Morpho25.Geometry
         /// </summary>
         public double DimZ => CellDimension.Z;
 
+        [DisplayName("Origin")]
+        [Description("Origin of the grid.")]
         [JsonProperty("origin")]
         /// <summary>
         /// Origin of the grid. Lower left corner.

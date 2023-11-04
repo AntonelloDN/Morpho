@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Morpho25.Geometry
 {
@@ -22,18 +23,21 @@ namespace Morpho25.Geometry
             Z = z;
         }
 
+        [Range(0.1, double.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("x")]
         /// <summary>
         /// X coordinate.
         /// </summary>
         public double X { get; }
 
+        [Range(0.1, double.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("y")]
         /// <summary>
         /// Y coordinate.
         /// </summary>
         public double Y { get; }
-        
+
+        [Range(0.1, double.MaxValue, ErrorMessage = "Only positive number allowed.")]
         [JsonProperty("z")]
         /// <summary>
         /// Z coordinate.

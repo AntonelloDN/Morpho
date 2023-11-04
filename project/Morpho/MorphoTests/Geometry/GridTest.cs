@@ -10,9 +10,9 @@ namespace MorphoTests.Geometry
 {
     public class GridTest
     {
-        private readonly string _eqJson = "{\"size\":{\"numX\":100,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numY\":100,\"numZ\":25,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":0.0,\"startTelescopeHeight\":0.0,\"combineGridType\":false}";
-        private readonly string _eqErrJson = "{\"size\":{\"numX\":100,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":0.0,\"startTelescopeHeight\":0.0,\"combineGridType\":false}";
-        private readonly string _telJson = "{\"size\":{\"numX\":100,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numY\":100,\"numZ\":25,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":8.0,\"startTelescopeHeight\":5.0,\"combineGridType\":true}";
+        private readonly string _eqJson = "{\"size\":{\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numX\":100,\"numY\":100,\"numZ\":25,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":0.0,\"startTelescopeHeight\":0.0,\"combineGridType\":false}";
+        private readonly string _eqErrJson = "{\"size\":{\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":0.0,\"startTelescopeHeight\":0.0,\"combineGridType\":false}";
+        private readonly string _telJson = "{\"size\":{\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numX\":100,\"numY\":100,\"numZ\":25,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}},\"nestingGrids\":{\"firstMaterial\":\"000000\",\"secondMaterial\":\"000000\",\"numberOfCells\":3},\"telescope\":8.0,\"startTelescopeHeight\":5.0,\"combineGridType\":true}";
 
         private NestingGrids _nestingGrids;
         private Size _size;
@@ -37,6 +37,9 @@ namespace MorphoTests.Geometry
 
             Assert.That(jsonEqOuput, Is.EqualTo(_eqJson));
             Assert.That(jsonTelOutput, Is.EqualTo(_telJson));
+
+            JSchemaGenerator generator = new JSchemaGenerator();
+            JSchema schema = generator.Generate(typeof(Grid));
         }
 
         [Test]

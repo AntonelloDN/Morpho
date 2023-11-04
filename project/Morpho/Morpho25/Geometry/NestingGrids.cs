@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Morpho25.Geometry
 {
@@ -8,18 +10,26 @@ namespace Morpho25.Geometry
     /// </summary>
     public class NestingGrids : IEquatable<NestingGrids>
     {
+        [DisplayName("First Material")]
+        [Description("First profile material to use.")]
+        [StringLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
         [JsonProperty("firstMaterial")]
         /// <summary>
         /// First material.
         /// </summary>
         public string FirstMaterial { get; private set; }
 
+        [DisplayName("Second Material")]
+        [Description("Second profile material to use.")]
+        [StringLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
         [JsonProperty("secondMaterial")]
         /// <summary>
         /// Second material.
         /// </summary>
         public string SecondMaterial { get; private set; }
 
+        [DisplayName("Number Of Cells")]
+        [Description("Number of cell to add to domain.")]
         [JsonProperty("numberOfCells")]
         /// <summary>
         /// Number of cells.

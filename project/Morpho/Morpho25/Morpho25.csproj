@@ -19,9 +19,13 @@
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='ReleaseLoc|net48|AnyCPU'">
 	  <Optimize>True</Optimize>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+	</ItemGroup>
 	
 	<ItemGroup>
 		<ProjectReference Include="..\MorphoGeometry\MorphoGeometry.csproj" />
 	</ItemGroup>
-
+	
 </Project>
