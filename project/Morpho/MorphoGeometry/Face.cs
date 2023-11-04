@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Linq;
 
 namespace MorphoGeometry
@@ -6,31 +7,35 @@ namespace MorphoGeometry
     /// <summary>
     /// Face class.
     /// </summary>
-    public class Face
+    public class Face : IEquatable<Face>
     {
-
         private Vector[] _vertices;
 
+        [JsonIgnore]
         /// <summary>
         /// First vertex.
         /// </summary>
         public Vector A => Vertices[0];
 
+        [JsonIgnore]
         /// <summary>
         /// Second vertex.
         /// </summary>
         public Vector B => Vertices[1];
 
+        [JsonIgnore]
         /// <summary>
         /// Third vertex.
         /// </summary>
         public Vector C => Vertices[2];
 
+        [JsonIgnore]
         /// <summary>
         /// Fourth vertex
         /// </summary>
         public Vector D => Vertices[3];
 
+        [JsonProperty("vertices", Required = Required.Always)]
         /// <summary>
         /// Vertices of the face.
         /// </summary>
@@ -61,6 +66,7 @@ namespace MorphoGeometry
             else return 0;
         }
 
+        [JsonIgnore]
         /// <summary>
         /// Normal vector.
         /// </summary>
@@ -74,6 +80,7 @@ namespace MorphoGeometry
             }
         }
 
+        [JsonConstructor]
         /// <summary>
         /// Create a new face.
         /// </summary>
@@ -141,5 +148,70 @@ namespace MorphoGeometry
             return string.Format("Face::{0}", Vertices.Length);
         }
 
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Face Deserialize(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Face>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool Equals(Face other)
+        {
+            if (other == null)
+                return false;
+
+            if (other != null
+                && Enumerable.SequenceEqual(other.Vertices, this.Vertices)
+                && other.Normal == this.Normal)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var faceObj = obj as Face;
+            if (faceObj == null)
+                return false;
+            else
+                return Equals(faceObj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + Vertices.GetHashCode();
+                hash = hash * 23 + Normal.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(Face face1, Face face2)
+        {
+            if (((object)face1) == null || ((object)face2) == null)
+                return Object.Equals(face1, face2);
+
+            return face1.Equals(face2);
+        }
+
+        public static bool operator !=(Face face1, Face face2)
+        {
+            return !(face1 == face2);
+        }
     }
 }

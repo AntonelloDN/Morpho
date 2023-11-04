@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace MorphoGeometry
 {
@@ -59,6 +55,5 @@ namespace MorphoGeometry
             MinPoint = new Vector(minX, minY, minZ);
             MaxPoint = new Vector(maxX, maxY, maxZ);
         }
-
     }
 }

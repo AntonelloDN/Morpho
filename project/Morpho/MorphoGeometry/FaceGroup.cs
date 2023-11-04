@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,13 +8,15 @@ namespace MorphoGeometry
     /// <summary>
     /// Facegroup class.
     /// </summary>
-    public class FaceGroup
+    public class FaceGroup : IEquatable<FaceGroup>
     {
+        [JsonProperty("faces", Required = Required.Always)]
         /// <summary>
         /// Faces of the facegroup.
         /// </summary>
         public List<Face> Faces { get; }
 
+        [JsonConstructor]
         /// <summary>
         /// Create a new facegroup.
         /// </summary>
@@ -63,6 +66,70 @@ namespace MorphoGeometry
         public override String ToString()
         {
             return string.Format("FaceGroup::{0}", Faces.Count);
+        }
+
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static FaceGroup Deserialize(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<FaceGroup>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool Equals(FaceGroup other)
+        {
+            if (other == null)
+                return false;
+
+            if (other != null
+                && Enumerable.SequenceEqual(other.Faces, this.Faces))
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var faceObj = obj as FaceGroup;
+            if (faceObj == null)
+                return false;
+            else
+                return Equals(faceObj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + Faces.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(FaceGroup faceGroup1, FaceGroup faceGroup2)
+        {
+            if (((object)faceGroup1) == null || ((object)faceGroup2) == null)
+                return Object.Equals(faceGroup1, faceGroup2);
+
+            return faceGroup1.Equals(faceGroup2);
+        }
+
+        public static bool operator !=(FaceGroup faceGroup1, FaceGroup faceGroup2)
+        {
+            return !(faceGroup1 == faceGroup2);
         }
     }
 }

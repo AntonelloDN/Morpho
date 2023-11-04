@@ -1,26 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace MorphoGeometry
 {
     /// <summary>
     /// Vector class.
     /// </summary>
-    public class Vector
+    public class Vector: IEquatable<Vector>
     {
+        [JsonProperty(Required = Required.Always)]
         /// <summary>
         /// X component.
         /// </summary>
         public float x;
+
+        [JsonProperty(Required = Required.Always)]
         /// <summary>
         /// Y component.
         /// </summary>
         public float y;
+
+        [JsonProperty(Required = Required.Always)]
         /// <summary>
         /// Z component.
         /// </summary>
         public float z;
 
+        [JsonConstructor]
         /// <summary>
         /// Create a new vector.
         /// </summary>
@@ -151,5 +157,72 @@ namespace MorphoGeometry
             return string.Format("{0}, {1}, {2}", x, y, z);
         }
 
-    };
+        public string Serialize() 
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Vector Deserialize(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Vector>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool Equals(Vector other)
+        {
+            if (other == null)
+                return false;
+
+            if (other != null
+                && other.x == this.x
+                && other.y == this.y
+                && other.z == this.z)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var vecObj = obj as Vector;
+            if (vecObj == null)
+                return false;
+            else
+                return Equals(vecObj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + x.GetHashCode();
+                hash = hash * 23 + y.GetHashCode();
+                hash = hash * 23 + z.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(Vector vec1, Vector vec2)
+        {
+            if (((object)vec1) == null || ((object)vec2) == null)
+                return Object.Equals(vec1, vec2);
+
+            return vec1.Equals(vec2);
+        }
+
+        public static bool operator !=(Vector vec1, Vector vec2)
+        {
+            return !(vec1 == vec2);
+        }
+    }
 }
