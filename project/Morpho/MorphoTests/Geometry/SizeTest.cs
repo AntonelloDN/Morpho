@@ -22,7 +22,7 @@ namespace MorphoTests.Geometry
         public void SerializeTest()
         {
             var jsonOuput = _size.Serialize();
-            var jsonInput = "{\"numX\":50,\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numY\":50,\"numZ\":24,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}}";
+            var jsonInput = "{\"cellDimension\":{\"x\":3.0,\"y\":3.0,\"z\":3.0},\"numX\":50,\"numY\":50,\"numZ\":24,\"origin\":{\"x\":0.0,\"y\":0.0,\"z\":0.0}}";
             Assert.IsTrue(jsonOuput.Equals(jsonInput));
         }
     }
