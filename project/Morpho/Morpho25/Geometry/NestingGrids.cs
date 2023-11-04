@@ -12,7 +12,8 @@ namespace Morpho25.Geometry
     {
         [DisplayName("First Material")]
         [Description("First profile material to use.")]
-        [StringLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
+        [MinLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
+        [MaxLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
         [JsonProperty("firstMaterial")]
         /// <summary>
         /// First material.
@@ -21,7 +22,8 @@ namespace Morpho25.Geometry
 
         [DisplayName("Second Material")]
         [Description("Second profile material to use.")]
-        [StringLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
+        [MinLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
+        [MaxLength(6, ErrorMessage = "The value cannot exceed 6 characters.")]
         [JsonProperty("secondMaterial")]
         /// <summary>
         /// Second material.
