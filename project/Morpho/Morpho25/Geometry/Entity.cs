@@ -1,5 +1,6 @@
 ﻿using Morpho25.Utility;
 using MorphoGeometry;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace Morpho25.Geometry
         /// </summary>
         public abstract string Name { get; }
 
+        [JsonProperty("id")]
         /// <summary>
         /// ID of the entity.
         /// </summary>

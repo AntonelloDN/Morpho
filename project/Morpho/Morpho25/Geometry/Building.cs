@@ -1,5 +1,6 @@
 ﻿using Morpho25.Utility;
 using MorphoGeometry;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,48 +11,52 @@ namespace Morpho25.Geometry
     /// <summary>
     /// Building class.
     /// </summary>
-    public class Building : Entity
+    public class Building : Entity, IEquatable<Building>
     {
+        [JsonProperty("observeBPS")]
         /// <summary>
         /// Enable Building BPS output
         /// </summary>
         public bool ObserveBPS { get; }
 
+        [JsonProperty("geometry")]
         /// <summary>
         /// Geometry of the building.
         /// </summary>
         public FaceGroup Geometry { get; }
 
+        [JsonIgnore]
         /// <summary>
         /// 2D Matrix from the top.
         /// </summary>
         public Matrix2d TopMatrix { get; private set; }
-
+        [JsonIgnore]
         /// <summary>
         /// 2D Matrix from the bottom.
         /// </summary>
         public Matrix2d BottomMatrix { get; private set; }
-
+        [JsonIgnore]
         /// <summary>
         /// 2D Matrix with building ID.
         /// </summary>
         public Matrix2d IDmatrix { get; private set; }
-
+        [JsonIgnore]
         /// <summary>
         /// Collection of string based on Pixel and ID.
         /// </summary>
         public List<string> BuildingIDrows { get; private set; }
-
+        [JsonIgnore]
         /// <summary>
         /// Collection of string based on Pixel and wall/roof materials.
         /// </summary>
         public List<string> BuildingWallRows { get; private set; }
-
+        [JsonIgnore]
         /// <summary>
         /// Collection of string based on Pixel and green wall/ green roof materials.
         /// </summary>
         public List<string> BuildingGreenWallRows { get; private set; }
 
+        [JsonProperty("material")]
         /// <summary>
         /// Material of the building.
         /// </summary>
@@ -69,22 +74,22 @@ namespace Morpho25.Geometry
 
         }
 
+        [JsonProperty("name")]
         /// <summary>
         /// Name of the building.
         /// </summary>
         public override string Name { get; }
 
+        [JsonConstructor]
         /// <summary>
         /// Create a building.
         /// </summary>
-        /// <param name="grid">Grid object.</param>
         /// <param name="geometry">Geometry of the building.</param>
         /// <param name="id">Numerical ID.</param>
         /// <param name="material">Material of the building.</param>
         /// <param name="name">Optional name.</param>
         /// <param name="observeBPS">Enable BPS calculation.</param>
-        public Building(Grid grid, 
-            FaceGroup geometry,
+        public Building(FaceGroup geometry,
             int id, 
             Material material = null, 
             string name = null,
@@ -95,11 +100,9 @@ namespace Morpho25.Geometry
             Material = material ?? CreateMaterial(null, null, null, null);
             Name = name ?? "Building";
             ObserveBPS = observeBPS;
-
-            SetMatrix(grid);
         }
 
-        private void SetMatrix(Grid grid)
+        public void SetMatrix(Grid grid)
         {
             Matrix2d topMatrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
             Matrix2d bottomMatrix = new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0");
@@ -117,6 +120,76 @@ namespace Morpho25.Geometry
             TopMatrix = topMatrix;
             BottomMatrix = bottomMatrix;
             IDmatrix = idMatrix;
+        }
+
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Building Deserialize(string json)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Building>(json);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        public bool Equals(Building other)
+        {
+            if (other == null)
+                return false;
+
+            if (other != null
+                && other.ID == this.ID
+                && other.Name == this.Name
+                && other.Material == this.Material
+                && other.Geometry == this.Geometry)
+                return true;
+            else
+                return false;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+                return false;
+
+            var buildObj = obj as Building;
+            if (buildObj == null)
+                return false;
+            else
+                return Equals(buildObj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + ID.GetHashCode();
+                hash = hash * 23 + Name.GetHashCode();
+                hash = hash * 23 + Material.GetHashCode();
+                hash = hash * 23 + Geometry.GetHashCode();
+                return hash;
+            }
+        }
+
+        public static bool operator ==(Building build1, Building build2)
+        {
+            if (((object)build1) == null || ((object)build2) == null)
+                return Object.Equals(build1, build2);
+
+            return build1.Equals(build2);
+        }
+
+        public static bool operator !=(Building build1, Building build2)
+        {
+            return !(build1 == build2);
         }
 
         private IEnumerable<string> GetBuildingRows(List<Pixel> pixels)

@@ -104,6 +104,8 @@ namespace Morpho25.Settings
 
         private void SetBuilding()
         {
+            BuildingObjects.ForEach(_ => _.SetMatrix(Grid));
+
             List<Building> buildings = BuildingObjects.OrderBy(b => b.ID).ToList();
             List<Matrix2d> topMatrixList = buildings.Select(b => b.TopMatrix).ToList();
             List<Matrix2d> bottomMatrixList = buildings.Select(b => b.BottomMatrix).ToList();
