@@ -27,7 +27,7 @@ namespace Morpho25.Geometry
         /// <summary>
         /// Geometry of the plant 2D.
         /// </summary>
-        public FaceGroup Geometry { get; }
+        public FaceGroup Geometry { get; set; }
 
         [JsonIgnore]
         /// <summary>

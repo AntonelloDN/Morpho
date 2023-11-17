@@ -28,7 +28,7 @@ namespace Morpho25.Geometry
         /// <summary>
         /// Geometry of the plant 3D.
         /// </summary>
-        public Vector Geometry { get; }
+        public Vector Geometry { get; set; }
 
         [DisplayName("Material")]
         [Description("Plant3D type")]

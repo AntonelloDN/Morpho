@@ -28,7 +28,7 @@ namespace Morpho25.Geometry
         /// <summary>
         /// Geometry of the terrain.
         /// </summary>
-        public FaceGroup Geometry { get; }
+        public FaceGroup Geometry { get; set; }
 
         [JsonIgnore]
         /// <summary>

@@ -26,7 +26,7 @@ namespace Morpho25.Geometry
         /// <summary>
         /// Geometry of the receptor.
         /// </summary>
-        public Vector Geometry { get; }
+        public Vector Geometry { get; set; }
 
         [JsonIgnore]
         /// <summary>

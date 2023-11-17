@@ -77,9 +77,10 @@ namespace Morpho25.IO
         {
             string characters = @"[^\s()_<>/,\.A-Za-z0-9=""\P{IsBasicLatin}]+";
 
+            Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             if (!System.IO.File.Exists(file))
                 throw new Exception($"{file} not found.");
-            string text = System.IO.File.ReadAllText(file);
+            string text = System.IO.File.ReadAllText(file, iso);
             string res = Regex.Replace(text, characters, "");
 
             return res;
