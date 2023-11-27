@@ -44,7 +44,7 @@ namespace Morpho25.Settings
         [DisplayName("Name")]
         [Description("Location name.")]
         [JsonProperty("locationName")]
-        public string LocationName { get; }
+        public string LocationName { get; set; }
 
         [DisplayName("Latitude")]
         [Description("Latitude in deg.")]
@@ -85,7 +85,7 @@ namespace Morpho25.Settings
         public double TimezoneReference
         {
             get { return _timezoneRefence; }
-            private set
+            set
             {
                 if (value > 180.0 || value < -180.0)
                     throw new ArgumentOutOfRangeException(
@@ -101,7 +101,7 @@ namespace Morpho25.Settings
         public string TimeZone
         {
             get { return _timeZone; }
-            private set
+            set
             {
                 int val;
                 if (value == "GMT")

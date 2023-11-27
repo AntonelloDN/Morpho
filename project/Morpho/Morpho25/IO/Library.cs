@@ -75,7 +75,7 @@ namespace Morpho25.IO
 
         private string GetCompatibleText(string file)
         {
-            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""\P{IsBasicLatin}]+";
+            string characters = @"[^\s()_<>/,\.A-Za-z0-9=""]+";
 
             Encoding iso = Encoding.GetEncoding("ISO-8859-1");
             if (!System.IO.File.Exists(file))
