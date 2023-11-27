@@ -20,7 +20,7 @@ jobs:
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.X
+          dotnet-version: 3.1.X
 
       - name: Install reportgenerator
         run: |
