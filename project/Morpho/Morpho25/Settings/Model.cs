@@ -24,9 +24,8 @@ namespace Morpho25.Settings
         public bool IsDetailed { get; set; }
         public bool ShiftEachVoxel { get; set; }
 
-        public Model(Grid grid, Location location, Workspace workspace)
+        public Model(Grid grid, Location location)
         {
-            Workspace = workspace;
             EnvimetMatrix = new Dictionary<string, Matrix2d>();
             Grid = grid;
             Location = location;
@@ -39,40 +38,10 @@ namespace Morpho25.Settings
             ReceptorObjects = new List<Receptor>();
         }
 
-        public Model(Grid grid, Location location, Workspace workspace,
-            List<Building> buildingObjects)
+        public Model(Grid grid, Location location, Workspace workspace)
+            : this(grid, location)
         {
             Workspace = workspace;
-            EnvimetMatrix = new Dictionary<string, Matrix2d>();
-            Grid = grid;
-            Location = location;
-            BuildingObjects = buildingObjects;
-            Plant2dObjects = new List<Plant2d>();
-            Plant3dObjects = new List<Plant3d>();
-            SoilObjects = new List<Soil>();
-            TerrainObjects = new List<Terrain>();
-            SourceObjects = new List<Source>();
-            ReceptorObjects = new List<Receptor>();
-
-            Calculation();
-        }
-
-        public Model(Grid grid, Location location, Workspace workspace,
-            List<Building> buildingObjects, List<Plant2d> plant2dObjects)
-        {
-            Workspace = workspace;
-            EnvimetMatrix = new Dictionary<string, Matrix2d>();
-            Grid = grid;
-            Location = location;
-            BuildingObjects = buildingObjects;
-            Plant2dObjects = plant2dObjects;
-            Plant3dObjects = new List<Plant3d>();
-            SoilObjects = new List<Soil>();
-            TerrainObjects = new List<Terrain>();
-            SourceObjects = new List<Source>();
-            ReceptorObjects = new List<Receptor>();
-
-            Calculation();
         }
 
         public void Calculation()
@@ -105,8 +74,9 @@ namespace Morpho25.Settings
         public override string ToString()
         {
             var label = IsDetailed ? "3D" : "2.5D";
-            return String.Format("EnvimetINX::{0}::{1}", Workspace.ModelName, label);
+            return String.Format("EnvimetINX::{0}", label);
         }
+
 
         private void SetBuilding()
         {

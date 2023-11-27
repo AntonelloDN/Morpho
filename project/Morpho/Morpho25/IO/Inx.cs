@@ -77,10 +77,12 @@ namespace Morpho25.IO
             }
             return true;
         }
+
         /// <summary>
-        /// Write INX File on machine.
+        /// Write INX file
         /// </summary>
-        public void WriteInx()
+        /// <param name="fullPath">Full path of INX file to save</param>
+        public void WriteInx(string fullPath = null)
         {
             var now = DateTime.Now;
             string revisionDate = now.ToString("yyyy-MM-dd HH:mm:ss");
@@ -103,8 +105,13 @@ namespace Morpho25.IO
             string IDmatrix = EnvimetUtility.GetASCIImatrix(Model.EnvimetMatrix["idMatrix"]);
             string zeroMatrix = EnvimetUtility.GetASCIImatrix(new Matrix2d(grid.Size.NumX, grid.Size.NumY, "0"));
 
+            if (fullPath == null && Model.Workspace == null)
+            {
+                throw new Exception("Provide a full path of the INX file to save or add Workspace to Model.");
+            }
+
             // start with xml
-            XmlTextWriter xWriter = new XmlTextWriter(Model.Workspace.ModelPath, Encoding.UTF8);
+            XmlTextWriter xWriter = new XmlTextWriter(fullPath ?? Model.Workspace.ModelPath, Encoding.UTF8);
             xWriter.WriteStartElement("ENVI-MET_Datafile");
             xWriter.WriteString(NEWLINE + " ");
 
