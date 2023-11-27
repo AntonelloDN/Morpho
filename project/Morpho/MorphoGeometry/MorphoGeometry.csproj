@@ -6,7 +6,7 @@
 		<AssemblyName>MorphoGeometry</AssemblyName>
 		<Authors>AntonelloDN</Authors>
 		<Company>ENVI-met GmbH</Company>
-		<Version>2.0.2</Version>
+		<Version>2.0.3</Version>
 		<Title>Envimet geometry library</Title>
 		<Description>Envimet geometry library</Description>
 		<Configurations>Debug;Release;ReleaseLoc</Configurations>
