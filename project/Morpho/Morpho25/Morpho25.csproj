@@ -6,7 +6,7 @@
 		<AssemblyName>Morpho25</AssemblyName>
 		<Authors>AntonelloDN</Authors>
 		<Company>ENVI-met GmbH</Company>
-		<Version>2.0.3</Version>
+		<Version>2.0.4</Version>
 		<Title>Envimet morpho 25 library</Title>
 		<Description>Envimet morpho 25 library</Description>
 		<Configurations>Debug;Release;ReleaseLoc</Configurations>

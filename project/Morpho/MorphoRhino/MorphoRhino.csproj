@@ -6,7 +6,7 @@
 		<AssemblyName>MorphoRhino</AssemblyName>
 		<Authors>AntonelloDN</Authors>
 		<Company>ENVI-met GmbH</Company>
-		<Version>2.0.3</Version>
+		<Version>2.0.4</Version>
 		<Title>Envimet rhino library</Title>
 		<Description>Envimet rhino library</Description>
 
@@ -52,7 +52,7 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition="$(Configuration) == 'Debug' AND $([MSBuild]::IsOSPlatform(Windows))">
-		<StartProgram>C:\Program Files\Rhino 6\System\Rhino.exe</StartProgram>
+		<StartProgram>C:\Program Files\Rhino 7\System\Rhino.exe</StartProgram>
 		<StartArguments>/nosplash</StartArguments>
 		<StartAction>Program</StartAction>
 	</PropertyGroup>

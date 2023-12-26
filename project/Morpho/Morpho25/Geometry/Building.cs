@@ -274,7 +274,7 @@ namespace Morpho25.Geometry
                     var pixel = new Pixel(0, 0, 0);
                     var query = terrainPixels
                         .Where(_ => _.I == pixels[i].I && _.J == pixels[i].J);
-                    if (query.Any()) offset = query.Select(_ => _.K).Max();
+                    if (query.Any()) offset = query.Select(_ => _.K).Max() + 1;
                     var x = pixels[i].I;
                     var y = pixels[i].J;
                     var z = pixels[i].K + offset;
@@ -299,7 +299,7 @@ namespace Morpho25.Geometry
                     var pixel = new Pixel(0, 0, 0);
                     var x = pixels[i].I;
                     var y = pixels[i].J;
-                    var z = pixels[i].K + offset;
+                    var z = pixels[i].K + offset + 1; // Offset 1
 
                     pixel.I = x;
                     pixel.J = y;
